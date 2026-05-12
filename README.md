@@ -28,7 +28,7 @@ derek-apple-photography/
 │   └── main.js
 ├── assets/
 │   ├── logo/
-│   │   └── logo.png              ← brand logo
+│   │   └── logo.svg              ← brand logo (transparent background)
 │   └── images/
 │       ├── gallery/              ← 9 slots for real photos (01.jpg–09.jpg)
 │       └── about/
@@ -80,9 +80,9 @@ npx --yes serve .
 The current site has placeholder content in several places. Swap these out as the client provides real assets:
 
 ### Logo
-- File: `assets/logo/logo.png` (already in place)
-- Referenced in: nav `<img>` (line ~17 of `index.html`) and hero `<img class="hero-logo">` (line ~117)
-- If a higher-quality `.svg` is provided, drop it at `assets/logo/logo.svg` and update both `<img>` `src` attributes.
+- File: `assets/logo/logo.svg` (transparent background, already in place)
+- Referenced in: nav `<img>` (line ~17 of `index.html`), hero `<img class="hero-logo">` (line ~117), and the success page `<img class="success-logo">`.
+- If a true vector-paths SVG (not raster-wrapped) becomes available later, drop it in at the same path — no markup changes needed.
 
 ### Gallery photos
 - 9 slots, in `index.html` inside `<section class="gallery-section">`.
