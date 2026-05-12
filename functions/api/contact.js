@@ -1,29 +1,54 @@
 /**
- * CONTACT FORM — Cloudflare Pages Function
- * Uses MailChannels for email delivery (free, no API key required).
+ * CONTACT FORM — Cloudflare Pages Function (Resend)
  *
- * Notifications are sent to:  booking@derekandapple.com
- * Sender (for SPF / reply-to): noreply@derekandapple.com
+ * Uses Resend for transactional email. Free tier: 3,000 emails/month.
+ * MailChannels free tier was deprecated August 2024 — this replaced it.
  *
- * REMAINING DNS REQUIREMENT BEFORE PRODUCTION:
- *   Add MailChannels to derekandapple.com's SPF record in Cloudflare DNS.
- *   - Find the existing TXT record at @ starting with v=spf1
- *   - It will contain include:_spf.google.com (Google Workspace)
- *   - Add include:relay.mailchannels.net before the ~all
- *   - Final value: v=spf1 include:_spf.google.com include:relay.mailchannels.net ~all
- *   This can only be done after nameservers are pointed to Cloudflare.
+ * Notifications are sent to: booking@derekandapple.com
+ *
+ * SENDER ADDRESS:
+ *   For now, mail is sent FROM `onboarding@resend.dev` (Resend's test domain — no
+ *   DNS required, works immediately). The reply_to is set to the visitor's email
+ *   so booking@derekandapple.com can reply directly.
+ *
+ *   PRODUCTION: When derekandapple.com's nameservers have been pointed to
+ *   Cloudflare, add the domain inside Resend:
+ *     Resend dashboard → Domains → Add Domain → derekandapple.com
+ *   Resend will give 2-3 DNS records (SPF / DKIM / optional return-path).
+ *   Add them in Cloudflare DNS — the SPF entry must be MERGED into the existing
+ *   Google Workspace SPF record (do not create a second SPF record).
+ *   Once Resend reports the domain as "Verified", change the `from` below to:
+ *     'Derek & Apple Website <noreply@derekandapple.com>'
+ *
+ * REQUIRED ENV (Cloudflare Pages → Settings → Variables and Secrets):
+ *   RESEND_API_KEY  — secret, starts with re_...
  *
  * DEBUGGING:
- *   This function logs the full MailChannels response (status, status text, headers, body)
- *   on every invocation. View the logs live at:
+ *   This function logs the full Resend response (status, headers, body) on every
+ *   invocation. View logs at:
  *     Cloudflare Dashboard → Pages project → Functions → Real-time Logs
  *   Or via wrangler:
  *     wrangler pages deployment tail --project-name derek-apple-photography
  */
 
+const TO_ADDRESS = 'booking@derekandapple.com';
+const FROM_ADDRESS = 'Derek & Apple Website <onboarding@resend.dev>';
+
 export async function onRequestPost(context) {
   const ts = new Date().toISOString();
   console.log(`[contact ${ts}] invoked`);
+
+  // Fail loudly if the secret isn't set
+  if (!context.env || !context.env.RESEND_API_KEY) {
+    console.error(`[contact ${ts}] RESEND_API_KEY is missing from environment`);
+    return new Response(JSON.stringify({
+      error: 'Server misconfiguration',
+      detail: 'RESEND_API_KEY env var not set on the Pages project',
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
 
   try {
     const body = await context.request.json();
@@ -37,7 +62,7 @@ export async function onRequestPost(context) {
       honeypotTriggered: !!honeypot,
     });
 
-    // Honeypot check — silently accept spam without sending
+    // Honeypot — silently accept spam without sending
     if (honeypot) {
       console.log(`[contact ${ts}] honeypot triggered, dropping silently`);
       return new Response('OK', { status: 200 });
@@ -52,74 +77,75 @@ export async function onRequestPost(context) {
       });
     }
 
-    // Build MailChannels payload
-    const mcPayload = {
-      personalizations: [{
-        to: [{ email: 'booking@derekandapple.com', name: 'Derek & Apple Photography' }],
-      }],
-      from: { email: 'noreply@derekandapple.com', name: 'Derek & Apple Website' },
-      reply_to: { email: email, name: name },
+    const resendPayload = {
+      from: FROM_ADDRESS,
+      to: [TO_ADDRESS],
+      reply_to: email,
       subject: `New Inquiry — ${sessionType || 'General'} — ${name}`,
-      content: [{
-        type: 'text/plain',
-        value: `Name: ${name}\nEmail: ${email}\nSession Type: ${sessionType || 'Not specified'}\n\nMessage:\n${message}`,
-      }],
+      text: [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Session Type: ${sessionType || 'Not specified'}`,
+        '',
+        'Message:',
+        message,
+      ].join('\n'),
     };
 
-    console.log(`[contact ${ts}] calling MailChannels`, {
-      to: mcPayload.personalizations[0].to[0].email,
-      from: mcPayload.from.email,
-      replyTo: mcPayload.reply_to.email,
-      subject: mcPayload.subject,
+    console.log(`[contact ${ts}] calling Resend`, {
+      to: resendPayload.to,
+      from: resendPayload.from,
+      replyTo: resendPayload.reply_to,
+      subject: resendPayload.subject,
     });
 
-    // Send via MailChannels (free, native to Cloudflare Workers)
-    const emailRes = await fetch('https://api.mailchannels.net/tx/v1/send', {
+    const resendRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(mcPayload),
+      headers: {
+        'Authorization': `Bearer ${context.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(resendPayload),
     });
 
-    // Always read the body, even on success — needed for debugging
-    let mcBody = '';
+    let resendBody = '';
     try {
-      mcBody = await emailRes.text();
+      resendBody = await resendRes.text();
     } catch (readErr) {
-      mcBody = `(failed to read body: ${readErr.message})`;
+      resendBody = `(failed to read body: ${readErr.message})`;
     }
 
-    // Collect response headers for the log
-    const mcHeaders = {};
-    emailRes.headers.forEach((value, key) => { mcHeaders[key] = value; });
+    const resendHeaders = {};
+    resendRes.headers.forEach((value, key) => { resendHeaders[key] = value; });
 
-    console.log(`[contact ${ts}] MailChannels response`, {
-      status: emailRes.status,
-      statusText: emailRes.statusText,
-      ok: emailRes.ok,
-      headers: mcHeaders,
-      body: mcBody || '(empty)',
+    console.log(`[contact ${ts}] Resend response`, {
+      status: resendRes.status,
+      statusText: resendRes.statusText,
+      ok: resendRes.ok,
+      headers: resendHeaders,
+      body: resendBody || '(empty)',
     });
 
-    if (emailRes.status === 202) {
-      console.log(`[contact ${ts}] success — accepted by MailChannels`);
+    if (resendRes.ok) {
+      console.log(`[contact ${ts}] success — accepted by Resend`);
       return new Response(JSON.stringify({ success: true }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    // Non-202 — return the upstream details so the frontend can surface them
-    console.error(`[contact ${ts}] MailChannels rejected the send`, {
-      status: emailRes.status,
-      body: mcBody,
+    // Non-2xx — surface the upstream details so we can debug in DevTools
+    console.error(`[contact ${ts}] Resend rejected the send`, {
+      status: resendRes.status,
+      body: resendBody,
     });
 
     return new Response(JSON.stringify({
-      error: 'MailChannels send failed',
+      error: 'Resend send failed',
       upstream: {
-        status: emailRes.status,
-        statusText: emailRes.statusText,
-        body: mcBody,
+        status: resendRes.status,
+        statusText: resendRes.statusText,
+        body: resendBody,
       },
     }), {
       status: 502,

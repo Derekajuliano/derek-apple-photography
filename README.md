@@ -12,7 +12,7 @@ This is a pure static site — **no framework, no build step, no npm install** �
 - [Cormorant Garamond](https://fonts.google.com/specimen/Cormorant+Garamond) + [Outfit](https://fonts.google.com/specimen/Outfit) (Google Fonts)
 - [Cloudflare Pages](https://pages.cloudflare.com/) (hosting)
 - [Cloudflare Pages Functions](https://developers.cloudflare.com/pages/functions/) (contact form handler)
-- [MailChannels](https://mailchannels.com/) (free email delivery, native to Cloudflare Workers)
+- [Resend](https://resend.com/) (transactional email — 3,000/month free tier)
 
 ---
 
@@ -99,50 +99,61 @@ The current site has placeholder content in several places. Swap these out as th
 - All copy (about bio, service descriptions, headlines) is placeholder text. Edit directly in `index.html`. Derek & Apple need to approve before launch.
 
 ### Form notification email
-The contact form now ships with the real addresses wired in (`functions/api/contact.js`):
+The contact form is wired in (`functions/api/contact.js`):
 - **Notifications to:** `booking@derekandapple.com`
-- **Sender (From / SPF):** `noreply@derekandapple.com`
+- **Sender (current, for testing):** `onboarding@resend.dev` (Resend's test domain — no DNS needed)
+- **Sender (production target):** `noreply@derekandapple.com` (requires Resend domain verification — see DNS section below)
+- **Reply-To:** the visitor's submitted email, so replies from `booking@` go straight to them
 
-Both inboxes must exist on the client's mail provider (Google Workspace) before the form goes live, or notifications will bounce.
+`booking@derekandapple.com` must exist on Google Workspace or notifications will bounce.
+
+The Resend API key is stored as a Cloudflare Pages secret named `RESEND_API_KEY` (Settings → Variables and Secrets → Production environment). Never commit this key.
 
 ---
 
-## DNS setup — MailChannels SPF record
+## DNS setup — verifying derekandapple.com in Resend
 
-The contact form sends email through MailChannels, which requires an SPF record authorizing it on the client's domain.
+Until the domain is verified in Resend, the contact form sends `from: onboarding@resend.dev` (Resend's test domain). That works fine — visitors don't normally see the "From" header — but the production target is to send `from: noreply@derekandapple.com` so the email looks native.
 
-The client uses **Google Workspace**, so a Google SPF record already exists. **Merge** MailChannels into it — do not create a second SPF record or email delivery breaks.
+This step requires nameservers to already point to Cloudflare (so we control DNS).
 
-### Steps (after nameservers are pointed to Cloudflare)
+### Steps
 
-1. Cloudflare Dashboard → select domain → **DNS** → **Records**.
-2. Find the existing TXT record at `@` starting with `v=spf1` — it will look like:
+1. **Resend Dashboard → Domains → Add Domain** → `derekandapple.com`.
+2. Resend will show ~3 DNS records to add (SPF, DKIM, optional return-path MX). Copy each.
+3. **Cloudflare Dashboard → derekandapple.com → DNS → Records.**
+4. For each Resend record:
+   - **DKIM TXT records** — add as new TXT records exactly as shown.
+   - **SPF TXT record** — **DO NOT** create a new TXT record. The domain already has a Google Workspace SPF record at `@`. Edit that existing record and merge Resend's `include:`:
+     ```
+     Before:  v=spf1 include:_spf.google.com ~all
+     After:   v=spf1 include:_spf.google.com include:_spf.resend.com ~all
+     ```
+     Two SPF records on the same domain breaks email delivery — always merge.
+5. Back in Resend, click **Verify**. It usually takes 1–10 minutes for DNS to propagate.
+6. Once Resend reports the domain **Verified**, update `FROM_ADDRESS` in `functions/api/contact.js`:
+   ```js
+   const FROM_ADDRESS = 'Derek & Apple Website <noreply@derekandapple.com>';
    ```
-   v=spf1 include:_spf.google.com ~all
-   ```
-3. Edit it to:
-   ```
-   v=spf1 include:_spf.google.com include:relay.mailchannels.net ~all
-   ```
-4. Save.
+   Commit + push. Cloudflare Pages auto-deploys.
 
-### What each part does
+### What the records do
 
-| Part | What it does |
+| Record | Purpose |
 |---|---|
-| `v=spf1` | Declares this as an SPF record |
-| `include:_spf.google.com` | Authorizes Google Workspace to send |
-| `include:relay.mailchannels.net` | Authorizes MailChannels (used by this site's contact form) |
-| `~all` | Soft fail — unauthorized senders are flagged but not rejected |
+| SPF TXT (`include:_spf.resend.com`) | Authorizes Resend's servers to send mail as `@derekandapple.com` |
+| DKIM TXT | Cryptographic signature on outgoing mail — proves the message wasn't forged in transit |
+| Return-path MX (optional) | Lets bounces route back to Resend so they show up in your dashboard |
 
 ---
 
 ## Pre-launch checklist
 
 - [x] Notification email (`booking@derekandapple.com`) wired into `functions/api/contact.js`
-- [x] Sender address (`noreply@derekandapple.com`) wired into `functions/api/contact.js`
-- [ ] Confirm both mailboxes exist in the client's Google Workspace
-- [ ] Add MailChannels to SPF record in Cloudflare DNS (see above)
+- [x] Resend API key stored as `RESEND_API_KEY` secret on Cloudflare Pages
+- [ ] Confirm `booking@derekandapple.com` mailbox exists in Google Workspace
+- [ ] Verify `derekandapple.com` in Resend + add DNS records (see DNS setup above)
+- [ ] After verification, swap `FROM_ADDRESS` in `contact.js` to `noreply@derekandapple.com`
 - [ ] Swap 9 gallery placeholder divs with real `<img>` tags
 - [ ] Swap about-section placeholder with real Derek & Apple photo
 - [ ] Compress all photos to ≤300 KB
