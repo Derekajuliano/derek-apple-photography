@@ -2,15 +2,16 @@
  * CONTACT FORM — Cloudflare Pages Function
  * Uses MailChannels for email delivery (free, no API key required).
  *
- * BEFORE THIS WORKS IN PRODUCTION:
- * 1. Replace YOUR_NOTIFICATION_EMAIL below with the client's real email address.
- * 2. Replace noreply@yourdomain.com with a real address on the client's domain.
- * 3. Add MailChannels to the domain's SPF record in Cloudflare DNS:
- *    - Find the existing TXT record at @ starting with v=spf1
- *    - It will contain include:_spf.google.com (Google Workspace)
- *    - Add include:relay.mailchannels.net before the ~all
- *    - Final value: v=spf1 include:_spf.google.com include:relay.mailchannels.net ~all
- *    NOTE: This can only be done after nameservers are pointed to Cloudflare.
+ * Notifications are sent to:  booking@derekandapple.com
+ * Sender (for SPF / reply-to): noreply@derekandapple.com
+ *
+ * REMAINING DNS REQUIREMENT BEFORE PRODUCTION:
+ *   Add MailChannels to derekandapple.com's SPF record in Cloudflare DNS.
+ *   - Find the existing TXT record at @ starting with v=spf1
+ *   - It will contain include:_spf.google.com (Google Workspace)
+ *   - Add include:relay.mailchannels.net before the ~all
+ *   - Final value: v=spf1 include:_spf.google.com include:relay.mailchannels.net ~all
+ *   This can only be done after nameservers are pointed to Cloudflare.
  */
 
 export async function onRequestPost(context) {
@@ -37,9 +38,9 @@ export async function onRequestPost(context) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         personalizations: [{
-          to: [{ email: 'YOUR_NOTIFICATION_EMAIL@example.com', name: 'Derek & Apple Photography' }],
+          to: [{ email: 'booking@derekandapple.com', name: 'Derek & Apple Photography' }],
         }],
-        from: { email: 'noreply@yourdomain.com', name: 'Derek & Apple Website' },
+        from: { email: 'noreply@derekandapple.com', name: 'Derek & Apple Website' },
         reply_to: { email: email, name: name },
         subject: `New Inquiry — ${sessionType || 'General'} — ${name}`,
         content: [{

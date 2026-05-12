@@ -531,6 +531,28 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   background: var(--surface);
 }
 .contact-wrap { max-width: 580px; margin: 0 auto; }
+
+/* Direct email line — sits under the section divider, above the form */
+.contact-email-note {
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--s600);
+  margin-top: -1.75rem;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+.contact-email-note a {
+  color: var(--s800);
+  border-bottom: 1px solid var(--s300);
+  padding-bottom: 1px;
+  transition: color 0.25s, border-color 0.25s;
+}
+.contact-email-note a:hover {
+  color: var(--red);
+  border-bottom-color: var(--red);
+}
+
 .contact-form { margin-top: 2.5rem; }
 .form-row {
   display: grid;

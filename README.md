@@ -99,9 +99,11 @@ The current site has placeholder content in several places. Swap these out as th
 - All copy (about bio, service descriptions, headlines) is placeholder text. Edit directly in `index.html`. Derek & Apple need to approve before launch.
 
 ### Form notification email
-- In `functions/api/contact.js`, replace:
-  - `YOUR_NOTIFICATION_EMAIL@example.com` → real address inquiries should go to
-  - `noreply@yourdomain.com` → real sender address on the client's domain (required for MailChannels deliverability)
+The contact form now ships with the real addresses wired in (`functions/api/contact.js`):
+- **Notifications to:** `booking@derekandapple.com`
+- **Sender (From / SPF):** `noreply@derekandapple.com`
+
+Both inboxes must exist on the client's mail provider (Google Workspace) before the form goes live, or notifications will bounce.
 
 ---
 
@@ -137,8 +139,9 @@ The client uses **Google Workspace**, so a Google SPF record already exists. **M
 
 ## Pre-launch checklist
 
-- [ ] Replace `YOUR_NOTIFICATION_EMAIL@example.com` in `functions/api/contact.js`
-- [ ] Replace `noreply@yourdomain.com` in `functions/api/contact.js` with real sender
+- [x] Notification email (`booking@derekandapple.com`) wired into `functions/api/contact.js`
+- [x] Sender address (`noreply@derekandapple.com`) wired into `functions/api/contact.js`
+- [ ] Confirm both mailboxes exist in the client's Google Workspace
 - [ ] Add MailChannels to SPF record in Cloudflare DNS (see above)
 - [ ] Swap 9 gallery placeholder divs with real `<img>` tags
 - [ ] Swap about-section placeholder with real Derek & Apple photo
