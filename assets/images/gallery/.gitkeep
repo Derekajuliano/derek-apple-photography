@@ -1,0 +1,2 @@
+# Drop real gallery photos here as 01.jpg through 09.jpg
+# Then replace each <div class="gallery-ph"> in index.html with an <img>

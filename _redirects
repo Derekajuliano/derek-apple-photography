@@ -1,0 +1,6 @@
+# Cloudflare Pages redirect rules
+# https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# Currently no redirects are needed. Add them here as the site grows.
+# Format: <source> <destination> <status>
+# Example: /old-page /new-page 301

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thanks for reaching out — Derek &amp; Apple Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #fdfcfa;
+    --surface: #f7f5f0;
+    --s200: #e8e4de;
+    --s300: #d4cec5;
+    --s400: #b5ada1;
+    --s500: #8f867a;
+    --s600: #6b6358;
+    --s800: #2d2923;
+    --red:     #b8312f;
+    --red-hov: #9a2826;
+    --fd: 'Cormorant Garamond', Georgia, serif;
+    --fb: 'Outfit', system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--fb);
+    background: var(--bg);
+    color: var(--s800);
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    -webkit-font-smoothing: antialiased;
+  }
+  .success-card {
+    max-width: 520px;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  .success-logo {
+    height: clamp(120px, 22vw, 180px);
+    width: auto;
+    margin: 0 auto 2.5rem;
+    display: block;
+    filter: drop-shadow(0 4px 24px rgba(0,0,0,0.06));
+  }
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--s400);
+    margin-bottom: 1.25rem;
+  }
+  h1 {
+    font-family: var(--fd);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--s800);
+    margin-bottom: 1.5rem;
+  }
+  h1 em { font-style: italic; color: var(--s600); }
+  .lede {
+    font-size: 1rem;
+    color: var(--s500);
+    max-width: 420px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.78;
+  }
+  .home-link {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: white;
+    background: var(--red);
+    padding: 1rem 2.75rem;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .home-link:hover { background: var(--red-hov); transform: translateY(-2px); }
+
+  /* Divider — same flourish as section dividers */
+  .art-divider {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 2rem;
+    color: var(--s300);
+  }
+
+  @media (max-width: 640px) {
+    .home-link { display: block; width: 100%; max-width: 300px; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+  <div class="success-card">
+    <img class="success-logo" src="assets/logo/logo.png" alt="Derek &amp; Apple Photography">
+    <p class="eyebrow">Message Received</p>
+    <h1>Thanks for <em>reaching out</em></h1>
+    <svg class="art-divider" viewBox="0 0 520 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="260,8 270,18 260,28 250,18" fill="currentColor" opacity="0.5"/>
+      <path d="M248,18 C220,18 200,10 180,18 C160,26 140,18 120,18 C100,18 80,10 60,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <circle cx="60" cy="18" r="3" fill="currentColor" opacity="0.45"/>
+      <circle cx="40" cy="18" r="1.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="28" cy="18" r="2.5" fill="currentColor" opacity="0.35"/>
+      <line x1="28" x2="8" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+      <path d="M272,18 C300,18 320,10 340,18 C360,26 380,18 400,18 C420,18 440,10 460,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <circle cx="460" cy="18" r="3" fill="currentColor" opacity="0.45"/>
+      <circle cx="480" cy="18" r="1.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="492" cy="18" r="2.5" fill="currentColor" opacity="0.35"/>
+      <line x1="492" x2="512" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+    </svg>
+    <p class="lede">Derek &amp; Apple will be in touch soon — usually within a day or two. In the meantime, feel free to keep browsing.</p>
+    <a class="home-link" href="/">Back to Home</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Cloudflare Pages local dev
+.wrangler/
+.cf/
+
+# Logs
+*.log
+
+# Temp
+*.tmp
+*~
