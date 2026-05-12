@@ -203,7 +203,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   font-weight: 400;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--s400);
+  color: var(--s500);
   margin-bottom: 1.5rem;
   opacity: 0;
   animation: fadeUp 0.8s ease forwards 0.2s;
@@ -223,7 +223,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
 .hero-sub {
   font-size: 1rem;
   font-weight: 300;
-  color: var(--s500);
+  color: var(--s600);
   max-width: 440px;
   margin: 0 auto 2.5rem;
   line-height: 1.78;
@@ -274,7 +274,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   font-weight: 400;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--s400);
+  color: var(--s500);
   margin-bottom: 0.9rem;
 }
 .section-title {
@@ -339,7 +339,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   font-size: 0.62rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--s400);
+  color: var(--s500);
   font-family: var(--fb);
 }
 
@@ -470,7 +470,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
 }
 .service-card p {
   font-size: 0.9rem;
-  color: var(--s500);
+  color: var(--s600);
   line-height: 1.78;
   font-weight: 300;
 }
@@ -513,14 +513,14 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   font-size: 0.62rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--s400);
+  color: var(--s500);
 }
 
 .about-content .section-eyebrow { text-align: left; }
 .about-content .section-title   { text-align: left; margin-bottom: 1.5rem; }
 .about-text {
   font-size: 0.95rem;
-  color: var(--s500);
+  color: var(--s600);
   line-height: 1.85;
   margin-bottom: 1rem;
 }
@@ -566,7 +566,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   transition: border-color 0.25s;
 }
 .form-group input::placeholder,
-.form-group textarea::placeholder { color: var(--s300); font-size: 0.9rem; }
+.form-group textarea::placeholder { color: var(--s500); font-size: 0.9rem; }
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus { border-color: var(--red); }
@@ -631,7 +631,7 @@ footer {
   transition: color 0.25s;
 }
 .footer-links a:hover { color: var(--s200); }
-.footer-copy { font-size: 0.75rem; color: var(--s700); }
+.footer-copy { font-size: 0.75rem; color: var(--s400); }
 
 /* ── ANIMATIONS ──────────────────────────────── */
 @keyframes fadeUp {
