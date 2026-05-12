@@ -100,55 +100,39 @@ The current site has placeholder content in several places. Swap these out as th
 
 ### Form notification email
 
-**Current state — TESTING MODE:**
-- **Notifications to:** `bchristopherjohn26@gmail.com` (Chris's personal — Resend account owner)
-- **Sender:** `onboarding@resend.dev` (Resend's shared test domain)
-- **Reply-To:** the visitor's submitted email
-- **Workflow:** Chris receives inquiries in his Gmail and manually forwards to Derek & Apple, until the domain is verified in Resend.
-
-**Why testing mode?** Resend's free tier requires a verified sender domain before mail can go to arbitrary recipients. From `onboarding@resend.dev`, the only legal TO is the account owner's verified email. The handoff path to flip into production is in the DNS section below.
-
-**Production target (after Path B unlocks):**
+**Production state:**
 - **Notifications to:** `booking@derekandapple.com`
-- **Sender:** `noreply@derekandapple.com`
+- **Sender:** `noreply@derekandapple.com` (verified domain in Resend)
+- **Reply-To:** the visitor's submitted email — clicking Reply in Gmail goes straight back to them
 
 The Resend API key is stored as a Cloudflare Pages secret named `RESEND_API_KEY` (Settings → Variables and Secrets → Production environment). Never commit this key.
 
 ---
 
-## DNS setup — verifying derekandapple.com in Resend
+## DNS setup — Resend verification for derekandapple.com
 
-Until the domain is verified in Resend, the contact form sends `from: onboarding@resend.dev` (Resend's test domain). That works fine — visitors don't normally see the "From" header — but the production target is to send `from: noreply@derekandapple.com` so the email looks native.
+**Status: ✅ Verified** (production). This section is documentation for future reference.
 
-This step requires nameservers to already point to Cloudflare (so we control DNS).
+Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its sending infrastructure, which means the existing Google Workspace SPF record at the root domain (`@`) is **never touched**. No merging is required — Resend's records and Google's records coexist on different hostnames.
 
-### Steps
+### Records added in Cloudflare DNS
 
-1. **Resend Dashboard → Domains → Add Domain** → `derekandapple.com`.
-2. Resend will show ~3 DNS records to add (SPF, DKIM, optional return-path MX). Copy each.
-3. **Cloudflare Dashboard → derekandapple.com → DNS → Records.**
-4. For each Resend record:
-   - **DKIM TXT records** — add as new TXT records exactly as shown.
-   - **SPF TXT record** — **DO NOT** create a new TXT record. The domain already has a Google Workspace SPF record at `@`. Edit that existing record and merge Resend's `include:`:
-     ```
-     Before:  v=spf1 include:_spf.google.com ~all
-     After:   v=spf1 include:_spf.google.com include:_spf.resend.com ~all
-     ```
-     Two SPF records on the same domain breaks email delivery — always merge.
-5. Back in Resend, click **Verify**. It usually takes 1–10 minutes for DNS to propagate.
-6. Once Resend reports the domain **Verified**, update `FROM_ADDRESS` in `functions/api/contact.js`:
-   ```js
-   const FROM_ADDRESS = 'Derek & Apple Website <noreply@derekandapple.com>';
-   ```
-   Commit + push. Cloudflare Pages auto-deploys.
+| Type | Name | Content | Priority | Purpose |
+|---|---|---|---|---|
+| TXT | `resend._domainkey` | `p=…` (Resend's DKIM public key) | — | Signs outgoing mail so recipients verify it's authentic |
+| TXT | `send` | `v=spf1 include:amazonses.com ~all` | — | SPF for the sending subdomain; authorizes Resend's AWS SES sending servers |
+| MX | `send` | `feedback-smtp.us-east-1.amazonses.com` | 10 | Bounce-handling — failed deliveries route back to Resend's dashboard |
 
-### What the records do
+### What stays untouched
 
-| Record | Purpose |
-|---|---|
-| SPF TXT (`include:_spf.resend.com`) | Authorizes Resend's servers to send mail as `@derekandapple.com` |
-| DKIM TXT | Cryptographic signature on outgoing mail — proves the message wasn't forged in transit |
-| Return-path MX (optional) | Lets bounces route back to Resend so they show up in your dashboard |
+The existing **Google Workspace** records remain in place and unmodified:
+- The root `@` SPF TXT — still `v=spf1 include:_spf.google.com ~all`
+- All Google MX records routing `derek@`, `booking@`, etc. to Gmail
+- Any existing DMARC record (we did **not** add Resend's optional DMARC; if needed later, ensure only one `_dmarc` TXT exists)
+
+### What we deliberately did NOT enable
+
+**"Enable Receiving"** in Resend — that would replace Google's root MX records with Resend's inbound-only servers, breaking Gmail delivery for everyone. The contact form only sends; incoming mail to `@derekandapple.com` is Google Workspace's job.
 
 ---
 
@@ -156,11 +140,11 @@ This step requires nameservers to already point to Cloudflare (so we control DNS
 
 - [x] Contact form wired through Resend (`functions/api/contact.js`)
 - [x] Resend API key stored as `RESEND_API_KEY` secret on Cloudflare Pages
-- [x] **Testing mode:** notifications route to `bchristopherjohn26@gmail.com` (Chris manually forwards to Derek & Apple)
-- [ ] Confirm `booking@derekandapple.com` mailbox exists in Google Workspace
-- [ ] Move `derekandapple.com` nameservers from Squarespace to Cloudflare (unlocks DNS control — see Path B trigger below)
-- [ ] Verify `derekandapple.com` in Resend + add DNS records (see DNS setup above)
-- [ ] After Resend verification, swap `TO_ADDRESS` and `FROM_ADDRESS` in `contact.js` to the production addresses
+- [x] Nameservers for `derekandapple.com` moved to Cloudflare
+- [x] `derekandapple.com` verified in Resend (DKIM + SPF + bounce MX on `send` subdomain)
+- [x] Production addresses live: `noreply@derekandapple.com` → `booking@derekandapple.com`
+- [ ] Confirm `booking@derekandapple.com` mailbox exists in Google Workspace and is read regularly
+- [ ] End-to-end test from the live form (submit and confirm receipt at `booking@`)
 - [ ] Swap 9 gallery placeholder divs with real `<img>` tags
 - [ ] Swap about-section placeholder with real Derek & Apple photo
 - [ ] Compress all photos to ≤300 KB
