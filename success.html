@@ -40,15 +40,23 @@
     text-align: center;
     padding: 2rem 1rem;
   }
-  .success-logo {
-    height: clamp(120px, 22vw, 180px);
+  .success-logo-circle {
     width: clamp(120px, 22vw, 180px);
+    height: clamp(120px, 22vw, 180px);
     margin: 0 auto 2.5rem;
-    display: block;
     background: #fff;
     border-radius: 50%;
-    object-fit: cover;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     filter: drop-shadow(0 4px 24px rgba(0,0,0,0.06));
+  }
+  .success-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   .eyebrow {
     font-size: 0.7rem;
@@ -105,7 +113,9 @@
 </head>
 <body>
   <div class="success-card">
-    <img class="success-logo" src="assets/logo/logo.png" alt="Derek &amp; Apple Photography">
+    <div class="success-logo-circle">
+      <img class="success-logo" src="assets/logo/logo.png" alt="Derek &amp; Apple Photography">
+    </div>
     <p class="eyebrow">Message Received</p>
     <h1>Thanks for <em>reaching out</em></h1>
     <svg class="art-divider" viewBox="0 0 520 36" fill="none" xmlns="http://www.w3.org/2000/svg">
