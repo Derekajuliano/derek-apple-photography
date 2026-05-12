@@ -99,13 +99,18 @@ The current site has placeholder content in several places. Swap these out as th
 - All copy (about bio, service descriptions, headlines) is placeholder text. Edit directly in `index.html`. Derek & Apple need to approve before launch.
 
 ### Form notification email
-The contact form is wired in (`functions/api/contact.js`):
-- **Notifications to:** `booking@derekandapple.com`
-- **Sender (current, for testing):** `onboarding@resend.dev` (Resend's test domain — no DNS needed)
-- **Sender (production target):** `noreply@derekandapple.com` (requires Resend domain verification — see DNS section below)
-- **Reply-To:** the visitor's submitted email, so replies from `booking@` go straight to them
 
-`booking@derekandapple.com` must exist on Google Workspace or notifications will bounce.
+**Current state — TESTING MODE:**
+- **Notifications to:** `bchristopherjohn26@gmail.com` (Chris's personal — Resend account owner)
+- **Sender:** `onboarding@resend.dev` (Resend's shared test domain)
+- **Reply-To:** the visitor's submitted email
+- **Workflow:** Chris receives inquiries in his Gmail and manually forwards to Derek & Apple, until the domain is verified in Resend.
+
+**Why testing mode?** Resend's free tier requires a verified sender domain before mail can go to arbitrary recipients. From `onboarding@resend.dev`, the only legal TO is the account owner's verified email. The handoff path to flip into production is in the DNS section below.
+
+**Production target (after Path B unlocks):**
+- **Notifications to:** `booking@derekandapple.com`
+- **Sender:** `noreply@derekandapple.com`
 
 The Resend API key is stored as a Cloudflare Pages secret named `RESEND_API_KEY` (Settings → Variables and Secrets → Production environment). Never commit this key.
 
@@ -149,11 +154,13 @@ This step requires nameservers to already point to Cloudflare (so we control DNS
 
 ## Pre-launch checklist
 
-- [x] Notification email (`booking@derekandapple.com`) wired into `functions/api/contact.js`
+- [x] Contact form wired through Resend (`functions/api/contact.js`)
 - [x] Resend API key stored as `RESEND_API_KEY` secret on Cloudflare Pages
+- [x] **Testing mode:** notifications route to `bchristopherjohn26@gmail.com` (Chris manually forwards to Derek & Apple)
 - [ ] Confirm `booking@derekandapple.com` mailbox exists in Google Workspace
+- [ ] Move `derekandapple.com` nameservers from Squarespace to Cloudflare (unlocks DNS control — see Path B trigger below)
 - [ ] Verify `derekandapple.com` in Resend + add DNS records (see DNS setup above)
-- [ ] After verification, swap `FROM_ADDRESS` in `contact.js` to `noreply@derekandapple.com`
+- [ ] After Resend verification, swap `TO_ADDRESS` and `FROM_ADDRESS` in `contact.js` to the production addresses
 - [ ] Swap 9 gallery placeholder divs with real `<img>` tags
 - [ ] Swap about-section placeholder with real Derek & Apple photo
 - [ ] Compress all photos to ≤300 KB

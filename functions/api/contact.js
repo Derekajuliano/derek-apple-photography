@@ -4,21 +4,41 @@
  * Uses Resend for transactional email. Free tier: 3,000 emails/month.
  * MailChannels free tier was deprecated August 2024 — this replaced it.
  *
- * Notifications are sent to: booking@derekandapple.com
+ * ─────────────────────────────────────────────────────────────────────────────
+ * CURRENT STATE: TESTING MODE
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Resend's free tier blocks sending to arbitrary recipients until a domain is
+ * verified on the account. From `onboarding@resend.dev`, the only legal TO is
+ * the account owner's verified email.
  *
- * SENDER ADDRESS:
- *   For now, mail is sent FROM `onboarding@resend.dev` (Resend's test domain — no
- *   DNS required, works immediately). The reply_to is set to the visitor's email
- *   so booking@derekandapple.com can reply directly.
+ * So for now:
+ *   TO_ADDRESS   = bchristopherjohn26@gmail.com  (Chris's personal — works today)
+ *   FROM_ADDRESS = onboarding@resend.dev          (Resend test sender)
+ *   reply_to     = the visitor's submitted email  (clicking Reply goes to them)
  *
- *   PRODUCTION: When derekandapple.com's nameservers have been pointed to
- *   Cloudflare, add the domain inside Resend:
- *     Resend dashboard → Domains → Add Domain → derekandapple.com
- *   Resend will give 2-3 DNS records (SPF / DKIM / optional return-path).
- *   Add them in Cloudflare DNS — the SPF entry must be MERGED into the existing
- *   Google Workspace SPF record (do not create a second SPF record).
- *   Once Resend reports the domain as "Verified", change the `from` below to:
- *     'Derek & Apple Website <noreply@derekandapple.com>'
+ * Chris will manually forward inquiries to booking@derekandapple.com until the
+ * domain verification is complete.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * PATH TO PRODUCTION (Path B)
+ * ─────────────────────────────────────────────────────────────────────────────
+ * UNLOCKED WHEN: derekandapple.com nameservers have been moved from Squarespace
+ * to Cloudflare (so DNS records can be added in the Cloudflare dashboard).
+ *
+ * Then:
+ *   1. Resend dashboard → Domains → Add Domain → derekandapple.com
+ *   2. Copy the SPF + DKIM TXT records Resend generates
+ *   3. Cloudflare Dashboard → derekandapple.com → DNS → Records
+ *      - Add the DKIM TXT records exactly as Resend shows them
+ *      - DO NOT add a second SPF record. Find the existing TXT at @ starting
+ *        with `v=spf1` and MERGE in Resend's include:
+ *           before: v=spf1 include:_spf.google.com ~all
+ *           after:  v=spf1 include:_spf.google.com include:_spf.resend.com ~all
+ *   4. Back in Resend → click Verify (DNS propagation: 1–10 min)
+ *   5. Once verified, change the constants below to:
+ *        TO_ADDRESS   = 'booking@derekandapple.com'
+ *        FROM_ADDRESS = 'Derek & Apple Website <noreply@derekandapple.com>'
+ *      Commit + push. Cloudflare Pages auto-deploys.
  *
  * REQUIRED ENV (Cloudflare Pages → Settings → Variables and Secrets):
  *   RESEND_API_KEY  — secret, starts with re_...
@@ -31,7 +51,8 @@
  *     wrangler pages deployment tail --project-name derek-apple-photography
  */
 
-const TO_ADDRESS = 'booking@derekandapple.com';
+// ── ADDRESSES (temporary — swap when domain is verified in Resend) ───────────
+const TO_ADDRESS = 'bchristopherjohn26@gmail.com';
 const FROM_ADDRESS = 'Derek & Apple Website <onboarding@resend.dev>';
 
 export async function onRequestPost(context) {
