@@ -6,7 +6,7 @@
 <title>Derek &amp; Apple Photography</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=2">
+<link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
 
@@ -128,126 +128,131 @@
   <div class="scroll-indicator"><span></span></div>
 </section>
 
-<!-- GALLERY -->
+<!-- FEATURED SLIDESHOW (hero-style cycling gallery) -->
+<section class="featured-section" id="featured">
+  <div class="featured-slideshow reveal" aria-roledescription="carousel" aria-label="Featured photography">
+
+    <div class="featured-slide active" data-index="0">
+      <img class="featured-img" src="assets/images/featured/1.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="1">
+      <img class="featured-img" src="assets/images/featured/2.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="2">
+      <img class="featured-img" src="assets/images/featured/3.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="3">
+      <img class="featured-img" src="assets/images/featured/4.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="4">
+      <img class="featured-img" src="assets/images/featured/5.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="5">
+      <img class="featured-img" src="assets/images/featured/6.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+    </div>
+
+    <button class="featured-arrow featured-prev" aria-label="Previous slide" type="button">‹</button>
+    <button class="featured-arrow featured-next" aria-label="Next slide" type="button">›</button>
+
+    <div class="featured-dots" role="tablist" aria-label="Choose slide">
+      <button class="featured-dot active" data-index="0" aria-label="Slide 1" type="button"></button>
+      <button class="featured-dot"        data-index="1" aria-label="Slide 2" type="button"></button>
+      <button class="featured-dot"        data-index="2" aria-label="Slide 3" type="button"></button>
+      <button class="featured-dot"        data-index="3" aria-label="Slide 4" type="button"></button>
+      <button class="featured-dot"        data-index="4" aria-label="Slide 5" type="button"></button>
+      <button class="featured-dot"        data-index="5" aria-label="Slide 6" type="button"></button>
+    </div>
+
+  </div>
+</section>
+
+<!-- GALLERY — categorized (Weddings · Family · Engagements) -->
 <section class="gallery-section" id="gallery">
   <div class="section-header reveal">
     <p class="section-eyebrow">Our Work</p>
-    <h2 class="section-title">Selected Moments</h2>
+    <h2 class="section-title">Browse Our Galleries</h2>
     <svg class="art-nouveau-divider" viewBox="0 0 520 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Center diamond -->
       <polygon points="260,8 270,18 260,28 250,18" fill="currentColor" opacity="0.5"/>
-      <!-- Left vine arm -->
       <path d="M248,18 C220,18 200,10 180,18 C160,26 140,18 120,18 C100,18 80,10 60,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
       <path d="M200,18 C200,10 195,4 190,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
       <path d="M160,18 C160,26 155,30 150,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
       <path d="M120,18 C120,10 115,5 111,9" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
-      <!-- Left flourish circles -->
       <circle cx="60" cy="18" r="3" fill="currentColor" opacity="0.45"/>
       <circle cx="40" cy="18" r="1.5" fill="currentColor" opacity="0.3"/>
       <circle cx="28" cy="18" r="2.5" fill="currentColor" opacity="0.35"/>
       <line x1="28" x2="8" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-      <!-- Right vine arm (mirror) -->
       <path d="M272,18 C300,18 320,10 340,18 C360,26 380,18 400,18 C420,18 440,10 460,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
       <path d="M320,18 C320,10 325,4 330,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
       <path d="M360,18 C360,26 365,30 370,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
       <path d="M400,18 C400,10 405,5 409,9" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
-      <!-- Right flourish circles -->
       <circle cx="460" cy="18" r="3" fill="currentColor" opacity="0.45"/>
       <circle cx="480" cy="18" r="1.5" fill="currentColor" opacity="0.3"/>
       <circle cx="492" cy="18" r="2.5" fill="currentColor" opacity="0.35"/>
       <line x1="492" x2="512" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
     </svg>
+    <p class="cat-helper">Choose a category to view those moments.</p>
   </div>
-  <div class="gallery-grid">
 
-    <div class="gallery-item reveal">
-      <div class="gallery-ph ph-tall">
-        <div class="ph-inner">
-          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span class="ph-cat">Wedding</span>
-        </div>
+  <div class="cat-tabs reveal" role="tablist" aria-label="Photo categories">
+    <button class="cat-tab active" role="tab" aria-selected="true"  data-category="weddings"    type="button">
+      <span class="cat-tab-label">Weddings</span>
+    </button>
+    <button class="cat-tab"        role="tab" aria-selected="false" data-category="family"      type="button">
+      <span class="cat-tab-label">Family</span>
+    </button>
+    <button class="cat-tab"        role="tab" aria-selected="false" data-category="engagements" type="button">
+      <span class="cat-tab-label">Engagements</span>
+    </button>
+  </div>
+
+  <div class="cat-panels">
+
+    <!-- WEDDINGS -->
+    <div class="cat-panel active" role="tabpanel" data-category="weddings" aria-label="Wedding photos">
+      <div class="cat-grid">
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/1.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/2.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/3.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/4.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/5.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/6.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/7.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/8.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
       </div>
-      <div class="gallery-overlay"><span class="overlay-label">Wedding</span></div>
     </div>
 
-    <div class="gallery-item reveal">
-      <div class="gallery-ph ph-wide">
-        <div class="ph-inner">
-          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span class="ph-cat">Engagement</span>
-        </div>
+    <!-- FAMILY -->
+    <div class="cat-panel" role="tabpanel" data-category="family" aria-label="Family photos" hidden>
+      <div class="cat-grid">
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/1.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Family</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/2.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Family</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/3.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Family</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/4.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Family</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/5.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Family</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/6.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Family</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/7.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Family</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/8.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Family</span></div></div>
       </div>
-      <div class="gallery-overlay"><span class="overlay-label">Engagement</span></div>
     </div>
 
-    <div class="gallery-item reveal">
-      <div class="gallery-ph ph-square">
-        <div class="ph-inner">
-          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span class="ph-cat">Family</span>
-        </div>
+    <!-- ENGAGEMENTS -->
+    <div class="cat-panel" role="tabpanel" data-category="engagements" aria-label="Engagement photos" hidden>
+      <div class="cat-grid">
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/1.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/2.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/3.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/4.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/5.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/6.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/7.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/8.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
       </div>
-      <div class="gallery-overlay"><span class="overlay-label">Family</span></div>
-    </div>
-
-    <div class="gallery-item reveal">
-      <div class="gallery-ph ph-cinema">
-        <div class="ph-inner">
-          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span class="ph-cat">Portraits</span>
-        </div>
-      </div>
-      <div class="gallery-overlay"><span class="overlay-label">Portraits</span></div>
-    </div>
-
-    <div class="gallery-item reveal">
-      <div class="gallery-ph ph-tall">
-        <div class="ph-inner">
-          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span class="ph-cat">Wedding</span>
-        </div>
-      </div>
-      <div class="gallery-overlay"><span class="overlay-label">Wedding</span></div>
-    </div>
-
-    <div class="gallery-item reveal">
-      <div class="gallery-ph ph-wide">
-        <div class="ph-inner">
-          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span class="ph-cat">Engagement</span>
-        </div>
-      </div>
-      <div class="gallery-overlay"><span class="overlay-label">Engagement</span></div>
-    </div>
-
-    <div class="gallery-item reveal">
-      <div class="gallery-ph ph-square">
-        <div class="ph-inner">
-          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span class="ph-cat">Family</span>
-        </div>
-      </div>
-      <div class="gallery-overlay"><span class="overlay-label">Family</span></div>
-    </div>
-
-    <div class="gallery-item reveal">
-      <div class="gallery-ph ph-cinema">
-        <div class="ph-inner">
-          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span class="ph-cat">Portraits</span>
-        </div>
-      </div>
-      <div class="gallery-overlay"><span class="overlay-label">Portraits</span></div>
-    </div>
-
-    <div class="gallery-item reveal">
-      <div class="gallery-ph ph-tall">
-        <div class="ph-inner">
-          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span class="ph-cat">Wedding</span>
-        </div>
-      </div>
-      <div class="gallery-overlay"><span class="overlay-label">Wedding</span></div>
     </div>
 
   </div>

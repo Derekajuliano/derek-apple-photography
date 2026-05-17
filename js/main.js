@@ -36,6 +36,86 @@ const revealObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
+// Featured slideshow — auto-cycling carousel
+(() => {
+  const slideshow = document.querySelector('.featured-slideshow');
+  if (!slideshow) return;
+
+  const slides = slideshow.querySelectorAll('.featured-slide');
+  const dots   = slideshow.querySelectorAll('.featured-dot');
+  const prev   = slideshow.querySelector('.featured-prev');
+  const next   = slideshow.querySelector('.featured-next');
+  const N = slides.length;
+  if (N < 2) return; // nothing to cycle
+
+  const INTERVAL_MS = 5000;
+  let i = 0;
+  let timer = null;
+
+  function go(n) {
+    slides[i].classList.remove('active');
+    dots[i] && dots[i].classList.remove('active');
+    i = ((n % N) + N) % N;
+    slides[i].classList.add('active');
+    dots[i] && dots[i].classList.add('active');
+  }
+
+  function start() {
+    stop();
+    timer = setInterval(() => go(i + 1), INTERVAL_MS);
+  }
+  function stop() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+  function reset() { start(); }
+
+  prev && prev.addEventListener('click', () => { go(i - 1); reset(); });
+  next && next.addEventListener('click', () => { go(i + 1); reset(); });
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.dataset.index, 10);
+      if (!Number.isNaN(idx)) { go(idx); reset(); }
+    });
+  });
+
+  // Pause on hover (desktop), resume on leave
+  slideshow.addEventListener('mouseenter', stop);
+  slideshow.addEventListener('mouseleave', start);
+
+  // Pause when tab is hidden so we don't spin in the background
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? stop() : start();
+  });
+
+  // Respect reduced motion: no auto-cycle, manual controls only
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!reducedMotion.matches) start();
+})();
+
+// Categorized gallery — tab switching
+(() => {
+  const tabs = document.querySelectorAll('.cat-tab');
+  const panels = document.querySelectorAll('.cat-panel');
+  if (!tabs.length || !panels.length) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const cat = tab.dataset.category;
+      tabs.forEach(t => {
+        const isActive = t === tab;
+        t.classList.toggle('active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+      panels.forEach(p => {
+        const match = p.dataset.category === cat;
+        p.classList.toggle('active', match);
+        if (match) p.removeAttribute('hidden');
+        else       p.setAttribute('hidden', '');
+      });
+    });
+  });
+})();
+
 // Contact form — Cloudflare Pages Function handler
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {

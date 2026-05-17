@@ -30,7 +30,10 @@ derek-apple-photography/
 │   ├── logo/
 │   │   └── logo.png              ← brand logo
 │   └── images/
-│       ├── gallery/              ← 9 slots for real photos (01.jpg–09.jpg)
+│       ├── featured/             ← 6 slots for hero slideshow (1.jpg–6.jpg)
+│       ├── weddings/             ← 8 slots for wedding gallery (1.jpg–8.jpg)
+│       ├── family/               ← 8 slots for family gallery (1.jpg–8.jpg)
+│       ├── engagements/          ← 8 slots for engagement gallery (1.jpg–8.jpg)
 │       └── about/
 │           └── derek-apple.jpg   ← couple photo (placeholder)
 ├── functions/
@@ -85,11 +88,22 @@ The current site has placeholder content in several places. Swap these out as th
 - If a higher-quality `.svg` is provided, drop it at `assets/logo/logo.svg` and update both `<img>` `src` attributes.
 
 ### Gallery photos
-- 9 slots, in `index.html` inside `<section class="gallery-section">`.
-- Each slot is currently a `<div class="gallery-ph ph-tall|ph-wide|ph-square|ph-cinema">` with a camera-icon placeholder.
-- To swap: replace each `<div class="gallery-ph ...">…</div>` with `<img src="assets/images/gallery/01.jpg" class="gallery-ph ph-tall" alt="..." loading="lazy">`.
-- Keep the aspect-ratio class (`ph-tall`, `ph-wide`, `ph-square`, `ph-cinema`) on the `<img>` so the layout stays intact.
-- Compress photos to ≤300 KB each.
+
+The site has **two galleries**, both placeholder-driven — you don't need to touch HTML, just drop files at the expected paths.
+
+**1. Featured slideshow (`#featured`):** auto-cycling, 6 slots.
+- Drop files at `assets/images/featured/1.jpg` through `6.jpg`.
+- Recommended: 16:9 landscape, ≥1600px wide, ~200–400 KB each.
+- Missing files show the cream placeholder pattern; the cycle still runs over whatever's there.
+
+**2. Categorized gallery (`#gallery`):** 3 tabs — Weddings, Family, Engagements — 8 slots each.
+- Drop files at:
+  - `assets/images/weddings/1.jpg` through `8.jpg`
+  - `assets/images/family/1.jpg` through `8.jpg`
+  - `assets/images/engagements/1.jpg` through `8.jpg`
+- Recommended: 4:5 portrait, ≥1000px wide, ~150–300 KB each.
+
+**To add more than 8 per category:** edit `index.html`, copy one of the `<div class="cat-item">…</div>` blocks inside the relevant `.cat-panel`, and increment the filename (e.g. `9.jpg`, `10.jpg`).
 
 ### About photo
 - File: `assets/images/about/derek-apple.jpg`
@@ -169,10 +183,12 @@ Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its send
 - [x] Cloudflare Pages custom domain bound to `derekandapple.com`
 - [ ] Confirm both CNAMEs exist in Cloudflare DNS: `@` and `www` → `derek-apple-photography.pages.dev` (proxied)
 - [ ] End-to-end test from the live `derekandapple.com` form (submit + confirm receipt at `booking@`)
-- [ ] Swap 9 gallery placeholder divs with real `<img>` tags
+- [ ] Drop 6 featured slideshow photos at `assets/images/featured/1.jpg`–`6.jpg`
+- [ ] Drop 8 wedding photos at `assets/images/weddings/1.jpg`–`8.jpg`
+- [ ] Drop 8 family photos at `assets/images/family/1.jpg`–`8.jpg`
+- [ ] Drop 8 engagement photos at `assets/images/engagements/1.jpg`–`8.jpg`
 - [ ] Swap about-section placeholder with real Derek & Apple photo
-- [ ] Compress all photos to ≤300 KB
-- [ ] Add `loading="lazy"` to gallery images
+- [ ] Compress all photos (≤400 KB for featured slideshow, ≤300 KB for gallery)
 - [ ] Verify responsive layouts against `derek-apple-mockups/` (mobile + tablet)
 - [ ] Test contact form on a deployed preview build (form does not work locally)
 - [ ] Confirm Cloudflare Pages email notification routes to the client's inbox

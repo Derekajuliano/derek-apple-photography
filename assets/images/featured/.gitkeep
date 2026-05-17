@@ -1,0 +1,10 @@
+# Featured Slideshow
+
+Drop 6 photos here named exactly:
+  1.jpg, 2.jpg, 3.jpg, 4.jpg, 5.jpg, 6.jpg
+
+They auto-cycle every 5 seconds. Recommended: 16:9 aspect ratio,
+at least 1600px wide, optimized for web (~200-400 KB each).
+
+If a file is missing, that slide shows the cream placeholder
+pattern — the slideshow still works with whatever count is present.
