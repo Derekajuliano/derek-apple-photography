@@ -111,15 +111,19 @@ The Resend API key is stored as a Cloudflare Pages secret named `RESEND_API_KEY`
 
 ## DNS setup — Resend verification for derekandapple.com
 
-**Stack:** registrar + DNS host = **Porkbun**, email = **Zoho Mail**.
+**Stack:**
+- Registrar: **Porkbun** (Porkbun nameservers delegated to Cloudflare: `adrian.ns.cloudflare.com` + `ernest.ns.cloudflare.com`)
+- DNS host: **Cloudflare** (all records live here)
+- Mail: **Zoho Mail**
+- Hosting: **Cloudflare Pages**
 
 Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its sending infrastructure, which means the existing Zoho Mail SPF record at the root domain (`@`) is **never touched**. No merging is required — Resend's records and Zoho's records coexist on different hostnames.
 
-### Records that must exist at Porkbun DNS
+### Records that must exist in Cloudflare DNS
 
 **Resend (outbound transactional mail — required for the contact form):**
 
-| Type | Host | Answer / Content | Priority | Purpose |
+| Type | Name | Content | Priority | Purpose |
 |---|---|---|---|---|
 | TXT | `resend._domainkey` | `p=…` (Resend's DKIM public key — copy from Resend's domain page) | — | Signs outgoing mail so recipients verify it's authentic |
 | TXT | `send` | `v=spf1 include:amazonses.com ~all` | — | SPF for the sending subdomain; authorizes Resend's AWS SES sending servers |
@@ -127,7 +131,7 @@ Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its send
 
 **Zoho Mail (inbound mail to booking@, derek@, etc. — must stay intact):**
 
-| Type | Host | Answer / Content | Priority | Purpose |
+| Type | Name | Content | Priority | Purpose |
 |---|---|---|---|---|
 | MX | `@` | `mx.zoho.com` | 10 | Primary inbound mail server |
 | MX | `@` | `mx2.zoho.com` | 20 | Secondary inbound |
@@ -139,22 +143,18 @@ Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its send
 
 **Cloudflare Pages (the site itself):**
 
-| Type | Host | Answer / Content | Notes |
-|---|---|---|---|
-| CNAME | `www` | `derek-apple-photography.pages.dev` | Subdomain version of the site |
-| ALIAS or ANAME | `@` | `derek-apple-photography.pages.dev` | Apex domain. Porkbun supports ALIAS records natively, so this works without flattening tricks. If preferred, you can skip the apex and only use `www`, then set Cloudflare Pages to redirect `@` → `www`. |
+| Type | Name | Content | Proxy | Notes |
+|---|---|---|---|---|
+| CNAME | `@` | `derek-apple-photography.pages.dev` | Proxied | Apex. Cloudflare CNAME-flattening handles the "CNAME at apex" case automatically. |
+| CNAME | `www` | `derek-apple-photography.pages.dev` | Proxied | Subdomain version. |
+
+> When you add a Custom Domain in the Cloudflare Pages dashboard, Pages usually auto-creates the matching CNAME for you. If only one of these two records exists, add the other manually — otherwise only one URL works.
 
 ### What we deliberately did NOT enable
 
 **"Enable Receiving"** in Resend — that would replace Zoho's root MX records with Resend's inbound-only servers, breaking incoming mail entirely. The contact form only sends; incoming mail to `@derekandapple.com` is Zoho's job.
 
 **A second SPF record** — there can only be one TXT record at `@` starting with `v=spf1`. Zoho's lives there. Resend's SPF lives on the `send` subdomain, so they never collide.
-
-### After DNS is set at Porkbun
-
-1. **Resend dashboard → Domains → derekandapple.com → Verify** — Resend re-checks the three records. Should turn green within a few minutes.
-2. **Cloudflare Pages dashboard → derek-apple-photography → Custom domains → Add** → `derekandapple.com` (and again for `www.derekandapple.com`). Pages will tell you the exact records to verify; Porkbun's ALIAS/CNAME from the table above is what satisfies it.
-3. **End-to-end test:** submit the contact form from `https://derekandapple.com/#contact` — `booking@derekandapple.com` should receive the inquiry within seconds.
 
 ---
 
@@ -163,11 +163,11 @@ Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its send
 - [x] Contact form wired through Resend (`functions/api/contact.js`)
 - [x] Resend API key stored as `RESEND_API_KEY` secret on Cloudflare Pages
 - [x] Production addresses live in code: `noreply@derekandapple.com` → `booking@derekandapple.com`
-- [ ] `derekandapple.com` registrar moved to **Porkbun** (DNS host: Porkbun)
-- [ ] Zoho Mail records present at Porkbun (MX, SPF, DKIM) — verify mail to `booking@` still flows
-- [ ] Resend records present at Porkbun (DKIM TXT, `send` SPF TXT, `send` MX) — re-verify in Resend dashboard
-- [ ] Cloudflare Pages → Custom domains → add `derekandapple.com` and `www.derekandapple.com`
-- [ ] Porkbun DNS: ALIAS `@` and CNAME `www` both point to `derek-apple-photography.pages.dev`
+- [x] `derekandapple.com` registered at Porkbun; nameservers delegated to Cloudflare (`adrian` + `ernest`)
+- [x] Zoho Mail records in Cloudflare DNS (MX, SPF, DKIM)
+- [x] Resend records in Cloudflare DNS (DKIM TXT, `send` SPF TXT, `send` MX); domain verified in Resend
+- [x] Cloudflare Pages custom domain bound to `derekandapple.com`
+- [ ] Confirm both CNAMEs exist in Cloudflare DNS: `@` and `www` → `derek-apple-photography.pages.dev` (proxied)
 - [ ] End-to-end test from the live `derekandapple.com` form (submit + confirm receipt at `booking@`)
 - [ ] Swap 9 gallery placeholder divs with real `<img>` tags
 - [ ] Swap about-section placeholder with real Derek & Apple photo

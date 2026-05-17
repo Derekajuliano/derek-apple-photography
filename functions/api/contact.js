@@ -10,8 +10,13 @@
  *   FROM_ADDRESS = noreply@derekandapple.com  (verified domain)
  *   reply_to     = the visitor's submitted email (clicking Reply goes to them)
  *
- * Domain derekandapple.com is verified in Resend via DNS records at Porkbun
- * (registrar AND DNS host for this domain):
+ * Stack for this domain:
+ *   - Registrar:  Porkbun (nameservers delegated to Cloudflare)
+ *   - DNS host:   Cloudflare (adrian.ns.cloudflare.com + ernest.ns.cloudflare.com)
+ *   - Mailboxes:  Zoho Mail (MX records at @ point to mx.zoho.com etc.)
+ *   - Hosting:    Cloudflare Pages
+ *
+ * Resend verification records (all live in Cloudflare DNS):
  *   - TXT  resend._domainkey   (DKIM signing key)
  *   - TXT  send                (SPF: v=spf1 include:amazonses.com ~all)
  *   - MX   send                (feedback-smtp.us-east-1.amazonses.com, prio 10)
@@ -19,9 +24,6 @@
  * Note: Resend's modern setup uses the `send.derekandapple.com` subdomain for
  * sending infrastructure, so the existing Zoho Mail SPF at the root (`@`) is
  * completely untouched. Both coexist without conflict.
- *
- * Email at this domain is hosted by Zoho Mail. Mailboxes like booking@ live
- * in Zoho — the Resend setup only sends outbound transactional mail.
  *
  * REQUIRED ENV (Cloudflare Pages → Settings → Variables and Secrets):
  *   RESEND_API_KEY  — secret, starts with re_...
