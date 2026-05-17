@@ -111,28 +111,50 @@ The Resend API key is stored as a Cloudflare Pages secret named `RESEND_API_KEY`
 
 ## DNS setup — Resend verification for derekandapple.com
 
-**Status: ✅ Verified** (production). This section is documentation for future reference.
+**Stack:** registrar + DNS host = **Porkbun**, email = **Zoho Mail**.
 
-Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its sending infrastructure, which means the existing Google Workspace SPF record at the root domain (`@`) is **never touched**. No merging is required — Resend's records and Google's records coexist on different hostnames.
+Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its sending infrastructure, which means the existing Zoho Mail SPF record at the root domain (`@`) is **never touched**. No merging is required — Resend's records and Zoho's records coexist on different hostnames.
 
-### Records added in Cloudflare DNS
+### Records that must exist at Porkbun DNS
 
-| Type | Name | Content | Priority | Purpose |
+**Resend (outbound transactional mail — required for the contact form):**
+
+| Type | Host | Answer / Content | Priority | Purpose |
 |---|---|---|---|---|
-| TXT | `resend._domainkey` | `p=…` (Resend's DKIM public key) | — | Signs outgoing mail so recipients verify it's authentic |
+| TXT | `resend._domainkey` | `p=…` (Resend's DKIM public key — copy from Resend's domain page) | — | Signs outgoing mail so recipients verify it's authentic |
 | TXT | `send` | `v=spf1 include:amazonses.com ~all` | — | SPF for the sending subdomain; authorizes Resend's AWS SES sending servers |
-| MX | `send` | `feedback-smtp.us-east-1.amazonses.com` | 10 | Bounce-handling — failed deliveries route back to Resend's dashboard |
+| MX | `send` | `feedback-smtp.us-east-1.amazonses.com` | 10 | Bounce handling — failed deliveries route back to Resend's dashboard |
 
-### What stays untouched
+**Zoho Mail (inbound mail to booking@, derek@, etc. — must stay intact):**
 
-The existing **Google Workspace** records remain in place and unmodified:
-- The root `@` SPF TXT — still `v=spf1 include:_spf.google.com ~all`
-- All Google MX records routing `derek@`, `booking@`, etc. to Gmail
-- Any existing DMARC record (we did **not** add Resend's optional DMARC; if needed later, ensure only one `_dmarc` TXT exists)
+| Type | Host | Answer / Content | Priority | Purpose |
+|---|---|---|---|---|
+| MX | `@` | `mx.zoho.com` | 10 | Primary inbound mail server |
+| MX | `@` | `mx2.zoho.com` | 20 | Secondary inbound |
+| MX | `@` | `mx3.zoho.com` | 50 | Tertiary inbound |
+| TXT | `@` | `v=spf1 include:zoho.com ~all` | — | SPF authorizing Zoho to send mail FROM the domain |
+| TXT | `zmail._domainkey` (or similar) | `v=DKIM1; k=rsa; p=…` (from Zoho admin → Domains → DKIM) | — | Zoho's DKIM key |
+
+> Get the exact Zoho values from **Zoho Mail Admin Console → Domains → derekandapple.com**. The DKIM selector and SPF include line may differ if Derek & Apple's Zoho account is on a non-US datacenter (e.g. `zoho.eu`, `zoho.in`).
+
+**Cloudflare Pages (the site itself):**
+
+| Type | Host | Answer / Content | Notes |
+|---|---|---|---|
+| CNAME | `www` | `derek-apple-photography.pages.dev` | Subdomain version of the site |
+| ALIAS or ANAME | `@` | `derek-apple-photography.pages.dev` | Apex domain. Porkbun supports ALIAS records natively, so this works without flattening tricks. If preferred, you can skip the apex and only use `www`, then set Cloudflare Pages to redirect `@` → `www`. |
 
 ### What we deliberately did NOT enable
 
-**"Enable Receiving"** in Resend — that would replace Google's root MX records with Resend's inbound-only servers, breaking Gmail delivery for everyone. The contact form only sends; incoming mail to `@derekandapple.com` is Google Workspace's job.
+**"Enable Receiving"** in Resend — that would replace Zoho's root MX records with Resend's inbound-only servers, breaking incoming mail entirely. The contact form only sends; incoming mail to `@derekandapple.com` is Zoho's job.
+
+**A second SPF record** — there can only be one TXT record at `@` starting with `v=spf1`. Zoho's lives there. Resend's SPF lives on the `send` subdomain, so they never collide.
+
+### After DNS is set at Porkbun
+
+1. **Resend dashboard → Domains → derekandapple.com → Verify** — Resend re-checks the three records. Should turn green within a few minutes.
+2. **Cloudflare Pages dashboard → derek-apple-photography → Custom domains → Add** → `derekandapple.com` (and again for `www.derekandapple.com`). Pages will tell you the exact records to verify; Porkbun's ALIAS/CNAME from the table above is what satisfies it.
+3. **End-to-end test:** submit the contact form from `https://derekandapple.com/#contact` — `booking@derekandapple.com` should receive the inquiry within seconds.
 
 ---
 
@@ -140,11 +162,13 @@ The existing **Google Workspace** records remain in place and unmodified:
 
 - [x] Contact form wired through Resend (`functions/api/contact.js`)
 - [x] Resend API key stored as `RESEND_API_KEY` secret on Cloudflare Pages
-- [x] Nameservers for `derekandapple.com` moved to Cloudflare
-- [x] `derekandapple.com` verified in Resend (DKIM + SPF + bounce MX on `send` subdomain)
-- [x] Production addresses live: `noreply@derekandapple.com` → `booking@derekandapple.com`
-- [ ] Confirm `booking@derekandapple.com` mailbox exists in Google Workspace and is read regularly
-- [ ] End-to-end test from the live form (submit and confirm receipt at `booking@`)
+- [x] Production addresses live in code: `noreply@derekandapple.com` → `booking@derekandapple.com`
+- [ ] `derekandapple.com` registrar moved to **Porkbun** (DNS host: Porkbun)
+- [ ] Zoho Mail records present at Porkbun (MX, SPF, DKIM) — verify mail to `booking@` still flows
+- [ ] Resend records present at Porkbun (DKIM TXT, `send` SPF TXT, `send` MX) — re-verify in Resend dashboard
+- [ ] Cloudflare Pages → Custom domains → add `derekandapple.com` and `www.derekandapple.com`
+- [ ] Porkbun DNS: ALIAS `@` and CNAME `www` both point to `derek-apple-photography.pages.dev`
+- [ ] End-to-end test from the live `derekandapple.com` form (submit + confirm receipt at `booking@`)
 - [ ] Swap 9 gallery placeholder divs with real `<img>` tags
 - [ ] Swap about-section placeholder with real Derek & Apple photo
 - [ ] Compress all photos to ≤300 KB
