@@ -107,7 +107,9 @@ The site has **two galleries**, both placeholder-driven — you don't need to to
 
 ### About photo
 - File: `assets/images/about/derek-apple.jpg`
-- In `index.html` inside `<section class="about-section">`, replace the `<div class="about-img reveal">…</div>` block with `<img class="about-img reveal" src="assets/images/about/derek-apple.jpg" alt="Derek and Apple">`.
+- Currently the about column shows a **brand panel** (circular logo + "Husband · Wife · Camera" tagline) as a designed stand-in so the section doesn't look unfinished.
+- In `index.html` inside `<section class="about-section">`, replace the entire `<div class="about-brand reveal">…</div>` block with `<img class="about-img reveal" src="assets/images/about/derek-apple.jpg" alt="Derek and Apple">`.
+- The `.about-img` CSS already exists and is sized 4:5 portrait to match the new image automatically.
 
 ### Copy
 - All copy (about bio, service descriptions, headlines) is placeholder text. Edit directly in `index.html`. Derek & Apple need to approve before launch.
