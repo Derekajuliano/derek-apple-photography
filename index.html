@@ -1,176 +1,407 @@
-// Nav scroll shadow
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derek &amp; Apple Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=4">
+</head>
+<body>
 
-// Burger / drawer
-const burger = document.getElementById('burger');
-const drawer = document.getElementById('drawer');
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <A href="#" class="nav-logo" aria-label="Derek &amp; Apple Photography">
+      <img src="assets/logo/logo.png" alt="Derek &amp; Apple Photography">
+    </A>
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+    </button>
+    <ul class="nav-links">
+      <li><A href="#gallery">Portfolio</A></li>
+      <li><A href="#services">Services</A></li>
+      <li><A href="#about">About</A></li>
+      <li><A href="#contact">Contact</A></li>
+    </ul>
+  </div>
+</nav>
 
-burger.addEventListener('click', () => {
-  const isOpen = drawer.classList.toggle('open');
-  burger.classList.toggle('open', isOpen);
-  burger.setAttribute('aria-expanded', isOpen);
-  drawer.setAttribute('aria-hidden', !isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
-});
+<!-- DRAWER (mobile / tablet) -->
+<nav class="nav-drawer" id="drawer" aria-hidden="true">
+  <ul>
+    <li><A href="#gallery">Portfolio</A></li>
+    <li><A href="#services">Services</A></li>
+    <li><A href="#about">About</A></li>
+    <li><A href="#contact">Contact</A></li>
+  </ul>
+</nav>
 
-drawer.querySelectorAll('a').forEach(A => {
-  A.addEventListener('click', () => {
-    drawer.classList.remove('open');
-    burger.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-    drawer.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  });
-});
+<!-- HERO -->
+<section class="hero">
 
-// Scroll reveal
-const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach((entry, I) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), I * 70);
-      revealObs.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+  <!-- Background texture: scattered apple & camera icons -->
+  <svg class="hero-texture" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Apple icon -->
+      <symbol id="ico-apple" viewBox="0 0 40 44">
+        <path D="M28 4c0 3.5-2.5 6.5-6 7.5C21.5 8 24 4.5 28 4z" fill="currentColor"/>
+        <path D="M34 16c-2.5-1.5-5-2-7.5-1.5C24 15 22 15.5 20 16c-2-0.5-4-1-5.5-1.5C12 13.5 9 14 6.5 16 3 18.5 1.5 22.5 2 27c0.5 5 3 10 6 13 1.5 1.5 3 2.5 4.5 2.5 1.5 0 2.5-0.5 4-1.5 1-0.5 2-1 3.5-1s2.5 0.5 3.5 1c1.5 1 2.5 1.5 4 1.5 1.5 0 3-1 4.5-2.5 3-3 5.5-8 6-13 0.5-4.5-1-8.5-4.5-11z" fill="currentColor"/>
+      </symbol>
+      <!-- Camera lens icon -->
+      <symbol id="ico-lens" viewBox="0 0 40 40">
+        <circle cx="20" cy="20" R="18" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <circle cx="20" cy="20" R="11" fill="none" stroke="currentColor" stroke-width="2"/>
+        <circle cx="20" cy="20" R="5" fill="currentColor"/>
+      </symbol>
+    </defs>
 
-// Featured slideshow — auto-cycling carousel
-(() => {
-  const slideshow = document.querySelector('.featured-slideshow');
-  if (!slideshow) return;
+    <!-- Row 1 -->
+    <use href="#ico-apple" X="2%"  Y="4%"  width="28" height="30" />
+    <use href="#ico-lens"  X="11%" Y="2%"  width="26" height="26" />
+    <use href="#ico-apple" X="22%" Y="6%"  width="22" height="24" />
+    <use href="#ico-lens"  X="33%" Y="1%"  width="30" height="30" />
+    <use href="#ico-apple" X="44%" Y="5%"  width="20" height="22" />
+    <use href="#ico-lens"  X="55%" Y="2%"  width="24" height="24" />
+    <use href="#ico-apple" X="66%" Y="6%"  width="26" height="28" />
+    <use href="#ico-lens"  X="77%" Y="1%"  width="22" height="22" />
+    <use href="#ico-apple" X="88%" Y="4%"  width="28" height="30" />
 
-  const slides = slideshow.querySelectorAll('.featured-slide');
-  const dots   = slideshow.querySelectorAll('.featured-dot');
-  const prev   = slideshow.querySelector('.featured-prev');
-  const next   = slideshow.querySelector('.featured-next');
-  const N = slides.length;
-  if (N < 2) return; // nothing to cycle
+    <!-- Row 2 -->
+    <use href="#ico-lens"  X="5%"  Y="18%" width="20" height="20" />
+    <use href="#ico-apple" X="15%" Y="16%" width="24" height="26" />
+    <use href="#ico-lens"  X="27%" Y="19%" width="28" height="28" />
+    <use href="#ico-apple" X="38%" Y="15%" width="22" height="24" />
+    <use href="#ico-lens"  X="49%" Y="18%" width="20" height="20" />
+    <use href="#ico-apple" X="60%" Y="16%" width="26" height="28" />
+    <use href="#ico-lens"  X="71%" Y="19%" width="24" height="24" />
+    <use href="#ico-apple" X="82%" Y="15%" width="20" height="22" />
+    <use href="#ico-lens"  X="93%" Y="18%" width="22" height="22" />
 
-  const INTERVAL_MS = 5000;
-  let I = 0;
-  let timer = null;
+    <!-- Row 3 (middle) -->
+    <use href="#ico-apple" X="1%"  Y="42%" width="22" height="24" />
+    <use href="#ico-lens"  X="9%"  Y="40%" width="26" height="26" />
+    <use href="#ico-apple" X="19%" Y="43%" width="20" height="22" />
+    <use href="#ico-lens"  X="30%" Y="41%" width="22" height="22" />
+    <use href="#ico-apple" X="41%" Y="44%" width="28" height="30" />
+    <use href="#ico-lens"  X="52%" Y="40%" width="24" height="24" />
+    <use href="#ico-apple" X="63%" Y="43%" width="22" height="24" />
+    <use href="#ico-lens"  X="74%" Y="41%" width="26" height="26" />
+    <use href="#ico-apple" X="85%" Y="44%" width="20" height="22" />
+    <use href="#ico-lens"  X="94%" Y="40%" width="24" height="24" />
 
-  function go(N) {
-    slides[I].classList.remove('active');
-    dots[I] && dots[I].classList.remove('active');
-    I = ((N % N) + N) % N;
-    slides[I].classList.add('active');
-    dots[I] && dots[I].classList.add('active');
-  }
+    <!-- Row 4 -->
+    <use href="#ico-lens"  X="4%"  Y="62%" width="24" height="24" />
+    <use href="#ico-apple" X="14%" Y="60%" width="28" height="30" />
+    <use href="#ico-lens"  X="25%" Y="63%" width="20" height="20" />
+    <use href="#ico-apple" X="36%" Y="61%" width="24" height="26" />
+    <use href="#ico-lens"  X="47%" Y="64%" width="26" height="26" />
+    <use href="#ico-apple" X="58%" Y="60%" width="22" height="24" />
+    <use href="#ico-lens"  X="69%" Y="63%" width="20" height="20" />
+    <use href="#ico-apple" X="80%" Y="61%" width="26" height="28" />
+    <use href="#ico-lens"  X="91%" Y="64%" width="22" height="22" />
 
-  function start() {
-    stop();
-    timer = setInterval(() => go(I + 1), INTERVAL_MS);
-  }
-  function stop() {
-    if (timer) { clearInterval(timer); timer = null; }
-  }
-  function reset() { start(); }
+    <!-- Row 5 -->
+    <use href="#ico-apple" X="3%"  Y="80%" width="26" height="28" />
+    <use href="#ico-lens"  X="13%" Y="78%" width="22" height="22" />
+    <use href="#ico-apple" X="23%" Y="81%" width="20" height="22" />
+    <use href="#ico-lens"  X="34%" Y="79%" width="28" height="28" />
+    <use href="#ico-apple" X="45%" Y="82%" width="24" height="26" />
+    <use href="#ico-lens"  X="56%" Y="78%" width="20" height="20" />
+    <use href="#ico-apple" X="67%" Y="81%" width="22" height="24" />
+    <use href="#ico-lens"  X="78%" Y="79%" width="26" height="26" />
+    <use href="#ico-apple" X="89%" Y="82%" width="20" height="22" />
+  </svg>
 
-  prev && prev.addEventListener('click', () => { go(I - 1); reset(); });
-  next && next.addEventListener('click', () => { go(I + 1); reset(); });
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const idx = parseInt(dot.dataset.index, 10);
-      if (!Number.isNaN(idx)) { go(idx); reset(); }
-    });
-  });
+  <div class="hero-content">
+    <div class="hero-logo-circle">
+      <img class="hero-logo" src="assets/logo/logo.png" alt="Derek &amp; Apple Photography">
+    </div>
+    <P class="hero-eyebrow">Weddings &nbsp;·&nbsp; Engagements &nbsp;·&nbsp; Portraits</P>
+    <h1>Your story,<br><em>beautifully told</em></h1>
+    <P class="hero-sub">We capture the moments that matter most — with warmth, intention, and an eye for the details that make your story yours.</P>
+    <A href="#contact" class="hero-cta">Book Your Session</A>
+  </div>
+  <div class="scroll-indicator"><span></span></div>
+</section>
 
-  // Pause on hover (desktop), resume on leave
-  slideshow.addEventListener('mouseenter', stop);
-  slideshow.addEventListener('mouseleave', start);
+<!-- FEATURED SLIDESHOW (hero-style cycling gallery) -->
+<section class="featured-section" id="featured">
+  <div class="featured-slideshow reveal" aria-roledescription="carousel" aria-label="Featured photography">
 
-  // Pause when tab is hidden so we don't spin in the background
-  document.addEventListener('visibilitychange', () => {
-    document.hidden ? stop() : start();
-  });
+    <div class="featured-slide active" data-index="0">
+      <img class="featured-img" src="assets/images/featured/1.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="1">
+      <img class="featured-img" src="assets/images/featured/2.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="2">
+      <img class="featured-img" src="assets/images/featured/3.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="3">
+      <img class="featured-img" src="assets/images/featured/4.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="4">
+      <img class="featured-img" src="assets/images/featured/5.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="5">
+      <img class="featured-img" src="assets/images/featured/6.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
 
-  // Respect reduced motion: no auto-cycle, manual controls only
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (!reducedMotion.matches) start();
-})();
+    <button class="featured-arrow featured-prev" aria-label="Previous slide" type="button">‹</button>
+    <button class="featured-arrow featured-next" aria-label="Next slide" type="button">›</button>
 
-// Categorized gallery — tab switching
-(() => {
-  const tabs = document.querySelectorAll('.cat-tab');
-  const panels = document.querySelectorAll('.cat-panel');
-  if (!tabs.length || !panels.length) return;
+    <div class="featured-dots" role="tablist" aria-label="Choose slide">
+      <button class="featured-dot active" data-index="0" aria-label="Slide 1" type="button"></button>
+      <button class="featured-dot"        data-index="1" aria-label="Slide 2" type="button"></button>
+      <button class="featured-dot"        data-index="2" aria-label="Slide 3" type="button"></button>
+      <button class="featured-dot"        data-index="3" aria-label="Slide 4" type="button"></button>
+      <button class="featured-dot"        data-index="4" aria-label="Slide 5" type="button"></button>
+      <button class="featured-dot"        data-index="5" aria-label="Slide 6" type="button"></button>
+    </div>
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const cat = tab.dataset.category;
-      tabs.forEach(T => {
-        const isActive = T === tab;
-        T.classList.toggle('active', isActive);
-        T.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
-      panels.forEach(P => {
-        const match = P.dataset.category === cat;
-        P.classList.toggle('active', match);
-        if (match) P.removeAttribute('hidden');
-        else       P.setAttribute('hidden', '');
-      });
-    });
-  });
-})();
+  </div>
+</section>
 
-// Contact form — Cloudflare Pages Function handler
-const contactForm = document.querySelector('.contact-form');
-if (contactForm) {
-  contactForm.addEventListener('submit', async (E) => {
-    E.preventDefault();
+<!-- GALLERY — categorized (Weddings · Family · Engagements) -->
+<section class="gallery-section" id="gallery">
+  <div class="section-header reveal">
+    <P class="section-eyebrow">Our Work</P>
+    <h2 class="section-title">Browse Our Galleries</h2>
+    <svg class="art-nouveau-divider" viewBox="0 0 520 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="260,8 270,18 260,28 250,18" fill="currentColor" opacity="0.5"/>
+      <path D="M248,18 C220,18 200,10 180,18 C160,26 140,18 120,18 C100,18 80,10 60,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path D="M200,18 C200,10 195,4 190,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <path D="M160,18 C160,26 155,30 150,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <path D="M120,18 C120,10 115,5 111,9" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <circle cx="60" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+      <circle cx="40" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="28" cy="18" R="2.5" fill="currentColor" opacity="0.35"/>
+      <line x1="28" x2="8" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+      <path D="M272,18 C300,18 320,10 340,18 C360,26 380,18 400,18 C420,18 440,10 460,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path D="M320,18 C320,10 325,4 330,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <path D="M360,18 C360,26 365,30 370,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <path D="M400,18 C400,10 405,5 409,9" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <circle cx="460" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+      <circle cx="480" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="492" cy="18" R="2.5" fill="currentColor" opacity="0.35"/>
+      <line x1="492" x2="512" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+    </svg>
+    <P class="cat-helper">Choose a category to view those moments.</P>
+  </div>
 
-    // Honeypot check
-    if (contactForm.querySelector('[name="bot-field"]').value) return;
+  <div class="cat-tabs reveal" role="tablist" aria-label="Photo categories">
+    <button class="cat-tab active" role="tab" aria-selected="true"  data-category="weddings"    type="button">
+      <span class="cat-tab-label">Weddings</span>
+    </button>
+    <button class="cat-tab"        role="tab" aria-selected="false" data-category="family"      type="button">
+      <span class="cat-tab-label">Family</span>
+    </button>
+    <button class="cat-tab"        role="tab" aria-selected="false" data-category="engagements" type="button">
+      <span class="cat-tab-label">Engagements</span>
+    </button>
+  </div>
 
-    const btn = contactForm.querySelector('.submit-btn');
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
+  <div class="cat-panels">
 
-    const data = Object.fromEntries(new FormData(contactForm));
+    <!-- WEDDINGS -->
+    <div class="cat-panel active" role="tabpanel" data-category="weddings" aria-label="Wedding photos">
+      <div class="cat-grid">
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/1.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/2.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/3.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/4.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/5.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/6.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/weddings/7.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Wedding</span></div></div>
+      </div>
+    </div>
 
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/JSON' },
-        body: JSON.stringify(data),
-      });
+    <!-- FAMILY -->
+    <div class="cat-panel" role="tabpanel" data-category="family" aria-label="Family photos" hidden>
+      <div class="cat-grid">
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/1.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Family</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/2.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Family</span></div></div>
+      </div>
+    </div>
 
-      if (res.ok) {
-        window.location.href = '/success.html';
-      } else {
-        throw new Error('Server error');
-      }
-    } catch {
-      btn.disabled = false;
-      btn.textContent = 'Send Message';
-      let err = contactForm.querySelector('.form-error');
-      if (!err) {
-        err = document.createElement('p');
-        err.className = 'form-error';
-        err.style.cssText = 'color:var(--red);font-size:0.85rem;margin-top:0.75rem;text-align:center;';
-        contactForm.appendChild(err);
-      }
-      err.textContent = 'Something went wrong. Please try again or email us directly.';
-    }
- });
+    <!-- ENGAGEMENTS -->
+    <div class="cat-panel" role="tabpanel" data-category="engagements" aria-label="Engagement photos" hidden>
+      <div class="cat-grid">
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/1.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/2.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/3.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/4.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/5.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/6.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/engagements/7.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+      </div>
+    </div>
 
-  const navLogo = document.querySelector('.nav-logo');
-const heroLogo = document.querySelector('.hero-logo-circle');
+  </div>
+</section>
 
-function toggleNavLogo() {
-  const heroBottom = heroLogo.getBoundingClientRect().bottom;
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="container">
+    <div class="section-header reveal">
+      <P class="section-eyebrow">What We Do</P>
+      <h2 class="section-title">Our Services</h2>
+      <svg class="art-nouveau-divider" viewBox="0 0 520 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="260,8 270,18 260,28 250,18" fill="currentColor" opacity="0.5"/>
+        <path D="M248,18 C220,18 200,10 180,18 C160,26 140,18 120,18 C100,18 80,10 60,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+        <path D="M200,18 C200,10 195,4 190,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+        <path D="M160,18 C160,26 155,30 150,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+        <circle cx="60" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+        <circle cx="40" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+        <line x1="28" x2="8" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+        <path D="M272,18 C300,18 320,10 340,18 C360,26 380,18 400,18 C420,18 440,10 460,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+        <path D="M320,18 C320,10 325,4 330,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+        <path D="M360,18 C360,26 365,30 370,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+        <circle cx="460" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+        <circle cx="480" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+        <line x1="492" x2="512" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+      </svg>
+    </div>
+    <div class="services-grid">
 
-  // If hero logo is still visible in viewport
-  if (heroBottom > 0) {
-    navLogo.classList.remove('show-logo');
-  } else {
-    navLogo.classList.add('show-logo');
-  }
-}
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path D="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="service-body">
+          <h3>Weddings</h3>
+          <P>Full-day and half-day coverage capturing every meaningful moment — from getting ready to the last dance.</P>
+        </div>
+      </div>
 
-window.addEventListener('scroll', toggleNavLogo);
-window.addEventListener('load', toggleNavLogo);
-}
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" R="10"/><path D="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <div class="service-body">
+          <h3>Engagements</h3>
+          <P>Relaxed, natural sessions at a location that means something to you — where your connection takes center stage.</P>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path D="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" R="4"/><path D="M23 21v-2a4 4 0 0 0-3-3.87"/><path D="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="service-body">
+          <h3>Family Portraits</h3>
+          <P>Authentic, joyful images of your family — the chaos, the laughter, and the quiet in-between moments.</P>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="about-layout">
+      <!-- Brand panel — swap with <img class="about-img reveal" src="assets/images/about/derek-apple.jpg" alt="Derek and Apple"> when portrait arrives -->
+      <div class="about-brand reveal">
+        <div class="about-brand-logo">
+          <img src="assets/logo/logo.png" alt="Derek &amp; Apple Photography">
+        </div>
+        <P class="about-brand-tagline"><em>Husband.</em><span class="about-brand-sep">&#9826;</span><em>Wife.</em><span class="about-brand-sep">&#9826;</span><em>Camera.</em></P>
+      </div>
+      <div class="about-content reveal">
+        <P class="section-eyebrow">Nice to Meet You</P>
+        <h2 class="section-title">We're Derek &amp; Apple</h2>
+        <P class="about-text">We're a husband-and-wife photography team who believe the best images come from real connection. Our approach is simple: we get to know you, make you feel comfortable, and let the moments unfold naturally.</P>
+        <P class="about-text">Whether it's your wedding day, a quiet engagement session, or a lively family gathering — we're here to capture the feeling of it, not just the look.</P>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="contact-wrap">
+      <div class="section-header reveal">
+        <P class="section-eyebrow">Get in Touch</P>
+        <h2 class="section-title">Let's Work Together</h2>
+        <svg class="art-nouveau-divider" viewBox="0 0 520 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="260,8 270,18 260,28 250,18" fill="currentColor" opacity="0.5"/>
+          <path D="M248,18 C220,18 200,10 180,18 C160,26 140,18 120,18 C100,18 80,10 60,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+          <path D="M200,18 C200,10 195,4 190,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+          <path D="M160,18 C160,26 155,30 150,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+          <circle cx="60" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+          <circle cx="40" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+          <line x1="28" x2="8" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+          <path D="M272,18 C300,18 320,10 340,18 C360,26 380,18 400,18 C420,18 440,10 460,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+          <path D="M320,18 C320,10 325,4 330,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+          <path D="M360,18 C360,26 365,30 370,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+          <circle cx="460" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+          <circle cx="480" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+          <line x1="492" x2="512" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+        </svg>
+        <P class="contact-email-note">
+          Prefer to email? <A href="mailto:booking@derekandapple.com">booking@derekandapple.com</A>
+        </P>
+      </div>
+      <form class="contact-form reveal" name="contact" method="POST">
+        <P class="ohnohoney">
+          <label>Don't fill this out: <input name="bot-field"></label>
+        </P>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="you@example.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="session-type">Session Type</label>
+          <select id="session-type" name="session-type">
+            <option value="" disabled selected>Choose one</option>
+            <option value="wedding">Wedding</option>
+            <option value="engagement">Engagement</option>
+            <option value="family">Family Portraits</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Tell Us About Your Vision</label>
+          <textarea id="message" name="message" placeholder="Date, location, and anything else you'd like us to know..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <P class="footer-logo">Derek &amp; Apple Photography</P>
+    <ul class="footer-links">
+      <li><A href="#gallery">Portfolio</A></li>
+      <li><A href="#about">About</A></li>
+      <li><A href="#contact">Contact</A></li>
+    </ul>
+    <P class="footer-copy">&copy; 2026 Derek &amp; Apple Photography. All rights reserved.</P>
+  </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>
