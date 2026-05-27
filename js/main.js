@@ -156,21 +156,25 @@ if (contactForm) {
       err.textContent = 'Something went wrong. Please try again or email us directly.';
     }
  });
+}
 
-  const navLogo = document.querySelector('.nav-logo');
-const heroLogo = document.querySelector('.hero-logo-circle');
+const navLogo = document.querySelector('.nav-logo');
+const heroSection = document.querySelector('.hero');
 
 function toggleNavLogo() {
-  const heroBottom = heroLogo.getBoundingClientRect().bottom;
+  // How far user has scrolled
+  const scrollY = window.scrollY;
 
-  // If hero logo is still visible in viewport
-  if (heroBottom > 0) {
-    navLogo.classList.remove('show-logo');
-  } else {
+  // Height of hero section
+  const heroHeight = heroSection.offsetHeight;
+
+  // Show logo after scrolling past 30% of hero
+  if (scrollY > heroHeight * 0.3) {
     navLogo.classList.add('show-logo');
+  } else {
+    navLogo.classList.remove('show-logo');
   }
 }
 
 window.addEventListener('scroll', toggleNavLogo);
 window.addEventListener('load', toggleNavLogo);
-}
