@@ -80,17 +80,6 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   display: block;
 }
 
-/* Hide nav logo by default */
-.nav-logo {
-  opacity: 0;
-  transition: opacity 0.3S ease;
-}
-
-/* Show it after scrolling */
-.nav-logo.show-logo {
-  opacity: 1;
-}
-
 .nav-links {
   display: flex;
   gap: 2.5rem;
@@ -225,7 +214,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   align-items: center;
   justify-content: center;
   opacity: 0;
-  animation: fadeUp 1s ease forwards;
+  animation: fadeUp 1S ease forwards;
   filter: drop-shadow(0 4px 24px rgba(0,0,0,0.06));
 }
 .hero-logo {
@@ -243,7 +232,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   color: var(--s500);
   margin-bottom: 1.5rem;
   opacity: 0;
-  animation: fadeUp 0.8s ease forwards 0.2s;
+  animation: fadeUp 0.8S ease forwards 0.2S;
 }
 .hero h1 {
   font-family: var(--fd);
@@ -254,7 +243,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   color: var(--s800);
   margin-bottom: 1.5rem;
   opacity: 0;
-  animation: fadeUp 0.8s ease forwards 0.4s;
+  animation: fadeUp 0.8S ease forwards 0.4S;
 }
 .hero h1 em { font-style: italic; color: var(--s600); }
 .hero-sub {
@@ -265,7 +254,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   margin: 0 auto 2.5rem;
   line-height: 1.78;
   opacity: 0;
-  animation: fadeUp 0.8s ease forwards 0.6s;
+  animation: fadeUp 0.8S ease forwards 0.6S;
 }
 .hero-cta {
   display: inline-block;
@@ -276,9 +265,9 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   color: white;
   background: var(--red);
   padding: 1rem 2.75rem;
-  transition: background 0.3s, transform 0.2s;
+  transition: background 0.3S, transform 0.2S;
   opacity: 0;
-  animation: fadeUp 0.8s ease forwards 0.8s;
+  animation: fadeUp 0.8S ease forwards 0.8S;
 }
 .hero-cta:hover { background: var(--red-hov); transform: translateY(-2px); }
 
@@ -287,7 +276,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   bottom: 2rem; left: 50%;
   transform: translateX(-50%);
   opacity: 0;
-  animation: fadeIn 1s ease forwards 1.3s;
+  animation: fadeIn 1S ease forwards 1.3S;
 }
 .scroll-indicator span {
   display: block;
@@ -301,7 +290,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   display: block;
   width: 100%; height: 100%;
   background: var(--red);
-  animation: scrollLine 2.2s ease infinite;
+  animation: scrollLine 2.2S ease infinite;
 }
 
 /* ── SECTION HEADER ──────────────────────────── */
@@ -340,7 +329,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 1.1S cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
 .featured-slide.active {
@@ -397,7 +386,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.25s, transform 0.25s, opacity 0.25s;
+  transition: background 0.25S, transform 0.25S, opacity 0.25S;
   opacity: 0;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -430,7 +419,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   opacity: 0.5;
   cursor: pointer;
   padding: 0;
-  transition: opacity 0.25s, background 0.25s, transform 0.25s;
+  transition: opacity 0.25S, background 0.25S, transform 0.25S;
 }
 .featured-dot:hover { opacity: 0.85; }
 .featured-dot.active {
@@ -471,7 +460,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--s500);
-  transition: color 0.25s;
+  transition: color 0.25S;
   -webkit-tap-highlight-color: transparent;
 }
 .cat-tab:hover { color: var(--s800); }
@@ -485,7 +474,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   width: 0;
   height: 2px;
   background: var(--red);
-  transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
+  transition: width 0.3S cubic-bezier(0.4,0,0.2,1);
 }
 .cat-tab.active::after { width: 60%; }
 
@@ -495,7 +484,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   padding: 0 2rem;
 }
 .cat-panel {
-  animation: catFade 0.4s cubic-bezier(0.4,0,0.2,1);
+  animation: catFade 0.4S cubic-bezier(0.4,0,0.2,1);
 }
 .cat-panel[hidden] { display: none; }
 
@@ -515,7 +504,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   overflow: hidden;
   background: var(--s100);
   cursor: pointer;
-  transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  transition: transform 0.4S cubic-bezier(0.25,0.46,0.45,0.94);
 }
 .cat-item:hover { transform: translateY(-3px); }
 .cat-img {
@@ -525,7 +514,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   height: 100%;
   object-fit: cover;
   z-index: 2;
-  transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+  transition: transform 0.6S cubic-bezier(0.25,0.46,0.45,0.94);
 }
 .cat-item:hover .cat-img { transform: scale(1.04); }
 .cat-ph {
@@ -763,7 +752,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   color: var(--s800);
   border-bottom: 1px solid var(--s300);
   padding-bottom: 1px;
-  transition: color 0.25s, border-color 0.25s;
+  transition: color 0.25S, border-color 0.25S;
 }
 .contact-email-note a:hover {
   color: var(--red);
@@ -802,7 +791,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   border-radius: 0;
   appearance: none;
   -webkit-appearance: none;
-  transition: border-color 0.25s;
+  transition: border-color 0.25S;
 }
 .form-group input::placeholder,
 .form-group textarea::placeholder { color: var(--s500); font-size: 0.9rem; }
@@ -831,7 +820,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   border: none;
   cursor: pointer;
   margin-top: 0.25rem;
-  transition: background 0.3s, transform 0.2s;
+  transition: background 0.3S, transform 0.2S;
   -webkit-tap-highlight-color: transparent;
 }
 .submit-btn:hover { background: var(--red-hov); transform: translateY(-1px); }
@@ -867,7 +856,7 @@ footer {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--s500);
-  transition: color 0.25s;
+  transition: color 0.25S;
 }
 .footer-links a:hover { color: var(--s200); }
 .footer-copy { font-size: 0.75rem; color: var(--s400); }
@@ -887,7 +876,7 @@ footer {
 }
 .reveal {
   opacity: 0; transform: translateY(22px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.7S ease, transform 0.7S ease;
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
