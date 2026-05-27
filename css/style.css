@@ -48,7 +48,7 @@ nav {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--s200);
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3S;
 }
 nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
 
@@ -80,6 +80,17 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   display: block;
 }
 
+/* Hide nav logo by default */
+.nav-logo {
+  opacity: 0;
+  transition: opacity 0.3S ease;
+}
+
+/* Show it after scrolling */
+.nav-logo.show-logo {
+  opacity: 1;
+}
+
 .nav-links {
   display: flex;
   gap: 2.5rem;
@@ -92,7 +103,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   text-transform: uppercase;
   color: var(--s600);
   position: relative;
-  transition: color 0.25s;
+  transition: color 0.25S;
 }
 .nav-links a::after {
   content: '';
@@ -100,7 +111,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   bottom: -4px; left: 0;
   width: 0; height: 1px;
   background: var(--red);
-  transition: width 0.3s;
+  transition: width 0.3S;
 }
 .nav-links a:hover { color: var(--s800); }
 .nav-links a:hover::after { width: 100%; }
@@ -125,7 +136,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   background: var(--s700);
   border-radius: 1px;
   transform-origin: center;
-  transition: transform 0.3s ease, opacity 0.25s ease;
+  transition: transform 0.3S ease, opacity 0.25S ease;
 }
 .burger.open .burger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 .burger.open .burger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
@@ -144,7 +155,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
-  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s;
+  transition: transform 0.3S ease, opacity 0.3S ease, visibility 0.3S;
   z-index: 99;
 }
 .nav-drawer.open {
@@ -163,7 +174,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   text-transform: uppercase;
   color: var(--s600);
   border-bottom: 1px solid var(--s200);
-  transition: color 0.2s;
+  transition: color 0.2S;
 }
 .nav-drawer ul li:last-child a { border-bottom: none; }
 .nav-drawer ul li a:active,
