@@ -3,6 +3,23 @@ window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
 
+const navLogo = document.querySelector('.nav-logo');
+const heroLogo = document.querySelector('.hero-logo-circle');
+
+function toggleNavLogo() {
+  const heroBottom = heroLogo.getBoundingClientRect().bottom;
+
+  // If hero logo is still visible in viewport
+  if (heroBottom > 0) {
+    navLogo.classList.remove('show-logo');
+  } else {
+    navLogo.classList.add('show-logo');
+  }
+}
+
+window.addEventListener('scroll', toggleNavLogo);
+window.addEventListener('load', toggleNavLogo);
+
 // Burger / drawer
 const burger = document.getElementById('burger');
 const drawer = document.getElementById('drawer');
@@ -15,8 +32,8 @@ burger.addEventListener('click', () => {
   document.body.style.overflow = isOpen ? 'hidden' : '';
 });
 
-drawer.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => {
+drawer.querySelectorAll('a').forEach(A => {
+  A.addEventListener('click', () => {
     drawer.classList.remove('open');
     burger.classList.remove('open');
     burger.setAttribute('aria-expanded', 'false');
@@ -27,9 +44,9 @@ drawer.querySelectorAll('a').forEach(a => {
 
 // Scroll reveal
 const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
+  entries.forEach((entry, I) => {
     if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 70);
+      setTimeout(() => entry.target.classList.add('visible'), I * 70);
       revealObs.unobserve(entry.target);
     }
   });
