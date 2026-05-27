@@ -72,6 +72,8 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.3S ease;
 }
 .nav-logo img {
   width: 100%;
@@ -80,13 +82,6 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   display: block;
 }
 
-/* Hide nav logo by default */
-.nav-logo {
-  opacity: 0;
-  transition: opacity 0.3S ease;
-}
-
-/* Show it after scrolling */
 .nav-logo.show-logo {
   opacity: 1;
 }
