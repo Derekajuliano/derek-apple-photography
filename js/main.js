@@ -156,21 +156,4 @@ if (contactForm) {
       err.textContent = 'Something went wrong. Please try again or email us directly.';
     }
  });
-
-  const navLogo = document.querySelector('.nav-logo');
-const heroLogo = document.querySelector('.hero-logo-circle');
-
-function toggleNavLogo() {
-  const heroBottom = heroLogo.getBoundingClientRect().bottom;
-
-  // If hero logo is still visible in viewport
-  if (heroBottom > 0) {
-    navLogo.classList.remove('show-logo');
-  } else {
-    navLogo.classList.add('show-logo');
-  }
-}
-
-window.addEventListener('scroll', toggleNavLogo);
-window.addEventListener('load', toggleNavLogo);
 }
