@@ -48,7 +48,7 @@ nav {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--s200);
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3S;
 }
 nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
 
@@ -80,6 +80,17 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   display: block;
 }
 
+/* Hide nav logo by default */
+.nav-logo {
+  opacity: 0;
+  transition: opacity 0.3S ease;
+}
+
+/* Show it after scrolling */
+.nav-logo.show-logo {
+  opacity: 1;
+}
+
 .nav-links {
   display: flex;
   gap: 2.5rem;
@@ -92,7 +103,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   text-transform: uppercase;
   color: var(--s600);
   position: relative;
-  transition: color 0.25s;
+  transition: color 0.25S;
 }
 .nav-links a::after {
   content: '';
@@ -100,7 +111,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   bottom: -4px; left: 0;
   width: 0; height: 1px;
   background: var(--red);
-  transition: width 0.3s;
+  transition: width 0.3S;
 }
 .nav-links a:hover { color: var(--s800); }
 .nav-links a:hover::after { width: 100%; }
@@ -125,7 +136,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   background: var(--s700);
   border-radius: 1px;
   transform-origin: center;
-  transition: transform 0.3s ease, opacity 0.25s ease;
+  transition: transform 0.3S ease, opacity 0.25S ease;
 }
 .burger.open .burger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 .burger.open .burger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
@@ -144,7 +155,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
-  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s;
+  transition: transform 0.3S ease, opacity 0.3S ease, visibility 0.3S;
   z-index: 99;
 }
 .nav-drawer.open {
@@ -163,7 +174,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   text-transform: uppercase;
   color: var(--s600);
   border-bottom: 1px solid var(--s200);
-  transition: color 0.2s;
+  transition: color 0.2S;
 }
 .nav-drawer ul li:last-child a { border-bottom: none; }
 .nav-drawer ul li a:active,
@@ -646,6 +657,80 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--s500);
+}
+
+/* Brand panel — stands in for the about portrait until it arrives */
+.about-brand {
+  aspect-ratio: 4/5;
+  background-color: var(--s100);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 9px,
+    rgba(0,0,0,0.022) 9px,
+    rgba(0,0,0,0.022) 18px
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.25rem;
+  padding: 2rem;
+  position: relative;
+}
+.about-brand::before,
+.about-brand::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 1px;
+  background: var(--s300);
+  opacity: 0.6;
+}
+.about-brand::before { top: 2.25rem; }
+.about-brand::after  { bottom: 2.25rem; }
+.about-brand-logo {
+  width: clamp(140px, 32%, 200px);
+  aspect-ratio: 1/1;
+  background: #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 24px rgba(26,23,20,0.06);
+  flex-shrink: 0;
+}
+.about-brand-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.about-brand-tagline {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.1rem, 2.6vw, 1.5rem);
+  color: var(--s700);
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+}
+.about-brand-tagline em { font-style: italic; }
+.about-brand-sep {
+  color: var(--red);
+  opacity: 0.55;
+  font-style: normal;
+  font-size: 0.7em;
+  transform: translateY(-1px);
 }
 
 .about-content .section-eyebrow { text-align: left; }
