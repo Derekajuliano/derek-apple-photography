@@ -157,24 +157,3 @@ if (contactForm) {
     }
  });
 }
-
-const navLogo = document.querySelector('.nav-logo');
-const heroSection = document.querySelector('.hero');
-
-function toggleNavLogo() {
-  // How far user has scrolled
-  const scrollY = window.scrollY;
-
-  // Height of hero section
-  const heroHeight = heroSection.offsetHeight;
-
-  // Show logo after scrolling past 30% of hero
-  if (scrollY > heroHeight * 0.3) {
-    navLogo.classList.add('show-logo');
-  } else {
-    navLogo.classList.remove('show-logo');
-  }
-}
-
-window.addEventListener('scroll', toggleNavLogo);
-window.addEventListener('load', toggleNavLogo);
