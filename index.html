@@ -13,19 +13,19 @@
 <!-- NAV -->
 <nav id="nav">
   <div class="nav-inner">
-    <A href="#" class="nav-logo" aria-label="Derek &amp; Apple Photography">
+    <a href="#" class="nav-logo" aria-label="Derek &amp; Apple Photography">
       <img src="assets/logo/logo.png" alt="Derek &amp; Apple Photography">
-    </A>
+    </a>
     <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
       <span class="burger-line"></span>
       <span class="burger-line"></span>
       <span class="burger-line"></span>
     </button>
     <ul class="nav-links">
-      <li><A href="#gallery">Portfolio</A></li>
-      <li><A href="#services">Services</A></li>
-      <li><A href="#about">About</A></li>
-      <li><A href="#contact">Contact</A></li>
+      <li><a href="#gallery">Portfolio</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
 </nav>
@@ -33,14 +33,100 @@
 <!-- DRAWER (mobile / tablet) -->
 <nav class="nav-drawer" id="drawer" aria-hidden="true">
   <ul>
-    <li><A href="#gallery">Portfolio</A></li>
-    <li><A href="#services">Services</A></li>
-    <li><A href="#about">About</A></li>
-    <li><A href="#contact">Contact</A></li>
+    <li><a href="#gallery">Portfolio</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
-  
+<!-- HERO -->
+<section class="hero">
+
+  <!-- Background texture: scattered apple & camera icons -->
+  <svg class="hero-texture" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Apple icon -->
+      <symbol id="ico-apple" viewBox="0 0 40 44">
+        <path d="M28 4c0 3.5-2.5 6.5-6 7.5C21.5 8 24 4.5 28 4z" fill="currentColor"/>
+        <path d="M34 16c-2.5-1.5-5-2-7.5-1.5C24 15 22 15.5 20 16c-2-0.5-4-1-5.5-1.5C12 13.5 9 14 6.5 16 3 18.5 1.5 22.5 2 27c0.5 5 3 10 6 13 1.5 1.5 3 2.5 4.5 2.5 1.5 0 2.5-0.5 4-1.5 1-0.5 2-1 3.5-1s2.5 0.5 3.5 1c1.5 1 2.5 1.5 4 1.5 1.5 0 3-1 4.5-2.5 3-3 5.5-8 6-13 0.5-4.5-1-8.5-4.5-11z" fill="currentColor"/>
+      </symbol>
+      <!-- Camera lens icon -->
+      <symbol id="ico-lens" viewBox="0 0 40 40">
+        <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <circle cx="20" cy="20" r="11" fill="none" stroke="currentColor" stroke-width="2"/>
+        <circle cx="20" cy="20" r="5" fill="currentColor"/>
+      </symbol>
+    </defs>
+
+    <!-- Row 1 -->
+    <use href="#ico-apple" x="2%"  y="4%"  width="28" height="30" />
+    <use href="#ico-lens"  x="11%" y="2%"  width="26" height="26" />
+    <use href="#ico-apple" x="22%" y="6%"  width="22" height="24" />
+    <use href="#ico-lens"  x="33%" y="1%"  width="30" height="30" />
+    <use href="#ico-apple" x="44%" y="5%"  width="20" height="22" />
+    <use href="#ico-lens"  x="55%" y="2%"  width="24" height="24" />
+    <use href="#ico-apple" x="66%" y="6%"  width="26" height="28" />
+    <use href="#ico-lens"  x="77%" y="1%"  width="22" height="22" />
+    <use href="#ico-apple" x="88%" y="4%"  width="28" height="30" />
+
+    <!-- Row 2 -->
+    <use href="#ico-lens"  x="5%"  y="18%" width="20" height="20" />
+    <use href="#ico-apple" x="15%" y="16%" width="24" height="26" />
+    <use href="#ico-lens"  x="27%" y="19%" width="28" height="28" />
+    <use href="#ico-apple" x="38%" y="15%" width="22" height="24" />
+    <use href="#ico-lens"  x="49%" y="18%" width="20" height="20" />
+    <use href="#ico-apple" x="60%" y="16%" width="26" height="28" />
+    <use href="#ico-lens"  x="71%" y="19%" width="24" height="24" />
+    <use href="#ico-apple" x="82%" y="15%" width="20" height="22" />
+    <use href="#ico-lens"  x="93%" y="18%" width="22" height="22" />
+
+    <!-- Row 3 (middle) -->
+    <use href="#ico-apple" x="1%"  y="42%" width="22" height="24" />
+    <use href="#ico-lens"  x="9%"  y="40%" width="26" height="26" />
+    <use href="#ico-apple" x="19%" y="43%" width="20" height="22" />
+    <use href="#ico-lens"  x="30%" y="41%" width="22" height="22" />
+    <use href="#ico-apple" x="41%" y="44%" width="28" height="30" />
+    <use href="#ico-lens"  x="52%" y="40%" width="24" height="24" />
+    <use href="#ico-apple" x="63%" y="43%" width="22" height="24" />
+    <use href="#ico-lens"  x="74%" y="41%" width="26" height="26" />
+    <use href="#ico-apple" x="85%" y="44%" width="20" height="22" />
+    <use href="#ico-lens"  x="94%" y="40%" width="24" height="24" />
+
+    <!-- Row 4 -->
+    <use href="#ico-lens"  x="4%"  y="62%" width="24" height="24" />
+    <use href="#ico-apple" x="14%" y="60%" width="28" height="30" />
+    <use href="#ico-lens"  x="25%" y="63%" width="20" height="20" />
+    <use href="#ico-apple" x="36%" y="61%" width="24" height="26" />
+    <use href="#ico-lens"  x="47%" y="64%" width="26" height="26" />
+    <use href="#ico-apple" x="58%" y="60%" width="22" height="24" />
+    <use href="#ico-lens"  x="69%" y="63%" width="20" height="20" />
+    <use href="#ico-apple" x="80%" y="61%" width="26" height="28" />
+    <use href="#ico-lens"  x="91%" y="64%" width="22" height="22" />
+
+    <!-- Row 5 -->
+    <use href="#ico-apple" x="3%"  y="80%" width="26" height="28" />
+    <use href="#ico-lens"  x="13%" y="78%" width="22" height="22" />
+    <use href="#ico-apple" x="23%" y="81%" width="20" height="22" />
+    <use href="#ico-lens"  x="34%" y="79%" width="28" height="28" />
+    <use href="#ico-apple" x="45%" y="82%" width="24" height="26" />
+    <use href="#ico-lens"  x="56%" y="78%" width="20" height="20" />
+    <use href="#ico-apple" x="67%" y="81%" width="22" height="24" />
+    <use href="#ico-lens"  x="78%" y="79%" width="26" height="26" />
+    <use href="#ico-apple" x="89%" y="82%" width="20" height="22" />
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-logo-circle">
+      <img class="hero-logo" src="assets/logo/logo.png" alt="Derek &amp; Apple Photography">
+    </div>
+    <p class="hero-eyebrow">Weddings &nbsp;·&nbsp; Engagements &nbsp;·&nbsp; Portraits</p>
+    <h1>Your story,<br><em>beautifully told</em></h1>
+    <p class="hero-sub">We capture the moments that matter most — with warmth, intention, and an eye for the details that make your story yours.</p>
+    <a href="#contact" class="hero-cta">Book Your Session</a>
+  </div>
+  <div class="scroll-indicator"><span></span></div>
+</section>
 
 <!-- FEATURED SLIDESHOW (hero-style cycling gallery) -->
 <section class="featured-section" id="featured">
@@ -48,27 +134,27 @@
 
     <div class="featured-slide active" data-index="0">
       <img class="featured-img" src="assets/images/featured/1.jpg" alt="" onerror="this.style.display='none'">
-      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
     </div>
     <div class="featured-slide" data-index="1">
       <img class="featured-img" src="assets/images/featured/2.jpg" alt="" onerror="this.style.display='none'">
-      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
     </div>
     <div class="featured-slide" data-index="2">
       <img class="featured-img" src="assets/images/featured/3.jpg" alt="" onerror="this.style.display='none'">
-      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
     </div>
     <div class="featured-slide" data-index="3">
       <img class="featured-img" src="assets/images/featured/4.jpg" alt="" onerror="this.style.display='none'">
-      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
     </div>
     <div class="featured-slide" data-index="4">
       <img class="featured-img" src="assets/images/featured/5.jpg" alt="" onerror="this.style.display='none'">
-      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
     </div>
     <div class="featured-slide" data-index="5">
       <img class="featured-img" src="assets/images/featured/6.jpg" alt="" onerror="this.style.display='none'">
-      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
     </div>
 
     <button class="featured-arrow featured-prev" aria-label="Previous slide" type="button">‹</button>
