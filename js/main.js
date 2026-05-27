@@ -3,23 +3,6 @@ window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
 
-const navLogo = document.querySelector('.nav-logo');
-const heroLogo = document.querySelector('.hero-logo-circle');
-
-function toggleNavLogo() {
-  const heroBottom = heroLogo.getBoundingClientRect().bottom;
-
-  // If hero logo is still visible in viewport
-  if (heroBottom > 0) {
-    navLogo.classList.remove('show-logo');
-  } else {
-    navLogo.classList.add('show-logo');
-  }
-}
-
-window.addEventListener('scroll', toggleNavLogo);
-window.addEventListener('load', toggleNavLogo);
-
 // Burger / drawer
 const burger = document.getElementById('burger');
 const drawer = document.getElementById('drawer');
@@ -32,8 +15,8 @@ burger.addEventListener('click', () => {
   document.body.style.overflow = isOpen ? 'hidden' : '';
 });
 
-drawer.querySelectorAll('a').forEach(A => {
-  A.addEventListener('click', () => {
+drawer.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
     drawer.classList.remove('open');
     burger.classList.remove('open');
     burger.setAttribute('aria-expanded', 'false');
@@ -44,9 +27,9 @@ drawer.querySelectorAll('a').forEach(A => {
 
 // Scroll reveal
 const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach((entry, I) => {
+  entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), I * 70);
+      setTimeout(() => entry.target.classList.add('visible'), i * 70);
       revealObs.unobserve(entry.target);
     }
   });
@@ -66,28 +49,28 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   if (N < 2) return; // nothing to cycle
 
   const INTERVAL_MS = 5000;
-  let I = 0;
+  let i = 0;
   let timer = null;
 
-  function go(N) {
-    slides[I].classList.remove('active');
-    dots[I] && dots[I].classList.remove('active');
-    I = ((N % N) + N) % N;
-    slides[I].classList.add('active');
-    dots[I] && dots[I].classList.add('active');
+  function go(n) {
+    slides[i].classList.remove('active');
+    dots[i] && dots[i].classList.remove('active');
+    i = ((n % N) + N) % N;
+    slides[i].classList.add('active');
+    dots[i] && dots[i].classList.add('active');
   }
 
   function start() {
     stop();
-    timer = setInterval(() => go(I + 1), INTERVAL_MS);
+    timer = setInterval(() => go(i + 1), INTERVAL_MS);
   }
   function stop() {
     if (timer) { clearInterval(timer); timer = null; }
   }
   function reset() { start(); }
 
-  prev && prev.addEventListener('click', () => { go(I - 1); reset(); });
-  next && next.addEventListener('click', () => { go(I + 1); reset(); });
+  prev && prev.addEventListener('click', () => { go(i - 1); reset(); });
+  next && next.addEventListener('click', () => { go(i + 1); reset(); });
   dots.forEach(dot => {
     dot.addEventListener('click', () => {
       const idx = parseInt(dot.dataset.index, 10);
@@ -118,16 +101,16 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       const cat = tab.dataset.category;
-      tabs.forEach(T => {
-        const isActive = T === tab;
-        T.classList.toggle('active', isActive);
-        T.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      tabs.forEach(t => {
+        const isActive = t === tab;
+        t.classList.toggle('active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
       });
-      panels.forEach(P => {
-        const match = P.dataset.category === cat;
-        P.classList.toggle('active', match);
-        if (match) P.removeAttribute('hidden');
-        else       P.setAttribute('hidden', '');
+      panels.forEach(p => {
+        const match = p.dataset.category === cat;
+        p.classList.toggle('active', match);
+        if (match) p.removeAttribute('hidden');
+        else       p.setAttribute('hidden', '');
       });
     });
   });
@@ -136,8 +119,8 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 // Contact form — Cloudflare Pages Function handler
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
-  contactForm.addEventListener('submit', async (E) => {
-    E.preventDefault();
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
     // Honeypot check
     if (contactForm.querySelector('[name="bot-field"]').value) return;
@@ -151,7 +134,7 @@ if (contactForm) {
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/JSON' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
