@@ -52,10 +52,10 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   let I = 0;
   let timer = null;
 
-  function go(N) {
+  function go(n) {
     slides[I].classList.remove('active');
     dots[I] && dots[I].classList.remove('active');
-    I = ((N % N) + N) % N;
+    I = ((n % N) + N) % N;
     slides[I].classList.add('active');
     dots[I] && dots[I].classList.add('active');
   }
