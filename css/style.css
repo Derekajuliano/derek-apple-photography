@@ -683,6 +683,14 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
 }
 .about-brand::before { top: 2.25rem; }
 .about-brand::after  { bottom: 2.25rem; }
+.about-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 3;
+}
 .about-brand-logo {
   width: clamp(140px, 32%, 200px);
   aspect-ratio: 1/1;
