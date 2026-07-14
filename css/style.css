@@ -325,14 +325,14 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   aspect-ratio: 16/9;
   max-height: 70vh;
   overflow: hidden;
-  background: var(--bg);
+  background-color: rgb(253, 252, 250);
   box-shadow: 0 2px 40px rgba(26,23,20,0.08);
 }
 .featured-slide {
   position: absolute;
   inset: 0;
   opacity: 0;
-  background: var(--bg);
+  background-color: rgb(253, 252, 250);
   transition: opacity 1.1S cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
@@ -352,7 +352,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   position: absolute;
   inset: 0;
   z-index: 1;
-  background-color: #fff;
+  background-color: rgb(253, 252, 250);
   display: flex;
   align-items: center;
   justify-content: center;
