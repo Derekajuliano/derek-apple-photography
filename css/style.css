@@ -352,14 +352,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   position: absolute;
   inset: 0;
   z-index: 1;
-  background-color: var(--s100);
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 9px,
-    rgba(0,0,0,0.022) 9px,
-    rgba(0,0,0,0.022) 18px
-  );
+  background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -423,7 +416,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   opacity: 0.5;
   cursor: pointer;
   padding: 0;
-  transition: opacity 0.25s, background 0.25s, transform 0.25s;
+  transition: opacity 0.25S, background 0.25S, transform 0.25S;
 }
 .featured-dot:hover { opacity: 0.85; }
 .featured-dot.active {
