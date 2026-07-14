@@ -170,7 +170,7 @@ if (contactForm) {
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/JSON' },
         body: JSON.stringify(data)
       });
 
@@ -223,12 +223,23 @@ if (contactForm) {
     }
 
     function closeLightbox() {
-      lightbox.classList.remove('open');
-      lightbox.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('lightbox-open');
-      lightboxImg.removeAttribute('src');
-      lightboxImg.alt = '';
-    }
+  // Hide immediately
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('lightbox-open');
+
+  // Wait for CSS transition to finish before unloading image
+  const clearImage = () => {
+    lightboxImg.removeAttribute('src');
+    lightboxImg.alt = '';
+    lightbox.removeEventListener('transitionend', clearImage);
+  };
+
+  lightbox.addEventListener('transitionend', clearImage, { once: true });
+
+  // Fallback in case no transition fires
+  setTimeout(clearImage, 220);
+}
 
     galleryImages.forEach((img) => {
       img.style.cursor = 'zoom-in';
