@@ -52,10 +52,10 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   let I = 0;
   let timer = null;
 
-  function go(n) {
+  function go(N) {
     slides[I].classList.remove('active');
     dots[I] && dots[I].classList.remove('active');
-    I = ((n % N) + N) % N;
+    I = ((N % N) + N) % N;
     slides[I].classList.add('active');
     dots[I] && dots[I].classList.add('active');
   }
@@ -157,3 +157,44 @@ if (contactForm) {
     }
   });
 }
+
+// === Gallery lightbox (categorized gallery images) ===
+(() => {
+  const lightbox = document.getElementById('galleryLightbox');
+  const lightboxImg = document.getElementById('lightboxImage');
+  if (!lightbox || !lightboxImg) return;
+
+  const galleryImages = document.querySelectorAll('#gallery .cat-item img');
+  const closeEls = lightbox.querySelectorAll('[data-lightbox-close]');
+
+  function openLightbox(imgEl) {
+    const fullSrc = imgEl.currentSrc || imgEl.src;
+    lightboxImg.src = fullSrc;
+    lightboxImg.alt = imgEl.alt || '';
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lightbox-open');
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lightbox-open');
+    lightboxImg.src = '';
+    lightboxImg.alt = '';
+  }
+
+  galleryImages.forEach((img) => {
+    img.addEventListener('click', () => openLightbox(img));
+  });
+
+  closeEls.forEach((el) => {
+    el.addEventListener('click', closeLightbox);
+  });
+
+  document.addEventListener('keydown', (E) => {
+    if (E.key === 'Escape' && lightbox.classList.contains('open')) {
+      closeLightbox();
+    }
+  });
+})();
