@@ -325,14 +325,14 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   aspect-ratio: 16/9;
   max-height: 70vh;
   overflow: hidden;
-  background: #fff;
+  background: var(--bg);
   box-shadow: 0 2px 40px rgba(26,23,20,0.08);
 }
 .featured-slide {
   position: absolute;
   inset: 0;
   opacity: 0;
-  background: #fff;
+  background: var(--bg);
   transition: opacity 1.1S cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
