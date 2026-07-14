@@ -1,66 +1,162 @@
-// Nav scroll shadow
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
-
-// Burger / drawer
-const burger = document.getElementById('burger');
-const drawer = document.getElementById('drawer');
-
-burger.addEventListener('click', () => {
-  const isOpen = drawer.classList.toggle('open');
-  burger.classList.toggle('open', isOpen);
-  burger.setAttribute('aria-expanded', isOpen);
-  drawer.setAttribute('aria-hidden', !isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
-});
-
-drawer.querySelectorAll('a').forEach(A => {
-  A.addEventListener('click', () => {
-    drawer.classList.remove('open');
-    burger.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-    drawer.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  });
-});
-
-// Scroll reveal
-const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach((entry, I) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), I * 70);
-      revealObs.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-
 // Featured slideshow — auto-cycling carousel
 (() => {
   const slideshow = document.querySelector('.featured-slideshow');
   if (!slideshow) return;
 
-  const slides = slideshow.querySelectorAll('.featured-slide');
-  const dots   = slideshow.querySelectorAll('.featured-dot');
-  const prev   = slideshow.querySelector('.featured-prev');
-  const next   = slideshow.querySelector('.featured-next');
-  const N = slides.length;
-  if (N < 2) return; // nothing to cycle
+  const slides = Array.from(
+    slideshow.querySelectorAll('.featured-slide')
+  );
+
+  const dots = Array.from(
+    slideshow.querySelectorAll('.featured-dot')
+  );
+
+  const prev = slideshow.querySelector('.featured-prev');
+  const next = slideshow.querySelector('.featured-next');
+
+  const slideCount = slides.length;
+  if (!slideCount) return;
 
   const INTERVAL_MS = 5000;
-  let I = 0;
+
+  let currentIndex = Math.max(
+    0,
+    slides.findIndex(slide => slide.classList.contains('active'))
+  );
+
   let timer = null;
 
-  function go(n) {
-    slides[I].classList.remove('active');
-    dots[I] && dots[I].classList.remove('active');
-    I = ((n % N) + N) % N;
-    slides[I].classList.add('active');
-    dots[I] && dots[I].classList.add('active');
+  /**
+   * Changes the slideshow container to match the active image.
+   */
+  function updateAspectRatio(slide) {
+    const image = slide.querySelector('.featured-img');
+
+    if (!image || !image.naturalWidth || !image.naturalHeight) {
+      return;
+    }
+
+    const ratio = image.naturalWidth / image.naturalHeight;
+
+    slideshow.style.setProperty('--slide-ratio', ratio);
   }
 
-  function start() {
+  /**
+   * Displays a particular slide.
+   */
+  function go(newIndex) {
+    const previousIndex = currentIndex;
+
+    currentIndex =
+      ((newIndex % slideCount) + slideCount) % slideCount;
+
+    // Update the container before fading in the new image.
+    updateAspectRatio(slides[currentIndex]);
+
+    slides[previousIndex]?.classList.remove('active');
+    dots[previousIndex]?.classList.remove('active');
+
+    slides[currentIndex].classList.add('active');
+    dots[currentIndex]?.classList.add('active');
+  }
+
+  /**
+   * Restarts automatic cycling.
+   */
+  function startTimer() {
+    stopTimer();
+
+    if (slideCount < 2) return;
+
+    timer = window.setInterval(() => {
+      go(currentIndex + 1);
+    }, INTERVAL_MS);
+  }
+
+  /**
+   * Stops automatic cycling.
+   */
+  function stopTimer() {
+    if (timer !== null) {
+      window.clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  /**
+   * Changes slides after manual navigation and resets the timer.
+   */
+  function navigateTo(index) {
+    go(index);
+    startTimer();
+  }
+
+  // Set each image's ratio after it loads.
+  slides.forEach((slide) => {
+    const image = slide.querySelector('.featured-img');
+    if (!image) return;
+
+    const handleImageLoad = () => {
+      if (slide.classList.contains('active')) {
+        updateAspectRatio(slide);
+      }
+    };
+
+    if (image.complete && image.naturalWidth) {
+      handleImageLoad();
+    } else {
+      image.addEventListener('load', handleImageLoad, {
+        once: true
+      });
+    }
+  });
+
+  // Previous and next buttons
+  prev?.addEventListener('click', () => {
+    navigateTo(currentIndex - 1);
+  });
+
+  next?.addEventListener('click', () => {
+    navigateTo(currentIndex + 1);
+  });
+
+  // Navigation dots
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      navigateTo(index);
+    });
+  });
+
+  // Pause while the pointer is over the slideshow.
+  slideshow.addEventListener('mouseenter', stopTimer);
+  slideshow.addEventListener('mouseleave', startTimer);
+
+  // Pause while keyboard focus is inside the slideshow.
+  slideshow.addEventListener('focusin', stopTimer);
+
+  slideshow.addEventListener('focusout', (event) => {
+    if (!slideshow.contains(event.relatedTarget)) {
+      startTimer();
+    }
+  });
+
+  // Keyboard navigation
+  slideshow.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      navigateTo(currentIndex - 1);
+    }
+
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      navigateTo(currentIndex + 1);
+    }
+  });
+
+  // Set the initial container ratio and begin cycling.
+  updateAspectRatio(slides[currentIndex]);
+  startTimer();
+})();  function start() {
     stop();
     timer = setInterval(() => go(I + 1), INTERVAL_MS);
   }
