@@ -1046,3 +1046,14 @@ footer {
 }
 
 body.lightbox-open { overflow: hidden; }
+
+#gallery .cat-item {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+#gallery .cat-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
