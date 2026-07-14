@@ -68,7 +68,6 @@ if ('IntersectionObserver' in window) {
 // Featured slideshow — auto-cycling carousel
 (() => {
   const slideshow = document.querySelector('.featured-slideshow');
-
   if (!slideshow) return;
 
   const slides = Array.from(
@@ -79,67 +78,69 @@ if ('IntersectionObserver' in window) {
     slideshow.querySelectorAll('.featured-dot')
   );
 
-  const previousButton = slideshow.querySelector('.featured-prev');
-  const nextButton = slideshow.querySelector('.featured-next');
+  const previousButton =
+    slideshow.querySelector('.featured-prev');
+
+  const nextButton =
+    slideshow.querySelector('.featured-next');
 
   const slideCount = slides.length;
 
-  if (!slideCount) return;
+  if (slideCount === 0) return;
 
   const INTERVAL_MS = 5000;
 
-  let currentIndex = Math.max(
-    0,
-    slides.findIndex(slide => slide.classList.contains('active'))
+  let currentIndex = slides.findIndex(slide =>
+    slide.classList.contains('active')
   );
+
+  if (currentIndex < 0) {
+    currentIndex = 0;
+    slides[0].classList.add('active');
+    dots[0]?.classList.add('active');
+  }
 
   let timer = null;
   let isPointerOver = false;
   let hasFocusWithin = false;
 
-  /**
-   * Changes the slideshow container to match the active image.
-   */
   function updateAspectRatio(slide) {
-    const image = slide?.querySelector('.featured-img');
+    const image = slide.querySelector('.featured-img');
 
-    if (!image || !image.naturalWidth || !image.naturalHeight) {
+    if (
+      !image ||
+      image.naturalWidth === 0 ||
+      image.naturalHeight === 0
+    ) {
       return;
     }
 
-    const ratio = image.naturalWidth / image.naturalHeight;
-
-    slideshow.style.setProperty('--slide-ratio', ratio);
+    slideshow.style.aspectRatio =
+      `${image.naturalWidth} / ${image.naturalHeight}`;
   }
 
-  /**
-   * Displays a particular slide.
-   */
-  function go(newIndex) {
-    const previousIndex = currentIndex;
-
-    currentIndex =
+  function showSlide(newIndex) {
+    const normalizedIndex =
       ((newIndex % slideCount) + slideCount) % slideCount;
 
-    updateAspectRatio(slides[currentIndex]);
+    slides.forEach((slide, index) => {
+      const isActive = index === normalizedIndex;
 
-    slides[previousIndex]?.classList.remove('active');
-    dots[previousIndex]?.classList.remove('active');
+      slide.classList.toggle('active', isActive);
+      dots[index]?.classList.toggle('active', isActive);
 
-    slides[currentIndex].classList.add('active');
-    dots[currentIndex]?.classList.add('active');
-
-    dots.forEach((dot, index) => {
-      dot.setAttribute(
-        'aria-selected',
-        String(index === currentIndex)
-      );
+      if (dots[index]) {
+        dots[index].setAttribute(
+          'aria-selected',
+          String(isActive)
+        );
+      }
     });
+
+    currentIndex = normalizedIndex;
+    updateAspectRatio(slides[currentIndex]);
   }
 
-  /**
-   * Stops automatic cycling.
-   */
   function stopTimer() {
     if (timer !== null) {
       window.clearInterval(timer);
@@ -147,9 +148,6 @@ if ('IntersectionObserver' in window) {
     }
   }
 
-  /**
-   * Starts automatic cycling unless the slideshow is paused.
-   */
   function startTimer() {
     stopTimer();
 
@@ -163,40 +161,34 @@ if ('IntersectionObserver' in window) {
     }
 
     timer = window.setInterval(() => {
-      go(currentIndex + 1);
+      showSlide(currentIndex + 1);
     }, INTERVAL_MS);
   }
 
-  /**
-   * Changes slides manually and restarts the timer when appropriate.
-   */
   function navigateTo(index) {
-    go(index);
+    showSlide(index);
     startTimer();
   }
 
-  // Update the container ratio whenever an image finishes loading.
   slides.forEach(slide => {
     const image = slide.querySelector('.featured-img');
-
     if (!image) return;
 
-    const handleImageLoad = () => {
+    const handleLoad = () => {
       if (slide.classList.contains('active')) {
         updateAspectRatio(slide);
       }
     };
 
-    if (image.complete && image.naturalWidth) {
-      handleImageLoad();
+    if (image.complete && image.naturalWidth > 0) {
+      handleLoad();
     } else {
-      image.addEventListener('load', handleImageLoad, {
+      image.addEventListener('load', handleLoad, {
         once: true
       });
     }
   });
 
-  // Previous and next buttons
   previousButton?.addEventListener('click', () => {
     navigateTo(currentIndex - 1);
   });
@@ -205,14 +197,12 @@ if ('IntersectionObserver' in window) {
     navigateTo(currentIndex + 1);
   });
 
-  // Navigation dots
   dots.forEach((dot, index) => {
     dot.addEventListener('click', () => {
       navigateTo(index);
     });
   });
 
-  // Pause while the pointer is over the slideshow.
   slideshow.addEventListener('mouseenter', () => {
     isPointerOver = true;
     stopTimer();
@@ -223,7 +213,6 @@ if ('IntersectionObserver' in window) {
     startTimer();
   });
 
-  // Pause while keyboard focus is inside the slideshow.
   slideshow.addEventListener('focusin', () => {
     hasFocusWithin = true;
     stopTimer();
@@ -236,7 +225,6 @@ if ('IntersectionObserver' in window) {
     }
   });
 
-  // Keyboard navigation
   slideshow.addEventListener('keydown', event => {
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
@@ -249,7 +237,6 @@ if ('IntersectionObserver' in window) {
     }
   });
 
-  // Pause autoplay while the browser tab is hidden.
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       stopTimer();
@@ -258,8 +245,7 @@ if ('IntersectionObserver' in window) {
     }
   });
 
-  // Set the initial slide state and begin cycling.
-  go(currentIndex);
+  showSlide(currentIndex);
   startTimer();
 })();
 
