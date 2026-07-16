@@ -1,289 +1,263 @@
+// Nav scroll shadow
+window.addEventListener(
+  'scroll',
+  () => {
+    document.getElementById('nav')?.classList.toggle('scrolled', window.scrollY > 40);
+  },
+  { passive: true }
+);
+
+// Burger / drawer
+const burger = document.getElementById('burger');
+const drawer = document.getElementById('drawer');
+
+if (burger && drawer) {
+  burger.addEventListener('click', () => {
+    const isOpen = drawer.classList.toggle('open');
+    burger.classList.toggle('open', isOpen);
+    burger.setAttribute('aria-expanded', String(isOpen));
+    drawer.setAttribute('aria-hidden', String(!isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  drawer.querySelectorAll('a').forEach((anchor) => {
+    anchor.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
+// Scroll reveal
+const revealObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), index * 70);
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.1 }
+);
+
+document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+// Featured slideshow — auto-cycling carousel
 (() => {
-  "use strict";
+  const slideshow = document.querySelector('.featured-slideshow');
+  if (!slideshow) return;
 
-  // ------------------------------
-  // Helpers
-  // ------------------------------
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const slides = slideshow.querySelectorAll('.featured-slide');
+  const dots = slideshow.querySelectorAll('.featured-dot');
+  const prev = slideshow.querySelector('.featured-prev');
+  const next = slideshow.querySelector('.featured-next');
+  const total = slides.length;
+  if (total < 2) return; // nothing to cycle
 
-  const getFocusable = (root) =>
-    $$(
-      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
-      root
-    ).filter((el) => el.offsetParent !== null);
+  const INTERVAL_MS = 5000;
+  let currentIndex = 0;
+  let timer = null;
 
-  // ------------------------------
-  // Reveal on scroll
-  // ------------------------------
-  const revealEls = $$(".reveal");
-  if ("IntersectionObserver" in window && revealEls.length) {
-    const revealObs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            revealObs.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    revealEls.forEach((el) => revealObs.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add("is-visible"));
+  function go(nextIndex) {
+    slides[currentIndex].classList.remove('active');
+    dots[currentIndex]?.classList.remove('active');
+
+    currentIndex = ((nextIndex % total) + total) % total;
+
+    slides[currentIndex].classList.add('active');
+    dots[currentIndex]?.classList.add('active');
   }
 
-  // ------------------------------
-  // Mobile drawer
-  // ------------------------------
-  const burger = $("#burger");
-  const drawer = $("#drawer");
-  const drawerLinks = $$("a", drawer);
-  let drawerOpen = false;
-  let drawerLastFocus = null;
-
-  const setDrawerState = (open) => {
-    if (!burger || !drawer) return;
-
-    drawerOpen = open;
-    drawer.classList.toggle("open", open);
-    drawer.setAttribute("aria-hidden", String(!open));
-    burger.setAttribute("aria-expanded", String(open));
-    document.body.classList.toggle("no-scroll", open);
-
-    if (open) {
-      drawerLastFocus = document.activeElement;
-      (drawerLinks[0] || drawer).focus?.();
-    } else {
-      drawerLastFocus?.focus?.();
+  function stop() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
     }
-  };
-
-  const closeDrawer = () => setDrawerState(false);
-
-  burger?.addEventListener("click", () => setDrawerState(!drawerOpen));
-
-  drawerLinks.forEach((link) => {
-    link.addEventListener("click", closeDrawer);
-  });
-
-  document.addEventListener("click", (E) => {
-    if (!drawerOpen || !drawer || !burger) return;
-    const target = E.target;
-    if (!(target instanceof Node)) return;
-    if (!drawer.contains(target) && !burger.contains(target)) {
-      closeDrawer();
-    }
-  });
-
-  // ------------------------------
-  // Featured slideshow
-  // ------------------------------
-  const featured = $(".featured-slideshow");
-  const slides = $$(".featured-slide", featured || document);
-  const dots = $$(".featured-dot", featured || document);
-  const prevBtn = $(".featured-prev", featured || document);
-  const nextBtn = $(".featured-next", featured || document);
-
-  let currentSlide = 0;
-  let autoTimer = null;
-  const AUTO_MS = 5000;
-
-  const goToSlide = (idx) => {
-    if (!slides.length) return;
-    currentSlide = (idx + slides.length) % slides.length;
-
-    slides.forEach((S, I) => S.classList.toggle("active", I === currentSlide));
-    dots.forEach((D, I) => D.classList.toggle("active", I === currentSlide));
-  };
-
-  const nextSlide = () => goToSlide(currentSlide + 1);
-  const prevSlide = () => goToSlide(currentSlide - 1);
-
-  const stopAuto = () => {
-    if (autoTimer) clearInterval(autoTimer);
-    autoTimer = null;
-  };
-
-  const startAuto = () => {
-    stopAuto();
-    if (slides.length > 1) autoTimer = setInterval(nextSlide, AUTO_MS);
-  };
-
-  prevBtn?.addEventListener("click", () => {
-    prevSlide();
-    startAuto();
-  });
-
-  nextBtn?.addEventListener("click", () => {
-    nextSlide();
-    startAuto();
-  });
-
-  dots.forEach((dot, I) =>
-    dot.addEventListener("click", () => {
-      goToSlide(I);
-      startAuto();
-    })
-  );
-
-  if (featured) {
-    featured.addEventListener("mouseenter", stopAuto);
-    featured.addEventListener("mouseleave", startAuto);
   }
 
-  if (slides.length) {
-    goToSlide(0);
-    startAuto();
+  function start() {
+    stop();
+    timer = setInterval(() => go(currentIndex + 1), INTERVAL_MS);
   }
 
-  // ------------------------------
-  // Category tabs (gallery)
-  // ------------------------------
-  const tabButtons = $$(".cat-tab[role='tab']");
-  const panels = $$(".cat-panel[role='tabpanel']");
+  function reset() {
+    start();
+  }
 
-  const activateCategory = (category, focusTab = false) => {
-    tabButtons.forEach((tab) => {
-      const active = tab.dataset.category === category;
-      tab.classList.toggle("active", active);
-      tab.setAttribute("aria-selected", String(active));
-      tab.setAttribute("tabindex", active ? "0" : "-1");
-      if (active && focusTab) tab.focus();
-    });
+  prev?.addEventListener('click', () => {
+    go(currentIndex - 1);
+    reset();
+  });
 
-    panels.forEach((panel) => {
-      const active = panel.dataset.category === category;
-      panel.classList.toggle("active", active);
-      panel.hidden = !active;
-    });
-  };
+  next?.addEventListener('click', () => {
+    go(currentIndex + 1);
+    reset();
+  });
 
-  tabButtons.forEach((tab) => {
-    tab.addEventListener("click", () => activateCategory(tab.dataset.category));
-
-    tab.addEventListener("keydown", (E) => {
-      const idx = tabButtons.indexOf(tab);
-      if (idx < 0) return;
-
-      let nextIdx = idx;
-      if (E.key === "ArrowRight") nextIdx = (idx + 1) % tabButtons.length;
-      if (E.key === "ArrowLeft") nextIdx = (idx - 1 + tabButtons.length) % tabButtons.length;
-      if (E.key === "Home") nextIdx = 0;
-      if (E.key === "End") nextIdx = tabButtons.length - 1;
-      if (nextIdx !== idx) {
-        E.preventDefault();
-        activateCategory(tabButtons[nextIdx].dataset.category, true);
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      const idx = Number.parseInt(dot.dataset.index ?? '', 10);
+      if (!Number.isNaN(idx)) {
+        go(idx);
+        reset();
       }
     });
   });
 
-  // ------------------------------
-  // Lightbox (with focus trap + Esc)
-  // ------------------------------
-  const lightbox = $("#galleryLightbox");
-  const lightboxImg = $("#lightboxImage");
-  const lightboxCloseEls = $$("[data-lightbox-close]", lightbox || document);
-  const galleryImages = $$(".cat-img");
-  let lightboxOpen = false;
-  let lightboxLastFocus = null;
+  // Pause on hover (desktop), resume on leave
+  slideshow.addEventListener('mouseenter', stop);
+  slideshow.addEventListener('mouseleave', start);
 
-  const trapFocus = (E) => {
-    if (!lightboxOpen || !lightbox) return;
-    if (E.key !== "Tab") return;
+  // Pause when tab is hidden so we don't spin in the background
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else start();
+  });
 
-    const focusables = getFocusable(lightbox);
-    if (!focusables.length) return;
+  // Respect reduced motion: no auto-cycle, manual controls only
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!reducedMotion.matches) start();
+})();
 
-    const first = focusables[0];
-    const last = focusables[focusables.length - 1];
-    const active = document.activeElement;
+// Categorized gallery — tab switching
+(() => {
+  const tabs = document.querySelectorAll('.cat-tab');
+  const panels = document.querySelectorAll('.cat-panel');
+  if (!tabs.length || !panels.length) return;
 
-    if (E.shiftKey && active === first) {
-      E.preventDefault();
-      last.focus();
-    } else if (!E.shiftKey && active === last) {
-      E.preventDefault();
-      first.focus();
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const category = tab.dataset.category;
+
+      tabs.forEach((T) => {
+        const isActive = T === tab;
+        T.classList.toggle('active', isActive);
+        T.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      panels.forEach((panel) => {
+        const match = panel.dataset.category === category;
+        panel.classList.toggle('active', match);
+        if (match) panel.removeAttribute('hidden');
+        else panel.setAttribute('hidden', '');
+      });
+    });
+  });
+})();
+
+// Contact form — Cloudflare Pages Function handler
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    // Honeypot check
+    const botField = contactForm.querySelector('[name="bot-field"]');
+    if (botField?.value) return;
+
+    const submitBtn = contactForm.querySelector('.submit-btn');
+    if (!submitBtn) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    const data = Object.fromEntries(new FormData(contactForm));
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/JSON' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        window.location.href = '/success.html';
+      } else {
+        throw new Error('Server error');
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+
+      let errorEl = contactForm.querySelector('.form-error');
+      if (!errorEl) {
+        errorEl = document.createElement('p');
+        errorEl.className = 'form-error';
+        errorEl.style.cssText =
+          'color:var(--red);font-size:0.85rem;margin-top:0.75rem;text-align:center;';
+        contactForm.appendChild(errorEl);
+      }
+
+      errorEl.textContent =
+        'Something went wrong. Please try again or email us directly.';
     }
-  };
+  });
+}
 
-  const openLightbox = (imgEl) => {
-    if (!lightbox || !lightboxImg || !imgEl) return;
-
-    const fullSrc = imgEl.dataset.full || imgEl.src;
-    const alt = imgEl.alt || "Expanded gallery image";
-
-    lightboxImg.src = fullSrc;
-    lightboxImg.alt = alt;
-    lightbox.setAttribute("aria-hidden", "false");
-    lightbox.classList.add("open");
-    document.body.classList.add("no-scroll");
-
-    lightboxLastFocus = document.activeElement;
-    lightboxOpen = true;
-
-    const closeBtn = $(".lightbox-close", lightbox);
-    closeBtn?.focus();
-  };
-
-  const closeLightbox = () => {
+// === Gallery lightbox (categorized gallery images only) ===
+(() => {
+  const initLightbox = () => {
+    const lightbox = document.getElementById('galleryLightbox');
+    const lightboxImg = document.getElementById('lightboxImage');
     if (!lightbox || !lightboxImg) return;
 
-    lightbox.setAttribute("aria-hidden", "true");
-    lightbox.classList.remove("open");
-    document.body.classList.remove("no-scroll");
+    // Only target categorized gallery images, not featured slideshow images
+    const galleryImages = document.querySelectorAll('#gallery .cat-item img');
+    if (!galleryImages.length) return;
 
-    lightboxImg.src = "";
-    lightboxImg.alt = "";
+    const closeElements = lightbox.querySelectorAll('[data-lightbox-close]');
 
-    lightboxOpen = false;
-    lightboxLastFocus?.focus?.();
-  };
+    function openLightbox(imgEl) {
+      const fullSrc = imgEl.currentSrc || imgEl.getAttribute('src');
+      if (!fullSrc) return;
 
-  galleryImages.forEach((img) => {
-    img.style.cursor = "zoom-in";
-    img.addEventListener("click", () => openLightbox(img));
-    img.addEventListener("keydown", (E) => {
-      if (E.key === "Enter" || E.key === " ") {
-        E.preventDefault();
-        openLightbox(img);
-      }
-    });
-    if (!img.hasAttribute("tabindex")) img.setAttribute("tabindex", "0");
-  });
-
-  lightboxCloseEls.forEach((el) => el.addEventListener("click", closeLightbox));
-
-  // ------------------------------
-  // Global keyboard handling
-  // ------------------------------
-  document.addEventListener("keydown", (E) => {
-    if (E.key === "Escape") {
-      if (lightboxOpen) {
-        closeLightbox();
-        return;
-      }
-      if (drawerOpen) {
-        closeDrawer();
-      }
+      lightboxImg.src = fullSrc;
+      lightboxImg.alt = imgEl.alt || '';
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('lightbox-open');
     }
 
-    trapFocus(E);
-  });
+    function closeLightbox() {
+  // Hide immediately
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('lightbox-open');
 
-  // ------------------------------
-  // Optional: smooth scroll for same-page links
-  // ------------------------------
-  $$('a[href^="#"]').forEach((link) => {
-    link.addEventListener("click", (E) => {
-      const id = link.getAttribute("href");
-      if (!id || id === "#") return;
-      const target = $(id);
-      if (!target) return;
-      E.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+  // Wait for CSS transition to finish before unloading image
+  const clearImage = () => {
+    lightboxImg.removeAttribute('src');
+    lightboxImg.alt = '';
+    lightbox.removeEventListener('transitionend', clearImage);
+  };
+
+  lightbox.addEventListener('transitionend', clearImage, { once: true });
+
+  // Fallback in case no transition fires
+  setTimeout(clearImage, 220);
+}
+
+    galleryImages.forEach((img) => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => openLightbox(img));
     });
-  });
+
+    closeElements.forEach((el) => el.addEventListener('click', closeLightbox));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && lightbox.classList.contains('open')) {
+        closeLightbox();
+      }
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLightbox);
+  } else {
+    initLightbox();
+  }
 })();
