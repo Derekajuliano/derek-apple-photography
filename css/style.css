@@ -325,7 +325,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   aspect-ratio: 16/9;
   max-height: 70vh;
   overflow: hidden;
-  background-color: rgb(253, 252, 250);
+  background-color: rgba(253,252,250,0.93);
   
 }
 .featured-slide {
