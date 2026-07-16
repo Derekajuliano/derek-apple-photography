@@ -206,21 +206,26 @@ if (contactForm) {
     if (!lightbox || !lightboxImg) return;
 
     // Only target categorized gallery images, not featured slideshow images
-    const galleryImages = document.querySelectorAll('#gallery .cat-item img');
+    const galleryImages = document.querySelectorAll('#gallery .cat-item .cat-img');
     if (!galleryImages.length) return;
 
     const closeElements = lightbox.querySelectorAll('[data-lightbox-close]');
 
+    
     function openLightbox(imgEl) {
-      const fullSrc = imgEl.currentSrc || imgEl.getAttribute('src');
-      if (!fullSrc) return;
+  const fullSrc =
+    imgEl.getAttribute('data-full') ||
+    imgEl.currentSrc ||
+    imgEl.getAttribute('src');
 
-      lightboxImg.src = fullSrc;
-      lightboxImg.alt = imgEl.alt || '';
-      lightbox.classList.add('open');
-      lightbox.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('lightbox-open');
-    }
+  if (!fullSrc) return;
+
+  lightboxImg.src = fullSrc;
+  lightboxImg.alt = imgEl.alt || '';
+  lightbox.classList.add('open');
+  lightbox.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('lightbox-open');
+}
 
     function closeLightbox() {
   // Hide immediately
