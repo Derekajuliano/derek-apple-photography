@@ -1061,3 +1061,10 @@ body.lightbox-open { overflow: hidden; }
 .nav-logo {
   transition: opacity 220ms ease, transform 220ms ease;
 }
+
+.nav-logo {
+  opacity: 0;
+  transform: scale(0.92);
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
