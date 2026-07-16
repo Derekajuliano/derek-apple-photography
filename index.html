@@ -1,290 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Derek &amp; Apple Photography</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="css/style.css?v=4" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derek &amp; Apple Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="galleryLightbox" aria-hidden="true">
-    <div class="lightbox-backdrop" data-lightbox-close></div>
-    <div
-      class="lightbox-dialog"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Expanded gallery image"
-    >
-      <button
-        class="lightbox-close"
-        type="button"
-        aria-label="Close image"
-        data-lightbox-close
-      >
-        ×
-      </button>
-      <img class="lightbox-image" id="lightboxImage" src="" alt="" />
-    </div>
+   <div class="lightbox" id="galleryLightbox" aria-hidden="true">
+  <div class="lightbox-backdrop" data-lightbox-close></div>
+  <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Expanded gallery image">
+    <button class="lightbox-close" type="button" aria-label="Close image" data-lightbox-close>×</button>
+    <img class="lightbox-image" id="lightboxImage" src="" alt="">
   </div>
+</div>
+  
 
-  <!-- NAV -->
-  <nav id="nav">
-    <div class="nav-inner">
-      <A href="#" class="nav-logo" aria-label="Derek &amp; Apple Photography">
-        <img src="assets/logo/logo.png" alt="Derek &amp; Apple Photography" />
-      </A>
-
-      <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
-        <span class="burger-line"></span>
-        <span class="burger-line"></span>
-        <span class="burger-line"></span>
-      </button>
-
-      <ul class="nav-links">
-        <li><A href="#gallery">Portfolio</A></li>
-        <li><A href="#services">Services</A></li>
-        <li><A href="#about">About</A></li>
-        <li><A href="#contact">Contact</A></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- DRAWER -->
-  <nav class="nav-drawer" id="drawer" aria-hidden="true">
-    <ul>
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <A href="#" class="nav-logo" aria-label="Derek &amp; Apple Photography">
+      <img src="assets/logo/logo.png" alt="Derek &amp; Apple Photography">
+    </A>
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+    </button>
+    <ul class="nav-links">
       <li><A href="#gallery">Portfolio</A></li>
       <li><A href="#services">Services</A></li>
       <li><A href="#about">About</A></li>
       <li><A href="#contact">Contact</A></li>
     </ul>
-  </nav>
+  </div>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-logo-circle">
-        <img class="hero-logo" src="assets/logo/logo.png" alt="Derek &amp; Apple Photography" />
-      </div>
+<!-- DRAWER (mobile / tablet) -->
+<nav class="nav-drawer" id="drawer" aria-hidden="true">
+  <ul>
+    <li><A href="#gallery">Portfolio</A></li>
+    <li><A href="#services">Services</A></li>
+    <li><A href="#about">About</A></li>
+    <li><A href="#contact">Contact</A></li>
+  </ul>
+</nav>
 
-      <P class="hero-eyebrow">Weddings &nbsp;·&nbsp; Engagements &nbsp;·&nbsp; Portraits</P>
-      <h1>Your story,<br /><em>beautifully told</em></h1>
-      <P class="hero-sub">
-        We capture the moments that matter most — with warmth, intention, and an eye for the
-        details that make your story yours.
-      </P>
-      <A href="#contact" class="hero-cta">Book A Session</A>
+<!-- HERO -->
+<section class="hero">
+
+  
+  <div class="hero-content">
+    <div class="hero-logo-circle">
+      <img class="hero-logo" src="assets/logo/logo.png" alt="Derek &amp; Apple Photography">
+    </div>
+    <P class="hero-eyebrow">Weddings &nbsp;·&nbsp; Engagements &nbsp;·&nbsp; Portraits</P>
+    <h1>Your story,<br><em>beautifully told</em></h1>
+    <P class="hero-sub">We capture the moments that matter most — with warmth, intention, and an eye for the details that make your story yours.</P>
+    <A href="#contact" class="hero-cta">Book A Session</A>
+  </div>
+  <div class="scroll-indicator"><span></span></div>
+</section>
+
+<!-- FEATURED SLIDESHOW (hero-style cycling gallery) -->
+<section class="featured-section" id="featured">
+  <div class="featured-slideshow reveal" aria-roledescription="carousel" aria-label="Featured photography">
+
+    <div class="featured-slide active" data-index="0">
+      <img class="featured-img" src="assets/images/featured/1.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="1">
+      <img class="featured-img" src="assets/images/featured/2.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="2">
+      <img class="featured-img" src="assets/images/featured/3.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="3">
+      <img class="featured-img" src="assets/images/featured/4.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="4">
+      <img class="featured-img" src="assets/images/featured/5.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
+    </div>
+    <div class="featured-slide" data-index="5">
+      <img class="featured-img" src="assets/images/featured/6.jpg" alt="" onerror="this.style.display='none'">
+      <div class="featured-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg></div>
     </div>
 
-    <div class="scroll-indicator"><span></span></div>
-  </section>
+    <button class="featured-arrow featured-prev" aria-label="Previous slide" type="button">‹</button>
+    <button class="featured-arrow featured-next" aria-label="Next slide" type="button">›</button>
 
-  <!-- FEATURED -->
-  <section class="featured-section" id="featured">
-    <div class="featured-slideshow reveal" aria-roledescription="carousel" aria-label="Featured photography">
-      <div class="featured-slide active" data-index="0">
-        <img class="featured-img" src="assets/images/featured/1.jpg" alt="Featured photo 1" onerror="this.style.display='none'" />
-      </div>
-      <div class="featured-slide" data-index="1">
-        <img class="featured-img" src="assets/images/featured/2.jpg" alt="Featured photo 2" onerror="this.style.display='none'" />
-      </div>
-      <div class="featured-slide" data-index="2">
-        <img class="featured-img" src="assets/images/featured/3.jpg" alt="Featured photo 3" onerror="this.style.display='none'" />
-      </div>
-      <div class="featured-slide" data-index="3">
-        <img class="featured-img" src="assets/images/featured/4.jpg" alt="Featured photo 4" onerror="this.style.display='none'" />
-      </div>
-      <div class="featured-slide" data-index="4">
-        <img class="featured-img" src="assets/images/featured/5.jpg" alt="Featured photo 5" onerror="this.style.display='none'" />
-      </div>
-      <div class="featured-slide" data-index="5">
-        <img class="featured-img" src="assets/images/featured/6.jpg" alt="Featured photo 6" onerror="this.style.display='none'" />
-      </div>
+    <div class="featured-dots" role="tablist" aria-label="Choose slide">
+      <button class="featured-dot active" data-index="0" aria-label="Slide 1" type="button"></button>
+      <button class="featured-dot"        data-index="1" aria-label="Slide 2" type="button"></button>
+      <button class="featured-dot"        data-index="2" aria-label="Slide 3" type="button"></button>
+      <button class="featured-dot"        data-index="3" aria-label="Slide 4" type="button"></button>
+      <button class="featured-dot"        data-index="4" aria-label="Slide 5" type="button"></button>
+      <button class="featured-dot"        data-index="5" aria-label="Slide 6" type="button"></button>
+    </div>
 
-      <button class="featured-arrow featured-prev" aria-label="Previous slide" type="button">‹</button>
-      <button class="featured-arrow featured-next" aria-label="Next slide" type="button">›</button>
+  </div>
+</section>
 
-      <div class="featured-dots" role="tablist" aria-label="Choose slide">
-        <button class="featured-dot active" data-index="0" aria-label="Slide 1" type="button"></button>
-        <button class="featured-dot" data-index="1" aria-label="Slide 2" type="button"></button>
-        <button class="featured-dot" data-index="2" aria-label="Slide 3" type="button"></button>
-        <button class="featured-dot" data-index="3" aria-label="Slide 4" type="button"></button>
-        <button class="featured-dot" data-index="4" aria-label="Slide 5" type="button"></button>
-        <button class="featured-dot" data-index="5" aria-label="Slide 6" type="button"></button>
+<!-- GALLERY — categorized (Weddings · Family · Engagements) -->
+<section class="gallery-section" id="gallery">
+  <div class="section-header reveal">
+    <P class="section-eyebrow">Our Work</P>
+    <h2 class="section-title">Browse Our Galleries</h2>
+    <svg class="art-nouveau-divider" viewBox="0 0 520 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="260,8 270,18 260,28 250,18" fill="currentColor" opacity="0.5"/>
+      <path D="M248,18 C220,18 200,10 180,18 C160,26 140,18 120,18 C100,18 80,10 60,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path D="M200,18 C200,10 195,4 190,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <path D="M160,18 C160,26 155,30 150,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <path D="M120,18 C120,10 115,5 111,9" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <circle cx="60" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+      <circle cx="40" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="28" cy="18" R="2.5" fill="currentColor" opacity="0.35"/>
+      <line x1="28" x2="8" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+      <path D="M272,18 C300,18 320,10 340,18 C360,26 380,18 400,18 C420,18 440,10 460,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path D="M320,18 C320,10 325,4 330,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <path D="M360,18 C360,26 365,30 370,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <path D="M400,18 C400,10 405,5 409,9" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+      <circle cx="460" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+      <circle cx="480" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="492" cy="18" R="2.5" fill="currentColor" opacity="0.35"/>
+      <line x1="492" x2="512" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+    </svg>
+    <P class="cat-helper">Choose a category to view those moments.</P>
+  </div>
+
+  <div class="cat-tabs reveal" role="tablist" aria-label="Photo categories">
+    <button class="cat-tab active" role="tab" aria-selected="true"  data-category="weddings"    type="button">
+      <span class="cat-tab-label">Weddings</span>
+    </button>
+    <button class="cat-tab"        role="tab" aria-selected="false" data-category="family"      type="button">
+      <span class="cat-tab-label">Family</span>
+    </button>
+    <button class="cat-tab"        role="tab" aria-selected="false" data-category="engagements" type="button">
+      <span class="cat-tab-label">Engagements</span>
+    </button>
+  </div>
+
+  <div class="cat-panels">
+
+    <!-- WEDDINGS -->
+    <div class="cat-panel active" role="tabpanel" data-category="weddings" aria-label="Wedding photos">
+      <div class="cat-grid">
+    <div class="cat-item"><img class="cat-img" src="assets/images/weddings/thumbs/1.jpg" data-full="assets/images/weddings/full/1.jpg" alt="Weddings photo 1" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/weddings/thumbs/2.jpg" data-full="assets/images/weddings/full/2.jpg" alt="Weddings photo 2" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/weddings/thumbs/3.jpg" data-full="assets/images/weddings/full/3.jpg" alt="Weddings photo 3" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/weddings/thumbs/4.jpg" data-full="assets/images/weddings/full/4.jpg" alt="Weddings photo 4" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/weddings/thumbs/5.jpg" data-full="assets/images/weddings/full/5.jpg" alt="Weddings photo 5" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/weddings/thumbs/6.jpg" data-full="assets/images/weddings/full/6.jpg" alt="Weddings photo 6" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/weddings/thumbs/7.jpg" data-full="assets/images/weddings/full/7.jpg" alt="Weddings photo 7" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/weddings/thumbs/8.jpg" data-full="assets/images/weddings/full/8.jpg" alt="Weddings photo 8" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+  </div>
+    </div>
+
+    <!-- FAMILY -->
+    <div class="cat-panel" role="tabpanel" data-category="family" aria-label="Family photos" hidden>
+      <div class="cat-grid">
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/thumbs/1.jpg" data-full="assets/images/family/full/1.jpg" alt="Family photo 1" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+        <div class="cat-item"><img class="cat-img" src="assets/images/family/thumbs/2.jpg" data-full="assets/images/family/full/2.jpg" alt="Family photo 2" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+      
       </div>
     </div>
-  </section>
 
-  <!-- GALLERY -->
-  <section class="gallery-section" id="gallery">
+    <!-- ENGAGEMENTS -->
+<div class="cat-panel" role="tabpanel" data-category="engagements" aria-label="Engagement photos" hidden>
+  <div class="cat-grid">
+    <div class="cat-item"><img class="cat-img" src="assets/images/engagements/thumbs/1.jpg" data-full="assets/images/engagements/full/1.jpg" alt="Engagements photo 1" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/engagements/thumbs/2.jpg" data-full="assets/images/engagements/full/2.jpg" alt="Engagements photo 2" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/engagements/thumbs/3.jpg" data-full="assets/images/engagements/full/3.jpg" alt="Engagements photo 3" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/engagements/thumbs/4.jpg" data-full="assets/images/engagements/full/4.jpg" alt="Engagements photo 4" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/engagements/thumbs/5.jpg" data-full="assets/images/engagements/full/5.jpg" alt="Engagements photo 5" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/engagements/thumbs/6.jpg" data-full="assets/images/engagements/full/6.jpg" alt="Engagements photo 6" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/engagements/thumbs/7.jpg" data-full="assets/images/engagements/full/7.jpg" alt="Engagements photo 7" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+    <div class="cat-item"><img class="cat-img" src="assets/images/engagements/thumbs/8.jpg" data-full="assets/images/engagements/full/8.jpg" alt="Engagements photo 8" loading="lazy" onerror="this.style.display='none'"><div class="cat-ph"><svg viewBox="0 0 24 24"><path D="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" R="4"/></svg><span class="cat-ph-label">Engagement</span></div></div>
+  </div>
+</div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="container">
     <div class="section-header reveal">
-      <P class="section-eyebrow">Our Work</P>
-      <h2 class="section-title">Browse Our Galleries</h2>
-      <P class="cat-helper">Choose a category to view those moments.</P>
+      <P class="section-eyebrow">What We Do</P>
+      <h2 class="section-title">Our Services</h2>
+      <svg class="art-nouveau-divider" viewBox="0 0 520 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="260,8 270,18 260,28 250,18" fill="currentColor" opacity="0.5"/>
+        <path D="M248,18 C220,18 200,10 180,18 C160,26 140,18 120,18 C100,18 80,10 60,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+        <path D="M200,18 C200,10 195,4 190,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+        <path D="M160,18 C160,26 155,30 150,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+        <circle cx="60" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+        <circle cx="40" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+        <line x1="28" x2="8" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+        <path D="M272,18 C300,18 320,10 340,18 C360,26 380,18 400,18 C420,18 440,10 460,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+        <path D="M320,18 C320,10 325,4 330,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+        <path D="M360,18 C360,26 365,30 370,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+        <circle cx="460" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+        <circle cx="480" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+        <line x1="492" x2="512" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+      </svg>
     </div>
+    <div class="services-grid">
 
-    <div class="cat-tabs reveal" role="tablist" aria-label="Photo categories">
-      <button class="cat-tab active" role="tab" aria-selected="true" data-category="weddings" type="button">
-        <span class="cat-tab-label">Weddings</span>
-      </button>
-      <button class="cat-tab" role="tab" aria-selected="false" data-category="family" type="button">
-        <span class="cat-tab-label">Family</span>
-      </button>
-      <button class="cat-tab" role="tab" aria-selected="false" data-category="engagements" type="button">
-        <span class="cat-tab-label">Engagements</span>
-      </button>
-    </div>
-
-    <div class="cat-panels">
-      <!-- WEDDINGS -->
-      <div class="cat-panel active" role="tabpanel" data-category="weddings" aria-label="Wedding photos">
-        <div class="cat-grid">
-          <div class="cat-item"><img class="cat-img" src="assets/images/weddings/thumbs/1.jpg" data-full="assets/images/weddings/full/1.jpg" alt="Wedding photo 1" loading="lazy" onerror="this.style.display='none'" /><div class="cat-ph"><span class="cat-ph-label">Wedding</span></div></div>
-          <div class="cat-item"><img class="cat-img" src="assets/images/weddings/thumbs/2.jpg" data-full="assets/images/weddings/full/2.jpg" alt="Wedding photo 2" loading="lazy" onerror="this.style.display='none'" /><div class="cat-ph"><span class="cat-ph-label">Wedding</span></div></div>
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path D="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="service-body">
+          <h3>Weddings</h3>
+          <P>Full-day and half-day coverage capturing every meaningful moment — from getting ready to the last dance.</P>
         </div>
       </div>
 
-      <!-- FAMILY -->
-      <div class="cat-panel" role="tabpanel" data-category="family" aria-label="Family photos" hidden>
-        <div class="cat-grid">
-          <div class="cat-item"><img class="cat-img" src="assets/images/family/thumbs/1.jpg" data-full="assets/images/family/full/1.jpg" alt="Family photo 1" loading="lazy" onerror="this.style.display='none'" /><div class="cat-ph"><span class="cat-ph-label">Family</span></div></div>
-          <div class="cat-item"><img class="cat-img" src="assets/images/family/thumbs/2.jpg" data-full="assets/images/family/full/2.jpg" alt="Family photo 2" loading="lazy" onerror="this.style.display='none'" /><div class="cat-ph"><span class="cat-ph-label">Family</span></div></div>
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" R="10"/><path D="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <div class="service-body">
+          <h3>Engagements</h3>
+          <P>Relaxed, natural sessions at a location that means something to you — where your connection takes center stage.</P>
         </div>
       </div>
 
-      <!-- ENGAGEMENTS -->
-      <div class="cat-panel" role="tabpanel" data-category="engagements" aria-label="Engagement photos" hidden>
-        <div class="cat-grid">
-          <div class="cat-item"><img class="cat-img" src="assets/images/engagements/thumbs/1.jpg" data-full="assets/images/engagements/full/1.jpg" alt="Engagement photo 1" loading="lazy" onerror="this.style.display='none'" /><div class="cat-ph"><span class="cat-ph-label">Engagement</span></div></div>
-          <div class="cat-item"><img class="cat-img" src="assets/images/engagements/thumbs/2.jpg" data-full="assets/images/engagements/full/2.jpg" alt="Engagement photo 2" loading="lazy" onerror="this.style.display='none'" /><div class="cat-ph"><span class="cat-ph-label">Engagement</span></div></div>
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path D="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" R="4"/><path D="M23 21v-2a4 4 0 0 0-3-3.87"/><path D="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
+        <div class="service-body">
+          <h3>Family Portraits</h3>
+          <P>Authentic, joyful images of your family — the chaos, the laughter, and the quiet in-between moments.</P>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="about-layout">
+      <!-- Drop a photo at assets/images/about/derek-apple.jpg and it replaces this brand panel automatically -->
+      <div class="about-brand reveal">
+        <img class="about-photo" src="assets/images/about/derek-apple.jpg" alt="Derek and Apple" onerror="this.style.display='none'">
+      </div>
+      <div class="about-content reveal">
+        <P class="section-eyebrow">Nice to Meet You</P>
+        <h2 class="section-title">We're Derek &amp; Apple</h2>
+        <P class="about-text">We're a husband-and-wife photography team who believe the best images come from real connection. Our approach is simple: we get to know you, make you feel comfortable, and let the moments unfold naturally.</P>
+        <P class="about-text">Whether it's your wedding day, a quiet engagement session, or a lively family gathering — we're here to capture the feeling of it, not just the look.</P>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- SERVICES -->
-  <section class="services-section" id="services">
-    <div class="container">
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="contact-wrap">
       <div class="section-header reveal">
-        <P class="section-eyebrow">What We Do</P>
-        <h2 class="section-title">Our Services</h2>
+        <P class="section-eyebrow">Get in Touch</P>
+        <h2 class="section-title">Let's Work Together</h2>
+        <svg class="art-nouveau-divider" viewBox="0 0 520 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="260,8 270,18 260,28 250,18" fill="currentColor" opacity="0.5"/>
+          <path D="M248,18 C220,18 200,10 180,18 C160,26 140,18 120,18 C100,18 80,10 60,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+          <path D="M200,18 C200,10 195,4 190,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+          <path D="M160,18 C160,26 155,30 150,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+          <circle cx="60" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+          <circle cx="40" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+          <line x1="28" x2="8" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+          <path D="M272,18 C300,18 320,10 340,18 C360,26 380,18 400,18 C420,18 440,10 460,18" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>
+          <path D="M320,18 C320,10 325,4 330,8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+          <path D="M360,18 C360,26 365,30 370,26" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
+          <circle cx="460" cy="18" R="3" fill="currentColor" opacity="0.45"/>
+          <circle cx="480" cy="18" R="1.5" fill="currentColor" opacity="0.3"/>
+          <line x1="492" x2="512" y1="18" y2="18" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+        </svg>
+        <P class="contact-email-note">
+          Prefer to email? <A href="mailto:booking@derekandapple.com">booking@derekandapple.com</A>
+        </P>
       </div>
-
-      <div class="services-grid">
-        <div class="service-card reveal">
-          <div class="service-body">
-            <h3>Weddings</h3>
-            <P>Full-day and half-day coverage capturing every meaningful moment — from getting ready to the last dance.</P>
-          </div>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-body">
-            <h3>Engagements</h3>
-            <P>Relaxed, natural sessions at a location that means something to you — where your connection takes center stage.</P>
-          </div>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-body">
-            <h3>Family Portraits</h3>
-            <P>Authentic, joyful images of your family — the chaos, the laughter, and the quiet in-between moments.</P>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section class="about-section" id="about">
-    <div class="container">
-      <div class="about-layout">
-        <div class="about-brand reveal">
-          <img class="about-photo" src="assets/images/about/derek-apple.jpg" alt="Derek and Apple" onerror="this.style.display='none'" />
-        </div>
-        <div class="about-content reveal">
-          <P class="section-eyebrow">Nice to Meet You</P>
-          <h2 class="section-title">We're Derek &amp; Apple</h2>
-          <P class="about-text">
-            We're a husband-and-wife photography team who believe the best images come from real connection.
-          </P>
-          <P class="about-text">
-            Whether it's your wedding day, a quiet engagement session, or a lively family gathering — we're here to capture the feeling of it, not just the look.
-          </P>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="contact-section" id="contact">
-    <div class="container">
-      <div class="contact-wrap">
-        <div class="section-header reveal">
-          <P class="section-eyebrow">Get in Touch</P>
-          <h2 class="section-title">Let's Work Together</h2>
-          <P class="contact-email-note">
-            Prefer to email? <A href="mailto:booking@derekandapple.com">booking@derekandapple.com</A>
-          </P>
-        </div>
-
-        <form class="contact-form reveal" name="contact" method="POST" action="#">
-          <P class="ohnohoney" aria-hidden="true">
-            <label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
-          </P>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required placeholder="Your name" />
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required placeholder="you@example.com" />
-            </div>
-          </div>
-
+      <form class="contact-form reveal" name="contact" method="POST">
+        <P class="ohnohoney">
+          <label>Don't fill this out: <input name="bot-field"></label>
+        </P>
+        <div class="form-row">
           <div class="form-group">
-            <label for="session-type">Session Type</label>
-            <select id="session-type" name="session-type">
-              <option value="" disabled selected>Choose one</option>
-              <option value="wedding">Wedding</option>
-              <option value="engagement">Engagement</option>
-              <option value="family">Family Portraits</option>
-              <option value="other">Other</option>
-            </select>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your name">
           </div>
-
           <div class="form-group">
-            <label for="message">Tell Us About Your Vision</label>
-            <textarea id="message" name="message" placeholder="Date, location, and anything else you'd like us to know..."></textarea>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="you@example.com">
           </div>
-
-          <button type="submit" class="submit-btn">Send Message</button>
-        </form>
-      </div>
+        </div>
+        <div class="form-group">
+          <label for="session-type">Session Type</label>
+          <select id="session-type" name="session-type">
+            <option value="" disabled selected>Choose one</option>
+            <option value="wedding">Wedding</option>
+            <option value="engagement">Engagement</option>
+            <option value="family">Family Portraits</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Tell Us About Your Vision</label>
+          <textarea id="message" name="message" placeholder="Date, location, and anything else you'd like us to know..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <P class="footer-logo">Derek &amp; Apple Photography</P>
-      <ul class="footer-links">
-        <li><A href="#gallery">Portfolio</A></li>
-        <li><A href="#about">About</A></li>
-        <li><A href="#contact">Contact</A></li>
-      </ul>
-      <P class="footer-copy">&copy; 2026 Derek &amp; Apple Photography. All rights reserved.</P>
-    </div>
-  </footer>
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <P class="footer-logo">Derek &amp; Apple Photography</P>
+    <ul class="footer-links">
+      <li><A href="#gallery">Portfolio</A></li>
+      <li><A href="#about">About</A></li>
+      <li><A href="#contact">Contact</A></li>
+    </ul>
+    <P class="footer-copy">&copy; 2026 Derek &amp; Apple Photography. All rights reserved.</P>
+  </div>
+</footer>
 
-  <script src="js/main.js" defer></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>
