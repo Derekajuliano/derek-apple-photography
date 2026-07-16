@@ -326,7 +326,7 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
   max-height: 70vh;
   overflow: hidden;
   background-color: rgb(253, 252, 250);
-  box-shadow: 0 2px 40px rgba(26,23,20,0.08);
+  
 }
 .featured-slide {
   position: absolute;
