@@ -204,8 +204,8 @@ nav.scrolled { box-shadow: 0 1px 24px rgba(0,0,0,0.055); }
 }
 
 .hero-logo-circle {
-  width: clamp(160px, 28vw, 280px);
-  height: clamp(160px, 28vw, 280px);
+  width: clamp(190px, 32vw, 340px);
+  height: clamp(190px, 32vw, 340px);
   margin: 0 auto 2.5rem;
   background: #fff;
   border-radius: 50%;
