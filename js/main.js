@@ -266,3 +266,28 @@ if (contactForm) {
     initLightbox();
   }
 })();
+
+// Nav logo show/hide based on scroll position
+(function () {
+  const nav = document.querySelector("nav");
+  const logo = document.querySelector(".nav-logo");
+  if (!nav || !logo) return;
+
+  const updateNavLogoVisibility = () => {
+    const atTop = window.scrollY <= 0;
+
+    // Keep your existing scrolled class behavior
+    nav.classList.toggle("scrolled", !atTop);
+
+    // Hide logo at very top, show once user scrolls
+    logo.style.opacity = atTop ? "0" : "1";
+    logo.style.transform = atTop ? "scale(0.92)" : "scale(1)";
+    logo.style.pointerEvents = atTop ? "none" : "auto";
+  };
+
+  // Smooth transition
+  logo.style.transition = "opacity 220ms ease, transform 220ms ease";
+
+  updateNavLogoVisibility();
+  window.addEventListener("scroll", updateNavLogoVisibility, { passive: true });
+})();
