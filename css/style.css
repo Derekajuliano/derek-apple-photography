@@ -1057,3 +1057,7 @@ body.lightbox-open { overflow: hidden; }
   object-fit: cover;
   display: block;
 }
+
+.nav-logo {
+  transition: opacity 220ms ease, transform 220ms ease;
+}
