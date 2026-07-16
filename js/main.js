@@ -267,20 +267,33 @@ if (contactForm) {
   }
 })();
 
-// Nav logo show/hide based on scroll position
-(function () {
-  const logo = document.querySelector('.nav-logo');
-  if (!logo) return;
+// Nav logo appears only after main hero logo is out of view
+(() => {
+  const navLogo = document.querySelector('.nav-logo');
+  const heroLogo = document.querySelector('.hero-logo-circle'); // main logo in hero
+  if (!navLogo || !heroLogo) return;
 
-  const updateLogo = () => {
-    const showLogo = window.scrollY > 0; // hide only when fully at top
-    logo.style.opacity = showLogo ? '1' : '0';
-    logo.style.transform = showLogo ? 'scale(1)' : 'scale(0.92)';
-    logo.style.pointerEvents = showLogo ? 'auto' : 'none';
+  const showNavLogo = (show) => {
+    navLogo.style.opacity = show ? '1' : '0';
+    navLogo.style.transform = show ? 'scale(1)' : 'scale(0.92)';
+    navLogo.style.pointerEvents = show ? 'auto' : 'none';
   };
 
-  logo.style.transition = 'opacity 220ms ease, transform 220ms ease';
+  navLogo.style.transition = 'opacity 220ms ease, transform 220ms ease';
 
-  updateLogo();
-  window.addEventListener('scroll', updateLogo, { passive: true });
+  // Initial state: hidden while hero logo is visible
+  showNavLogo(false);
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      // If hero logo is visible, hide nav logo. If not visible, show it.
+      showNavLogo(!entry.isIntersecting);
+    },
+    {
+      root: null,
+      threshold: 0.01
+    }
+  );
+
+  observer.observe(heroLogo);
 })();
