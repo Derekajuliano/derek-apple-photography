@@ -6,7 +6,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  * CURRENT STATE: PRODUCTION
  * ─────────────────────────────────────────────────────────────────────────────
- *   TO_ADDRESS   = booking@derekandapple.com
+ *   TO_ADDRESS   = photos@derekandapple.com
  *   FROM_ADDRESS = noreply@derekandapple.com  (verified domain)
  *   reply_to     = the visitor's submitted email (clicking Reply goes to them)
  *
@@ -37,7 +37,7 @@
  */
 
 // ── Production addresses ─────────────────────────────────────────────────────
-const TO_ADDRESS = 'booking@derekandapple.com';
+const TO_ADDRESS = 'photos@derekandapple.com';
 const FROM_ADDRESS = 'Derek & Apple Website <noreply@derekandapple.com>';
 
 export async function onRequestPost(context) {
@@ -77,7 +77,7 @@ export async function onRequestPost(context) {
     // Basic validation
     if (!name || !email || !message) {
       console.warn(`[contact ${ts}] validation failed — missing required fields`);
-      return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+      return new Response(json.stringify({ error: 'Missing required fields' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -111,7 +111,7 @@ export async function onRequestPost(context) {
         'Authorization': `Bearer ${context.env.RESEND_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(resendPayload),
+      body: json.stringify(resendPayload),
     });
 
     let resendBody = '';
