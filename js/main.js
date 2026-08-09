@@ -171,7 +171,7 @@ if (contactForm) {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: json.stringify(data)
+        body: JSON.stringify(data)
       });
 
       if (response.ok) {
