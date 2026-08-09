@@ -77,7 +77,7 @@ export async function onRequestPost(context) {
     // Basic validation
     if (!name || !email || !message) {
       console.warn(`[contact ${ts}] validation failed — missing required fields`);
-      return new Response(json.stringify({ error: 'Missing required fields' }), {
+      return new Response(JSON.stringify({ error: 'Missing required fields' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -111,7 +111,7 @@ export async function onRequestPost(context) {
         'Authorization': `Bearer ${context.env.RESEND_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: json.stringify(resendPayload),
+      body: JSON.stringify(resendPayload),
     });
 
     let resendBody = '';
