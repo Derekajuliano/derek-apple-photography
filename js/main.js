@@ -168,7 +168,7 @@ if (contactForm) {
     const data = Object.fromEntries(new FormData(contactForm));
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/JSON' },
         body: JSON.stringify(data)
