@@ -37,7 +37,7 @@
  */
 
 // ── Production addresses ─────────────────────────────────────────────────────
-const TO_ADDRESS = 'photos@derekandapple.com';
+const TO_ADDRESS = 'booking@derekandapple.com';
 const FROM_ADDRESS = 'Derek & Apple Website <noreply@derekandapple.com>';
 
 export async function onRequestPost(context) {
