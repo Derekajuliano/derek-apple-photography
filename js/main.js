@@ -149,7 +149,7 @@ document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el))
   });
 })();
 
-// Contact form — Cloudflare Pages Function handler
+// Contact form — Cloudflare Worker route handler
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
   contactForm.addEventListener('submit', async (event) => {

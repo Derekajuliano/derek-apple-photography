@@ -8,7 +8,7 @@ Thumbs.db
 *.swp
 *.swo
 
-# Cloudflare Pages local dev
+# Cloudflare local dev
 .wrangler/
 .cf/
 
