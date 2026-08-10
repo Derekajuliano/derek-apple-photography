@@ -1,0 +1,6 @@
+name = "derek-apple-photography"
+compatibility_date = "2026-08-10"
+pages_build_output_dir = "."
+
+[pages]
+functions = "./functions"

@@ -72,9 +72,10 @@ npx --yes serve .
 4. Build settings:
    - **Framework preset:** `None`
    - **Build command:** *(leave empty)*
-   - **Build output directory:** `/` (root)
-5. **Save and Deploy.** Cloudflare serves `index.html` from the root and auto-detects `functions/` for Pages Functions.
-6. Custom domain: Cloudflare Dashboard → Pages project → **Custom domains** → add the client's domain. (Nameservers must be pointed to Cloudflare first — see **DNS setup** below.)
+   - **Build output directory:** `.` (repo root)
+5. The checked-in Wrangler config (`/home/runner/work/derek-apple-photography/derek-apple-photography/wrangler.toml`) explicitly deploys the repo root as the Pages output and maps Pages Functions to `functions/`.
+6. **Save and Deploy.** Cloudflare serves `index.html` from the root and deploys the `/api/contact` handler from `functions/api/contact.js`.
+7. Custom domain: Cloudflare Dashboard → Pages project → **Custom domains** → add the client's domain. (Nameservers must be pointed to Cloudflare first — see **DNS setup** below.)
 
 ---
 
