@@ -8,6 +8,17 @@ function jsonResponse(body, status) {
   });
 }
 
+function contactMethodHeaders(request) {
+  const origin = request.headers.get('Origin');
+
+  return {
+    Allow: 'POST, OPTIONS',
+    'Access-Control-Allow-Origin': origin || '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+}
+
 async function handleContact(request, env) {
   const ts = new Date().toISOString();
   console.log(`[contact ${ts}] invoked`);
@@ -125,11 +136,24 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === '/api/contact') {
+      if (request.method === 'OPTIONS') {
+        return new Response(null, {
+          status: 204,
+          headers: contactMethodHeaders(request),
+        });
+      }
+
       if (request.method === 'POST') {
         return handleContact(request, env);
       }
 
-      return jsonResponse({ error: 'Method not allowed' }, 405);
+      return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+        status: 405,
+        headers: {
+          'Content-Type': 'application/json',
+          ...contactMethodHeaders(request),
+        },
+      });
     }
 
     return env.ASSETS.fetch(request);
