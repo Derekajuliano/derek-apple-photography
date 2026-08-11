@@ -154,6 +154,16 @@ async function handleContact(request, env) {
       body: resendBody,
     });
 
+    // TEMPORARY DIAGNOSTIC — remove once the Resend rejection is resolved.
+    // Only exposed when an X-Diag header is sent, so real visitors never see it.
+    if (request.headers.get('X-Diag')) {
+      return jsonResponse({
+        error: 'Unable to send message right now',
+        resendStatus: resendRes.status,
+        resendBody: resendBody.slice(0, 400),
+      }, 502, contactCorsHeaders(request));
+    }
+
     return jsonResponse({
       error: 'Unable to send message right now',
     }, 502, contactCorsHeaders(request));
