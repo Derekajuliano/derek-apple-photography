@@ -8,12 +8,21 @@ function jsonResponse(body, status, headers = {}) {
   });
 }
 
-function contactCorsHeaders() {
-  return {
-    'Access-Control-Allow-Origin': '*',
+function contactCorsHeaders(request) {
+  const headers = {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };
+
+  const origin = request.headers.get('Origin');
+  const requestOrigin = new URL(request.url).origin;
+
+  if (origin && origin === requestOrigin) {
+    headers['Access-Control-Allow-Origin'] = origin;
+    headers.Vary = 'Origin';
+  }
+
+  return headers;
 }
 
 async function handleContact(request, env) {
@@ -25,7 +34,7 @@ async function handleContact(request, env) {
     return jsonResponse({
       error: 'Server misconfiguration',
       detail: 'RESEND_API_KEY env var not set on the Cloudflare project',
-    }, 500, contactCorsHeaders());
+    }, 500, contactCorsHeaders(request));
   }
 
   try {
@@ -44,13 +53,13 @@ async function handleContact(request, env) {
       console.log(`[contact ${ts}] honeypot triggered, dropping silently`);
       return new Response('OK', {
         status: 200,
-        headers: contactCorsHeaders(),
+        headers: contactCorsHeaders(request),
       });
     }
 
     if (!name || !email || !message) {
       console.warn(`[contact ${ts}] validation failed — missing required fields`);
-      return jsonResponse({ error: 'Missing required fields' }, 400, contactCorsHeaders());
+      return jsonResponse({ error: 'Missing required fields' }, 400, contactCorsHeaders(request));
     }
 
     const resendPayload = {
@@ -106,7 +115,7 @@ async function handleContact(request, env) {
 
     if (resendRes.ok) {
       console.log(`[contact ${ts}] success — accepted by Resend`);
-      return jsonResponse({ success: true }, 200, contactCorsHeaders());
+      return jsonResponse({ success: true }, 200, contactCorsHeaders(request));
     }
 
     console.error(`[contact ${ts}] Resend rejected the send`, {
@@ -121,13 +130,13 @@ async function handleContact(request, env) {
         statusText: resendRes.statusText,
         body: resendBody,
       },
-    }, 502, contactCorsHeaders());
+    }, 502, contactCorsHeaders(request));
   } catch (err) {
     console.error(`[contact ${ts}] unexpected error`, {
       message: err.message,
       stack: err.stack,
     });
-    return jsonResponse({ error: err.message }, 500, contactCorsHeaders());
+    return jsonResponse({ error: err.message }, 500, contactCorsHeaders(request));
   }
 }
 
@@ -141,7 +150,7 @@ export default {
           status: 204,
           headers: {
             Allow: 'POST, OPTIONS',
-            ...contactCorsHeaders(),
+            ...contactCorsHeaders(request),
           },
         });
       }
@@ -152,7 +161,7 @@ export default {
 
       return jsonResponse({ error: 'Method not allowed' }, 405, {
         Allow: 'POST, OPTIONS',
-        ...contactCorsHeaders(),
+        ...contactCorsHeaders(request),
       });
     }
 

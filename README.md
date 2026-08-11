@@ -182,7 +182,7 @@ Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its send
 - [x] Zoho Mail records in Cloudflare DNS (MX, SPF, DKIM)
 - [x] Resend records in Cloudflare DNS (DKIM TXT, `send` SPF TXT, `send` MX); domain verified in Resend
 - [x] Cloudflare custom domain bound to `derekandapple.com`
-- [ ] Confirm both CNAMEs exist in Cloudflare DNS: `@` and `www` → `derek-apple-photography.pages.dev` (proxied)
+- [ ] Confirm both CNAMEs exist in Cloudflare DNS: `@` and `www` → the assigned `workers.dev` hostname (proxied)
 - [ ] End-to-end test from the live `derekandapple.com` form (submit + confirm receipt at `booking@`)
 - [ ] Drop 6 featured slideshow photos at `assets/images/featured/1.jpg`–`6.jpg`
 - [ ] Drop 8 wedding photos at `assets/images/weddings/1.jpg`–`8.jpg`
