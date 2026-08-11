@@ -33,7 +33,7 @@ function contactCorsHeaders(request) {
 }
 
 function isValidEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  return !/[\r\n]/.test(value) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
 async function handleContact(request, env) {
