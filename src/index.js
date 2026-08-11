@@ -152,6 +152,7 @@ export default {
 
       return jsonResponse({ error: 'Method not allowed' }, 405, {
         Allow: 'POST, OPTIONS',
+        ...contactCorsHeaders(),
       });
     }
 
