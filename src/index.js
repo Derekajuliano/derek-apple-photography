@@ -32,6 +32,10 @@ function contactCorsHeaders(request) {
   return headers;
 }
 
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
 async function handleContact(request, env) {
   const ts = new Date().toISOString();
   console.log(`[contact ${ts}] invoked`);
@@ -73,6 +77,11 @@ async function handleContact(request, env) {
     if (!name || !email || !message) {
       console.warn(`[contact ${ts}] validation failed — missing required fields`);
       return jsonResponse({ error: 'Missing required fields' }, 400, contactCorsHeaders(request));
+    }
+
+    if (!isValidEmail(email)) {
+      console.warn(`[contact ${ts}] validation failed — invalid email`);
+      return jsonResponse({ error: 'Invalid email address' }, 400, contactCorsHeaders(request));
     }
 
     const resendPayload = {
