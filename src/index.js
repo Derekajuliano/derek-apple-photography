@@ -8,14 +8,6 @@ function jsonResponse(body, status, headers = {}) {
   });
 }
 
-function requestOrigin(request) {
-  const url = new URL(request.url);
-  const host = request.headers.get('Host') || url.host;
-  const protocol = request.headers.get('X-Forwarded-Proto') || url.protocol.replace(':', '');
-
-  return `${protocol}://${host}`;
-}
-
 function contactCorsHeaders(request) {
   const headers = {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -23,8 +15,9 @@ function contactCorsHeaders(request) {
   };
 
   const origin = request.headers.get('Origin');
+  const url = new URL(request.url);
   const allowedOrigins = new Set([
-    requestOrigin(request),
+    url.origin,
     'https://derekandapple.com',
     'https://www.derekandapple.com',
     'http://localhost:8787',
@@ -45,10 +38,7 @@ async function handleContact(request, env) {
 
   if (!env?.RESEND_API_KEY) {
     console.error(`[contact ${ts}] RESEND_API_KEY is missing from environment`);
-    return jsonResponse({
-      error: 'Server misconfiguration',
-      detail: 'RESEND_API_KEY env var not set on the Cloudflare Worker',
-    }, 500, contactCorsHeaders(request));
+    return jsonResponse({ error: 'Server misconfiguration' }, 500, contactCorsHeaders(request));
   }
 
   try {
