@@ -41,8 +41,17 @@ async function handleContact(request, env) {
     return jsonResponse({ error: 'Server misconfiguration' }, 500, contactCorsHeaders(request));
   }
 
+  let body;
   try {
-    const body = await request.json();
+    body = await request.json();
+  } catch (err) {
+    console.warn(`[contact ${ts}] invalid request body`, {
+      message: err.message,
+    });
+    return jsonResponse({ error: 'Invalid request body' }, 400, contactCorsHeaders(request));
+  }
+
+  try {
     const { name, email, 'session-type': sessionType, message, 'bot-field': honeypot } = body;
 
     console.log(`[contact ${ts}] payload received`, {
