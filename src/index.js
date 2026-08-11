@@ -47,7 +47,7 @@ async function handleContact(request, env) {
     console.error(`[contact ${ts}] RESEND_API_KEY is missing from environment`);
     return jsonResponse({
       error: 'Server misconfiguration',
-      detail: 'RESEND_API_KEY env var not set on the Cloudflare project',
+      detail: 'RESEND_API_KEY env var not set on the Cloudflare Worker',
     }, 500, contactCorsHeaders(request));
   }
 
@@ -145,7 +145,7 @@ async function handleContact(request, env) {
       message: err.message,
       stack: err.stack,
     });
-    return jsonResponse({ error: err.message }, 500, contactCorsHeaders(request));
+    return jsonResponse({ error: 'Internal server error' }, 500, contactCorsHeaders(request));
   }
 }
 
