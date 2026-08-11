@@ -69,8 +69,8 @@ npx --yes serve .
 
 1. Push this repo to GitHub.
 2. Cloudflare Dashboard → create or open the Worker project linked to this repo.
-3. Ensure deployment uses the checked-in `/home/runner/work/derek-apple-photography/derek-apple-photography/wrangler.toml`.
-4. The Worker entrypoint is `/home/runner/work/derek-apple-photography/derek-apple-photography/src/index.js`.
+3. Ensure deployment uses the checked-in `wrangler.toml`.
+4. The Worker entrypoint is `src/index.js`.
 5. Static assets are uploaded from the repo root via `[assets] directory = "."`; `/api/contact` is handled by the Worker and all other requests fall through to `env.ASSETS.fetch(request)`.
 6. Add `RESEND_API_KEY` as a Worker secret/binding in Cloudflare before deploying.
 7. Custom domain: Cloudflare Dashboard → project → **Domains / Custom domains** → add the client's domain. (Nameservers must be pointed to Cloudflare first — see **DNS setup** below.)
@@ -160,8 +160,8 @@ Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its send
 
 | Type | Name | Content | Proxy | Notes |
 |---|---|---|---|---|
-| CNAME | `@` | `derek-apple-photography.pages.dev` | Proxied | Apex. Cloudflare CNAME-flattening handles the "CNAME at apex" case automatically. |
-| CNAME | `www` | `derek-apple-photography.pages.dev` | Proxied | Subdomain version. |
+| CNAME | `@` | `your-worker.workers.dev` | Proxied | Apex. Use the actual `workers.dev` hostname Cloudflare assigns to this Worker; Cloudflare CNAME-flattening handles the "CNAME at apex" case automatically. |
+| CNAME | `www` | `your-worker.workers.dev` | Proxied | Subdomain version. Use the same Worker hostname as the apex record. |
 
 > When you add a custom domain in the Cloudflare dashboard, Cloudflare usually auto-creates the matching CNAME for you. If only one of these two records exists, add the other manually — otherwise only one URL works.
 
