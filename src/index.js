@@ -36,6 +36,10 @@ function isValidEmail(value) {
   return !/[\r\n]/.test(value) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+function hasHeaderUnsafeChars(value) {
+  return /[\r\n]/.test(value);
+}
+
 async function handleContact(request, env) {
   const ts = new Date().toISOString();
   console.log(`[contact ${ts}] invoked`);
@@ -77,6 +81,11 @@ async function handleContact(request, env) {
     if (!name || !email || !message) {
       console.warn(`[contact ${ts}] validation failed — missing required fields`);
       return jsonResponse({ error: 'Missing required fields' }, 400, contactCorsHeaders(request));
+    }
+
+    if (hasHeaderUnsafeChars(name) || hasHeaderUnsafeChars(sessionType || '')) {
+      console.warn(`[contact ${ts}] validation failed — unsafe header characters`);
+      return jsonResponse({ error: 'Invalid request fields' }, 400, contactCorsHeaders(request));
     }
 
     if (!isValidEmail(email)) {
