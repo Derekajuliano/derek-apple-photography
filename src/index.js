@@ -8,6 +8,14 @@ function jsonResponse(body, status, headers = {}) {
   });
 }
 
+function requestOrigin(request) {
+  const url = new URL(request.url);
+  const host = request.headers.get('Host') || url.host;
+  const protocol = request.headers.get('X-Forwarded-Proto') || url.protocol.replace(':', '');
+
+  return `${protocol}://${host}`;
+}
+
 function contactCorsHeaders(request) {
   const headers = {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -15,9 +23,15 @@ function contactCorsHeaders(request) {
   };
 
   const origin = request.headers.get('Origin');
-  const requestOrigin = new URL(request.url).origin;
+  const allowedOrigins = new Set([
+    requestOrigin(request),
+    'https://derekandapple.com',
+    'https://www.derekandapple.com',
+    'http://localhost:8787',
+    'http://127.0.0.1:8787',
+  ]);
 
-  if (origin && origin === requestOrigin) {
+  if (origin && allowedOrigins.has(origin)) {
     headers['Access-Control-Allow-Origin'] = origin;
     headers.Vary = 'Origin';
   }
@@ -124,12 +138,7 @@ async function handleContact(request, env) {
     });
 
     return jsonResponse({
-      error: 'Resend send failed',
-      upstream: {
-        status: resendRes.status,
-        statusText: resendRes.statusText,
-        body: resendBody,
-      },
+      error: 'Unable to send message right now',
     }, 502, contactCorsHeaders(request));
   } catch (err) {
     console.error(`[contact ${ts}] unexpected error`, {
