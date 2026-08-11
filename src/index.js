@@ -1,19 +1,16 @@
 const TO_ADDRESS = 'photos@derekandapple.com';
 const FROM_ADDRESS = 'Derek & Apple Website <noreply@derekandapple.com>';
 
-function jsonResponse(body, status) {
+function jsonResponse(body, status, headers = {}) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...headers },
   });
 }
 
-function contactMethodHeaders(request) {
-  const origin = request.headers.get('Origin');
-
+function contactCorsHeaders() {
   return {
-    Allow: 'POST, OPTIONS',
-    'Access-Control-Allow-Origin': origin || '*',
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };
@@ -28,7 +25,7 @@ async function handleContact(request, env) {
     return jsonResponse({
       error: 'Server misconfiguration',
       detail: 'RESEND_API_KEY env var not set on the Cloudflare project',
-    }, 500);
+    }, 500, contactCorsHeaders());
   }
 
   try {
@@ -45,12 +42,15 @@ async function handleContact(request, env) {
 
     if (honeypot) {
       console.log(`[contact ${ts}] honeypot triggered, dropping silently`);
-      return new Response('OK', { status: 200 });
+      return new Response('OK', {
+        status: 200,
+        headers: contactCorsHeaders(),
+      });
     }
 
     if (!name || !email || !message) {
       console.warn(`[contact ${ts}] validation failed — missing required fields`);
-      return jsonResponse({ error: 'Missing required fields' }, 400);
+      return jsonResponse({ error: 'Missing required fields' }, 400, contactCorsHeaders());
     }
 
     const resendPayload = {
@@ -106,7 +106,7 @@ async function handleContact(request, env) {
 
     if (resendRes.ok) {
       console.log(`[contact ${ts}] success — accepted by Resend`);
-      return jsonResponse({ success: true }, 200);
+      return jsonResponse({ success: true }, 200, contactCorsHeaders());
     }
 
     console.error(`[contact ${ts}] Resend rejected the send`, {
@@ -121,13 +121,13 @@ async function handleContact(request, env) {
         statusText: resendRes.statusText,
         body: resendBody,
       },
-    }, 502);
+    }, 502, contactCorsHeaders());
   } catch (err) {
     console.error(`[contact ${ts}] unexpected error`, {
       message: err.message,
       stack: err.stack,
     });
-    return jsonResponse({ error: err.message }, 500);
+    return jsonResponse({ error: err.message }, 500, contactCorsHeaders());
   }
 }
 
@@ -139,7 +139,10 @@ export default {
       if (request.method === 'OPTIONS') {
         return new Response(null, {
           status: 204,
-          headers: contactMethodHeaders(request),
+          headers: {
+            Allow: 'POST, OPTIONS',
+            ...contactCorsHeaders(),
+          },
         });
       }
 
@@ -147,12 +150,8 @@ export default {
         return handleContact(request, env);
       }
 
-      return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-        status: 405,
-        headers: {
-          'Content-Type': 'application/json',
-          ...contactMethodHeaders(request),
-        },
+      return jsonResponse({ error: 'Method not allowed' }, 405, {
+        Allow: 'POST, OPTIONS',
       });
     }
 
