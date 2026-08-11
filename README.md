@@ -2,7 +2,7 @@
 
 A polished single-page marketing website for **Derek & Apple Photography**, a husband-and-wife photography team specializing in weddings, engagements, and family portraits.
 
-This is a pure static site — **no framework, no build step, no npm install** — deployed to Cloudflare Pages with a Pages Function handling the contact form via MailChannels.
+This is a pure static site — **no framework, no build step, no npm install** — deployed with Cloudflare Workers static assets and a Worker route handling the contact form via Resend.
 
 ---
 
@@ -10,8 +10,8 @@ This is a pure static site — **no framework, no build step, no npm install** �
 
 - Vanilla HTML / CSS / JavaScript
 - [Cormorant Garamond](https://fonts.google.com/specimen/Cormorant+Garamond) + [Outfit](https://fonts.google.com/specimen/Outfit) (Google Fonts)
-- [Cloudflare Pages](https://pages.cloudflare.com/) (hosting)
-- [Cloudflare Pages Functions](https://developers.cloudflare.com/pages/functions/) (contact form handler)
+- [Cloudflare Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/) (hosting)
+- [Cloudflare Workers](https://developers.cloudflare.com/workers/) (contact form handler)
 - [Resend](https://resend.com/) (transactional email — 3,000/month free tier)
 
 ---
@@ -36,10 +36,11 @@ derek-apple-photography/
 │       ├── engagements/          ← 8 slots for engagement gallery (1.jpg–8.jpg)
 │       └── about/
 │           └── derek-apple.jpg   ← couple photo (placeholder)
-├── functions/
-│   └── api/
-│       └── contact.js            ← Cloudflare Pages Function (form handler)
-├── _redirects                    ← (optional) Cloudflare Pages redirect rules
+├── src/
+│   └── index.js                  ← Cloudflare Worker (static assets + /api/contact)
+├── wrangler.toml                 ← Worker + static assets deployment config
+├── .assetsignore                 ← excludes non-public files from static asset upload
+├── _redirects                    ← (optional) Cloudflare redirect rules
 └── README.md
 ```
 
@@ -60,21 +61,19 @@ npx --yes serve .
 # right-click index.html → Open with Live Server
 ```
 
-> ⚠️ The contact form **will not work locally** — the `/api/contact` Pages Function only runs on Cloudflare Pages. To test the form end-to-end, push a commit and let Cloudflare Pages deploy a preview build, or run `wrangler pages dev` locally with the Cloudflare CLI.
+> ⚠️ The contact form **will not work from a plain static file server** — the `/api/contact` route is handled by the Cloudflare Worker. To test end-to-end locally, run `wrangler dev`.
 
 ---
 
-## Deploying to Cloudflare Pages
+## Deploying to Cloudflare
 
 1. Push this repo to GitHub.
-2. Cloudflare Dashboard → **Pages** → **Create a project** → **Connect to Git**.
-3. Select the `derek-apple-photography` repo.
-4. Build settings:
-   - **Framework preset:** `None`
-   - **Build command:** *(leave empty)*
-   - **Build output directory:** `/` (root)
-5. **Save and Deploy.** Cloudflare serves `index.html` from the root and auto-detects `functions/` for Pages Functions.
-6. Custom domain: Cloudflare Dashboard → Pages project → **Custom domains** → add the client's domain. (Nameservers must be pointed to Cloudflare first — see **DNS setup** below.)
+2. Cloudflare Dashboard → create or open the Worker project linked to this repo.
+3. Ensure deployment uses the checked-in `wrangler.toml`.
+4. The Worker entrypoint is `src/index.js`.
+5. Static assets are uploaded from the repo root via `[assets] directory = "."`; `/api/contact` is handled by the Worker and all other requests fall through to `env.ASSETS.fetch(request)`.
+6. Add `RESEND_API_KEY` as a Worker secret/binding in Cloudflare before deploying.
+7. Custom domain: Cloudflare Dashboard → project → **Domains / Custom domains** → add the client's domain. (Nameservers must be pointed to Cloudflare first — see **DNS setup** below.)
 
 ---
 
@@ -121,7 +120,7 @@ The site has **two galleries**, both placeholder-driven — you don't need to to
 - **Sender:** `noreply@derekandapple.com` (verified domain in Resend)
 - **Reply-To:** the visitor's submitted email — clicking Reply in Gmail goes straight back to them
 
-The Resend API key is stored as a Cloudflare Pages secret named `RESEND_API_KEY` (Settings → Variables and Secrets → Production environment). Never commit this key.
+The Resend API key is stored as a Cloudflare Worker secret named `RESEND_API_KEY`. Never commit this key.
 
 ---
 
@@ -131,7 +130,7 @@ The Resend API key is stored as a Cloudflare Pages secret named `RESEND_API_KEY`
 - Registrar: **Porkbun** (Porkbun nameservers delegated to Cloudflare: `adrian.ns.cloudflare.com` + `ernest.ns.cloudflare.com`)
 - DNS host: **Cloudflare** (all records live here)
 - Mail: **Zoho Mail**
-- Hosting: **Cloudflare Pages**
+- Hosting: **Cloudflare**
 
 Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its sending infrastructure, which means the existing Zoho Mail SPF record at the root domain (`@`) is **never touched**. No merging is required — Resend's records and Zoho's records coexist on different hostnames.
 
@@ -157,14 +156,14 @@ Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its send
 
 > Get the exact Zoho values from **Zoho Mail Admin Console → Domains → derekandapple.com**. The DKIM selector and SPF include line may differ if Derek & Apple's Zoho account is on a non-US datacenter (e.g. `zoho.eu`, `zoho.in`).
 
-**Cloudflare Pages (the site itself):**
+**Cloudflare (the site itself):**
 
 | Type | Name | Content | Proxy | Notes |
 |---|---|---|---|---|
-| CNAME | `@` | `derek-apple-photography.pages.dev` | Proxied | Apex. Cloudflare CNAME-flattening handles the "CNAME at apex" case automatically. |
-| CNAME | `www` | `derek-apple-photography.pages.dev` | Proxied | Subdomain version. |
+| CNAME | `@` | `your-worker.workers.dev` | Proxied | Apex. Use the actual `workers.dev` hostname Cloudflare assigns to this Worker; Cloudflare CNAME-flattening handles the "CNAME at apex" case automatically. |
+| CNAME | `www` | `your-worker.workers.dev` | Proxied | Subdomain version. Use the same Worker hostname as the apex record. |
 
-> When you add a Custom Domain in the Cloudflare Pages dashboard, Pages usually auto-creates the matching CNAME for you. If only one of these two records exists, add the other manually — otherwise only one URL works.
+> When you add a custom domain in the Cloudflare dashboard, Cloudflare usually auto-creates the matching CNAME for you. If only one of these two records exists, add the other manually — otherwise only one URL works.
 
 ### What we deliberately did NOT enable
 
@@ -176,14 +175,14 @@ Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its send
 
 ## Pre-launch checklist
 
-- [x] Contact form wired through Resend (`functions/api/contact.js`)
-- [x] Resend API key stored as `RESEND_API_KEY` secret on Cloudflare Pages
+- [x] Contact form wired through Resend (`src/index.js`)
+- [x] Resend API key stored as `RESEND_API_KEY` secret on Cloudflare
 - [x] Production addresses live in code: `noreply@derekandapple.com` → `booking@derekandapple.com`
 - [x] `derekandapple.com` registered at Porkbun; nameservers delegated to Cloudflare (`adrian` + `ernest`)
 - [x] Zoho Mail records in Cloudflare DNS (MX, SPF, DKIM)
 - [x] Resend records in Cloudflare DNS (DKIM TXT, `send` SPF TXT, `send` MX); domain verified in Resend
-- [x] Cloudflare Pages custom domain bound to `derekandapple.com`
-- [ ] Confirm both CNAMEs exist in Cloudflare DNS: `@` and `www` → `derek-apple-photography.pages.dev` (proxied)
+- [x] Cloudflare custom domain bound to `derekandapple.com`
+- [ ] Confirm both CNAMEs exist in Cloudflare DNS: `@` and `www` → the assigned `workers.dev` hostname (proxied)
 - [ ] End-to-end test from the live `derekandapple.com` form (submit + confirm receipt at `booking@`)
 - [ ] Drop 6 featured slideshow photos at `assets/images/featured/1.jpg`–`6.jpg`
 - [ ] Drop 8 wedding photos at `assets/images/weddings/1.jpg`–`8.jpg`
@@ -192,8 +191,8 @@ Resend's modern setup uses a **`send.derekandapple.com`** subdomain for its send
 - [ ] Swap about-section placeholder with real Derek & Apple photo
 - [ ] Compress all photos (≤400 KB for featured slideshow, ≤300 KB for gallery)
 - [ ] Verify responsive layouts against `derek-apple-mockups/` (mobile + tablet)
-- [ ] Test contact form on a deployed preview build (form does not work locally)
-- [ ] Confirm Cloudflare Pages email notification routes to the client's inbox
+- [ ] Test contact form on a deployed build (form route requires Cloudflare Worker)
+- [ ] Confirm Cloudflare email notification routes to the client's inbox
 
 ---
 
@@ -203,7 +202,7 @@ When Derek & Apple are ready to take ownership:
 
 1. GitHub repo → **Settings** → **General** → **Transfer ownership**
 2. Enter the client's GitHub username and confirm
-3. The Cloudflare Pages project stays linked to the repo after transfer, but the client should also be added to the Cloudflare account (or the project should be re-linked to their own Cloudflare account)
+3. The Cloudflare project stays linked to the repo after transfer, but the client should also be added to the Cloudflare account (or the project should be re-linked to their own Cloudflare account)
 
 ---
 
